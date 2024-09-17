@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using IW5.DAL.Entities.Interfaces;
+﻿using IW5.DAL.Contracts;
 using IW5.Common.Enums;
-using IW5.API.DAL.Entities;
 
-namespace IW5.DAL.Entities
+namespace IW5.Models.Entities
 {
     public record QuestionEntity : BaseEntity
     {
@@ -15,12 +13,12 @@ namespace IW5.DAL.Entities
 
     }
 
-    public class QuestionEntityMapperProfile : Profile
-    {
-        public QuestionEntityMapperProfile()
-        {
-            CreateMap<QuestionEntity, QuestionEntity>();
-        }
-    }
+    //public class QuestionEntityMapperProfile : Profile
+    //{
+    //    public QuestionEntityMapperProfile()
+    //    {
+    //        CreateMap<QuestionEntity, QuestionEntity>();
+    //    }
+    //}
 }
 
