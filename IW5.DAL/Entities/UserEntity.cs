@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
+using IW5.API.DAL.Entities;
 using IW5.Common.Enums;
 using IW5.DAL.Entities.Interfaces;
 
 namespace IW5.DAL.Entities
 {
-    public record UserEntity : IEntity
+    public record UserEntity : BaseEntity
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
