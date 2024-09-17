@@ -9,11 +9,12 @@ namespace IW5.API.DAL.Factories
         public FormsDbContext CreateDbContext(string[] args)
         {
             var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddUserSecrets<FormsDbContextFactory>(optional: true)
                 .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<FormsDbContext>();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("IW5"));
             return new FormsDbContext(optionsBuilder.Options);
         }
     }
