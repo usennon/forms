@@ -22,7 +22,7 @@ namespace IW5.API.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("IW5.DAL.Entities.FormEntity", b =>
+            modelBuilder.Entity("IW5.Models.Entities.FormEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,7 +49,7 @@ namespace IW5.API.DAL.Migrations
                     b.ToTable("Forms");
                 });
 
-            modelBuilder.Entity("IW5.DAL.Entities.QuestionEntity", b =>
+            modelBuilder.Entity("IW5.Models.Entities.QuestionEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,7 +76,7 @@ namespace IW5.API.DAL.Migrations
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("IW5.DAL.Entities.UserEntity", b =>
+            modelBuilder.Entity("IW5.Models.Entities.UserEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -98,23 +98,23 @@ namespace IW5.API.DAL.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("IW5.DAL.Entities.FormEntity", b =>
+            modelBuilder.Entity("IW5.Models.Entities.FormEntity", b =>
                 {
-                    b.HasOne("IW5.DAL.Entities.UserEntity", "Author")
+                    b.HasOne("IW5.Models.Entities.UserEntity", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("IW5.DAL.Entities.UserEntity", null)
+                    b.HasOne("IW5.Models.Entities.UserEntity", null)
                         .WithMany("Form")
                         .HasForeignKey("UserEntityId");
 
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("IW5.DAL.Entities.QuestionEntity", b =>
+            modelBuilder.Entity("IW5.Models.Entities.QuestionEntity", b =>
                 {
-                    b.HasOne("IW5.DAL.Entities.FormEntity", "Form")
+                    b.HasOne("IW5.Models.Entities.FormEntity", "Form")
                         .WithMany("Questions")
                         .HasForeignKey("FormId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -122,12 +122,12 @@ namespace IW5.API.DAL.Migrations
                     b.Navigation("Form");
                 });
 
-            modelBuilder.Entity("IW5.DAL.Entities.FormEntity", b =>
+            modelBuilder.Entity("IW5.Models.Entities.FormEntity", b =>
                 {
                     b.Navigation("Questions");
                 });
 
-            modelBuilder.Entity("IW5.DAL.Entities.UserEntity", b =>
+            modelBuilder.Entity("IW5.Models.Entities.UserEntity", b =>
                 {
                     b.Navigation("Form");
                 });

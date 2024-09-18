@@ -24,8 +24,8 @@ namespace IW5.API.DAL
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<UserEntity>()
-                .HasMany(typeof(FormEntity))
-                .WithOne(nameof(FormEntity.Author))
+                .HasMany(UserEntity => UserEntity.Forms)
+                .WithOne(FormEntity => FormEntity.Author)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

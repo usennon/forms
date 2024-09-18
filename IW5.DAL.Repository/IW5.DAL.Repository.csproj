@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IW5.Contracts\IW5.DAL.Contracts.csproj" />
+    <ProjectReference Include="..\IW5.DAL.Contracts\IW5.DAL.Contracts.csproj" />
     <ProjectReference Include="..\IW5.DAL\IW5.API.DAL.csproj" />
     <ProjectReference Include="..\IW5.Models\IW5.Models.csproj" />
   </ItemGroup>

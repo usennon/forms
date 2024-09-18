@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IW5.Common\IW5.Common.csproj" />
-    <ProjectReference Include="..\IW5.Contracts\IW5.DAL.Contracts.csproj" />
+    <ProjectReference Include="..\IW5.DAL.Contracts\IW5.DAL.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

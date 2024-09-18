@@ -5,7 +5,6 @@ namespace IW5.Models.Entities
 {
     public record QuestionEntity : BaseEntity
     {
-        public Guid Id { get; set; }
         public FormEntity? Form { get; init; }
         public QuestionType Type { get; set; }
         public string Text { get; set; } = string.Empty;

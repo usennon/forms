@@ -10,11 +10,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IW5.API.DAL", "IW5.DAL\IW5.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IW5.Common", "IW5.Common\IW5.Common.csproj", "{7683E564-7648-42A6-9739-7C245914FEF5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IW5.DAL.Contracts", "IW5.Contracts\IW5.DAL.Contracts.csproj", "{5CB195BB-14C3-4D43-8D32-F68632612B5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IW5.DAL.Contracts", "IW5.DAL.Contracts\IW5.DAL.Contracts.csproj", "{5CB195BB-14C3-4D43-8D32-F68632612B5F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IW5.Models", "IW5.Models\IW5.Models.csproj", "{3CC1D118-8A6A-4BEE-A103-8BCE922594B8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IW5.DAL.Repository", "Repository\IW5.DAL.Repository.csproj", "{7EAC5650-BCA5-463A-BE17-07C35A000E4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IW5.DAL.Repository", "IW5.DAL.Repository\IW5.DAL.Repository.csproj", "{7EAC5650-BCA5-463A-BE17-07C35A000E4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
