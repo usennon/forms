@@ -1,13 +1,11 @@
 ﻿using IW5.Common.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace IW5.Models.Entities
 {
 
     [Table("Users", Schema = "dbo")]
-    [Index(nameof(Email), IsUnique = true)]
     public class User : BaseEntity
     {
         [Required]

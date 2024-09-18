@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace IW5.API.DAL.Factories
+namespace IW5.DAL.Factories
 {
     public class FormsDbContextFactory : IDesignTimeDbContextFactory<FormsDbContext>
     {

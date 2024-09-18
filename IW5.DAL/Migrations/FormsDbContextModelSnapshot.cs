@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace IW5.API.DAL.Migrations
+namespace IW5.DAL.Migrations
 {
     [DbContext(typeof(FormsDbContext))]
     partial class FormsDbContextModelSnapshot : ModelSnapshot
