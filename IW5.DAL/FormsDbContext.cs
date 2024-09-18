@@ -5,9 +5,9 @@ namespace IW5.API.DAL
 {
     public class FormsDbContext : DbContext
     {
-        public DbSet<FormEntity> Forms { get; set; } = null!;
-        public DbSet<QuestionEntity> Questions { get; set; } = null!;
-        public DbSet<UserEntity> Users { get; set; } = null!;
+        public DbSet<Form> Forms { get; set; } = null!;
+        public DbSet<Question> Questions { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
 
         public FormsDbContext(DbContextOptions<FormsDbContext> options)
         : base(options)
@@ -18,15 +18,27 @@ namespace IW5.API.DAL
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<FormEntity>()
-                .HasMany(formEntity => formEntity.Questions)
-                .WithOne(questionEntity => questionEntity.Form)
+            modelBuilder.Entity<User>()
+                .HasMany(user => user.Forms)
+                .WithOne(form => form.Author)
+                .HasForeignKey(form => form.AuthorId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<UserEntity>()
-                .HasMany(UserEntity => UserEntity.Forms)
-                .WithOne(FormEntity => FormEntity.Author)
+            modelBuilder.Entity<Form>()
+                .HasMany(form => form.Questions)
+                .WithOne(question => question.Form)
+                .HasForeignKey(question => question.FormId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Question>()
+                .HasMany(question => question.Options)
+                .WithOne(option => option.Question)
+                .HasForeignKey(option => option.QuestionId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasIndex(user => user.Email)
+                .IsUnique();
         }
     }
 }
