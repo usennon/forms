@@ -2,7 +2,7 @@
 using IW5.DAL.Contracts;
 using Microsoft.EntityFrameworkCore;
 
-namespace IW5.API.DAL.Repository
+namespace IW5.DAL.Repository
 {
     public abstract class BaseRepo<T> : IRepo<T> where T : BaseEntity, new()
     {
