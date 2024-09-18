@@ -8,6 +8,7 @@ namespace IW5.DAL
         public DbSet<Form> Forms { get; set; } = null!;
         public DbSet<Question> Questions { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Option> Options { get; set; } = null!;
 
         public FormsDbContext(DbContextOptions<FormsDbContext> options)
         : base(options)
@@ -39,6 +40,14 @@ namespace IW5.DAL
             modelBuilder.Entity<User>()
                 .HasIndex(user => user.Email)
                 .IsUnique();
+
+            modelBuilder.Entity<Option>(entity =>
+            {
+                entity.HasOne(o => o.Question)
+                    .WithMany(q => q.Options)
+                    .HasForeignKey(o => o.QuestionId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
         }
     }
 }

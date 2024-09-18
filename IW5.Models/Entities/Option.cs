@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IW5.Models.Entities
 {
+    [Table("Options", Schema = "dbo")]
     public class Option: BaseEntity
     {
 

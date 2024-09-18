@@ -34,6 +34,7 @@ namespace IW5.DAL.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Forms",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -57,6 +58,7 @@ namespace IW5.DAL.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Questions",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -73,13 +75,15 @@ namespace IW5.DAL.Migrations
                     table.ForeignKey(
                         name: "FK_Questions_Forms_FormId",
                         column: x => x.FormId,
+                        principalSchema: "dbo",
                         principalTable: "Forms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Option",
+                name: "Options",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -89,10 +93,11 @@ namespace IW5.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Option", x => x.Id);
+                    table.PrimaryKey("PK_Options", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Option_Questions_QuestionId",
+                        name: "FK_Options_Questions_QuestionId",
                         column: x => x.QuestionId,
+                        principalSchema: "dbo",
                         principalTable: "Questions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -100,16 +105,19 @@ namespace IW5.DAL.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Forms_AuthorId",
+                schema: "dbo",
                 table: "Forms",
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Option_QuestionId",
-                table: "Option",
+                name: "IX_Options_QuestionId",
+                schema: "dbo",
+                table: "Options",
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_FormId",
+                schema: "dbo",
                 table: "Questions",
                 column: "FormId");
 
@@ -125,13 +133,16 @@ namespace IW5.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Option");
+                name: "Options",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "Questions");
+                name: "Questions",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "Forms");
+                name: "Forms",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "Users",

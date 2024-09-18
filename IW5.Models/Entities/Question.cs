@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IW5.Models.Entities
 {
+    [Table("Questions", Schema = "dbo")]
     public class Question : BaseEntity
     {
         [Required]
@@ -18,7 +19,7 @@ namespace IW5.Models.Entities
 
         public bool IsRequired { get; set; }
 
-        public IEnumerable<Option>? Options { get; set; } = new List<Option>();
+        public ICollection<Option>? Options { get; set; } = new List<Option>();
 
         [Required]
         public Guid FormId { get; set; }

@@ -49,7 +49,7 @@ namespace IW5.DAL.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Forms");
+                    b.ToTable("Forms", "dbo");
                 });
 
             modelBuilder.Entity("IW5.Models.Entities.Option", b =>
@@ -73,7 +73,7 @@ namespace IW5.DAL.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Option");
+                    b.ToTable("Options", "dbo");
                 });
 
             modelBuilder.Entity("IW5.Models.Entities.Question", b =>
@@ -107,7 +107,7 @@ namespace IW5.DAL.Migrations
 
                     b.HasIndex("FormId");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Questions", "dbo");
                 });
 
             modelBuilder.Entity("IW5.Models.Entities.User", b =>

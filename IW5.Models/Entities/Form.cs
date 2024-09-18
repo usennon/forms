@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IW5.Models.Entities
 {
+    [Table("Forms", Schema = "dbo")]
     public class Form : BaseEntity
     {
         [Required]
@@ -23,7 +24,7 @@ namespace IW5.Models.Entities
         [DataType(DataType.DateTime)]
         public DateTimeOffset EndDate { get; set; }
 
-        public IEnumerable<Question> Questions { get; set; } = new List<Question>();
+        public ICollection<Question> Questions { get; set; } = new List<Question>();
 
         [DataType(DataType.DateTime)]
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;

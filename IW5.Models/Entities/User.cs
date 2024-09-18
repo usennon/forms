@@ -28,7 +28,7 @@ namespace IW5.Models.Entities
         [MaxLength(20)]
         public string? PhoneNumber { get; set; }
 
-        public virtual IEnumerable<Form> Forms { get; set; } = new List<Form>();
+        public virtual ICollection<Form> Forms { get; set; } = new List<Form>();
 
         [DataType(DataType.DateTime)]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
