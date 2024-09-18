@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using IW5.API.DAL.Entities;
-using IW5.DAL.Entities.Interfaces;
+﻿using IW5.DAL.Contracts;
 
-namespace IW5.DAL.Entities
+namespace IW5.Models.Entities
 {
     public record FormEntity : BaseEntity
     {
@@ -15,11 +13,11 @@ namespace IW5.DAL.Entities
 
     }
 
-    public class FormEntityMapperProfile : Profile
-    {
-        public FormEntityMapperProfile()
-        {
-            CreateMap<FormEntity, FormEntity>();
-        }
-    }
+    //public class FormEntityMapperProfile : Profile
+    //{
+    //    public FormEntityMapperProfile()
+    //    {
+    //        CreateMap<FormEntity, FormEntity>();
+    //    }
+    //}
 }

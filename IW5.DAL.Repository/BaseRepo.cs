@@ -1,10 +1,8 @@
-﻿using IW5.DAL.Entities;
-using IW5.API.DAL.Entities;
-using IW5.API.DAL.Repositories.Interfaces;
+﻿using IW5.Models.Entities;
+using IW5.DAL.Contracts;
 using Microsoft.EntityFrameworkCore;
-using IW5.API.DAL;
 
-namespace AutoLot.Dal.Repos.Base
+namespace IW5.API.DAL.Repository
 {
     public abstract class BaseRepo<T> : IRepo<T> where T : BaseEntity, new()
     {

@@ -1,4 +1,4 @@
-﻿namespace IW5.API.DAL.Repositories.Interfaces
+﻿namespace IW5.DAL.Contracts
 {
     public interface IRepo<T> : IDisposable
     {

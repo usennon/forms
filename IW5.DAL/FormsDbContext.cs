@@ -1,4 +1,4 @@
-﻿using IW5.DAL.Entities;
+﻿using IW5.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace IW5.API.DAL

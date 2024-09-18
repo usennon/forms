@@ -1,9 +1,6 @@
-﻿using AutoMapper;
-using IW5.API.DAL.Entities;
-using IW5.Common.Enums;
-using IW5.DAL.Entities.Interfaces;
+﻿using IW5.Common.Enums;
 
-namespace IW5.DAL.Entities
+namespace IW5.Models.Entities
 {
     public record UserEntity : BaseEntity
     {
@@ -14,11 +11,11 @@ namespace IW5.DAL.Entities
         public ICollection<FormEntity> Form { get; set; } = [];
     }
 
-    public class UserEntityMapperProfile : Profile
-    {
-        public UserEntityMapperProfile()
-        {
-            CreateMap<UserEntity, UserEntity>();
-        }
-    }
+    //public class UserEntityMapperProfile : Profile
+    //{
+    //    public UserEntityMapperProfile()
+    //    {
+    //        CreateMap<UserEntity, UserEntity>();
+    //    }
+    //}
 }
