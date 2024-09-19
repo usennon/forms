@@ -8,7 +8,7 @@ using IW5.Models.Entities;
 namespace IW5.Dal.Tests.IntegrationTests
 {
     [Collection("Integration Tests")]
-    public class CarTests : BaseTest, IClassFixture<EnsureAutoLotDatabaseTestFixture>
+    public class UserTests : BaseTest, IClassFixture<EnsureIW5DatabaseTestFixture>
     {
         
 

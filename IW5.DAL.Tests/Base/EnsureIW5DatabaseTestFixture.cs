@@ -2,9 +2,9 @@
 
 namespace IW5.Dal.Tests.Base
 {
-    public sealed class EnsureAutoLotDatabaseTestFixture : IDisposable
+    public sealed class EnsureIW5DatabaseTestFixture : IDisposable
     {
-        public EnsureAutoLotDatabaseTestFixture()
+        public EnsureIW5DatabaseTestFixture()
         {
             var configuration = TestHelpers.GetConfiguration();
             var context = TestHelpers.GetContext(configuration);
