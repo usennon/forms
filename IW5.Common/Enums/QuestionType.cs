@@ -4,6 +4,8 @@
     {
         Test,
         Text,
-        Numbers
+        Numbers,
+        YesNo,
+        MultipleChoice
     }
 }
