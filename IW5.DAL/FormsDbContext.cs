@@ -1,7 +1,7 @@
 ﻿using IW5.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace IW5.DAL.Repository
+namespace IW5.DAL
 {
     public class FormsDbContext : DbContext
     {

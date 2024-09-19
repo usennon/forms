@@ -6,6 +6,6 @@ namespace IW5.DAL.Contracts
     {
         Task<IEnumerable<Form>> GetAllFormsAsync(bool trackChanges);
 
-        Task<Form> GetByTitleAsync(string title, Guid id);
+        Task<Form> GetByTitleAsync(string title, bool trackChanges);
     }
 }
