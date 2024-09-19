@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using IW5.Models.Entities;
 
 namespace IW5.DAL.Contracts
 {
-    internal interface IUserRepository
+    public interface IUserRepository
     {
+        Task<IEnumerable<User>> GetAllUsersAsync(bool trackChanges);
     }
 }

@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using IW5.DAL.Contracts;
+using IW5.Models.Entities;
+using System;
+
 
 namespace IW5.DAL.Repository
 {
-    internal class QuestionRepository
+    public class QuestionRepository : BaseRepo<Question>, IQuestionRepository
     {
+        public QuestionRepository(FormsDbContext repositoryContext) : base(repositoryContext)
+        {
+        }
+
     }
 }

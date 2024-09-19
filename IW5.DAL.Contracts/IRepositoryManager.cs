@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace IW5.DAL.Contracts
 {
-    internal interface IRepositoryManager
+    public interface IRepositoryManager
     {
+        IUserRepository User { get; }
+        IFormRepository Form { get; }
+        IQuestionRepository Question { get; }
+        IOptionRepository Option { get; }
+
+        Task SaveAsync();
     }
 }
