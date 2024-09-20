@@ -1,6 +1,8 @@
-﻿namespace IW5.DAL.Contracts
+﻿using IW5.Models.Entities;
+
+namespace IW5.DAL.Contracts
 {
-    public interface IOptionRepository
+    public interface IOptionRepository : IRepo<Option>
     {
     }
 }

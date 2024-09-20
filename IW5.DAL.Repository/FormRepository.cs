@@ -14,9 +14,5 @@ namespace IW5.DAL.Repository
             .OrderBy(c => c.Title)
             .ToListAsync();
 
-        public async Task<Form> GetByTitleAsync(string title, bool trackChanges) =>
-            await GetByCondition(c => c.Title.Equals(title), trackChanges)
-            .SingleOrDefaultAsync();
-
     }
 }

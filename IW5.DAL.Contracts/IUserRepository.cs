@@ -2,7 +2,7 @@
 
 namespace IW5.DAL.Contracts
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepo<User>
     {
         Task<IEnumerable<User>> GetAllUsersAsync(bool trackChanges);
     }

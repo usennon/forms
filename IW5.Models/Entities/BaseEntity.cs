@@ -1,8 +1,6 @@
-﻿using IW5.Models.Interface;
-
-namespace IW5.Models.Entities
+﻿namespace IW5.Models.Entities
 {
-    public abstract class BaseEntity : IEntity
+    public abstract class BaseEntity
     {
         public Guid Id { get; set; }
     }
