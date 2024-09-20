@@ -1,7 +1,6 @@
-﻿
-namespace IW5.DAL.Contracts
+﻿namespace IW5.DAL.Contracts
 {
-    public interface IRepositoryManager
+    public interface IRepositoryManager : IAsyncDisposable
     {
         IUserRepository User { get; }
         IFormRepository Form { get; }

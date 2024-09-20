@@ -1,9 +1,4 @@
 ﻿using IW5.DAL.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IW5.DAL.Repository
 {
@@ -30,6 +25,10 @@ namespace IW5.DAL.Repository
         public IOptionRepository Option => _optionRepository.Value;
 
 
-        public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
+        public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync().ConfigureAwait(false);
+        public async ValueTask DisposeAsync() => await _repositoryContext.DisposeAsync().ConfigureAwait(false);
+
+
+
     }
 }

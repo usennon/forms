@@ -1,4 +1,4 @@
-﻿using IW5.DAL.Contracts;
+﻿using IW5.Models.Interface;
 
 namespace IW5.Models.Entities
 {
