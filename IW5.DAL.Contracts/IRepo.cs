@@ -1,20 +1,13 @@
-﻿namespace IW5.DAL.Contracts
+﻿using System.Linq.Expressions;
+
+namespace IW5.DAL.Contracts
 {
-    public interface IRepo<T> : IDisposable
+    public interface IRepo<T> 
     {
-        int Add(T entity, bool persist = true);
-        int AddRange(IEnumerable<T> entities, bool persist = true);
-        int Update(T entity, bool persist = true);
-        int UpdateRange(IEnumerable<T> entities, bool persist = true);
-        int Delete(Guid id, bool persist = true);
-        int Delete(T entity, bool persist = true);
-        int DeleteRange(IEnumerable<T> entities, bool persist = true);
-        T? Find(Guid? id);
-        T? FindAsNoTracking(Guid id);
-        T? FindIgnoreQueryFilters(Guid id);
-        IEnumerable<T> GetAll();
-        IEnumerable<T> GetAllIgnoreQueryFilters();
-        void ExecuteQuery(string sql, object[] sqlParametersObjects);
-        int SaveChanges();
+        IQueryable<T> GetAll(bool trackChanges);
+        //IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression, bool trackChanges);
+        void Create(T entity);
+        void Update(T entity);
+        void Delete(T entity);
     }
 }
