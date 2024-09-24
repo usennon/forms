@@ -2,7 +2,7 @@
 
 namespace IW5.Dal.Tests.Base
 {
-    public sealed class EnsureIW5DatabaseTestFixture : IDisposable
+    public sealed class EnsureIW5DatabaseTestFixture
     {
         public EnsureIW5DatabaseTestFixture()
         {
@@ -10,10 +10,6 @@ namespace IW5.Dal.Tests.Base
             var context = TestHelpers.GetContext(configuration);
             SampleDataInitializer.ClearAndReseedDatabase(context);
             context.Dispose();
-        }
-
-        public void Dispose()
-        {
         }
     }
 }

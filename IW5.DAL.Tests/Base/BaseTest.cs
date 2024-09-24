@@ -3,18 +3,22 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using IW5.DAL;
+using IW5.DAL.Repository;
 
 namespace IW5.Dal.Tests.Base
 {
-    public abstract class BaseTest : IDisposable
+    public abstract class BaseTest : IDisposable 
     {
         protected readonly IConfiguration Configuration;
         protected readonly FormsDbContext Context;
+        protected virtual ICollection<string> NavigationPathDetail => new List<string>();
+        protected readonly RepositoryManager RepositoryManager;
 
         protected BaseTest()
         {
             Configuration = TestHelpers.GetConfiguration();
             Context = TestHelpers.GetContext(Configuration);
+            RepositoryManager = new RepositoryManager(Context);
         }
 
         public virtual void Dispose()
