@@ -10,6 +10,7 @@ namespace IW5.DAL.Repository
         public QuestionRepository(FormsDbContext repositoryContext) : base(repositoryContext)
         {
         }
-
+        protected override ICollection<string> NavigationPathDetail =>
+            [$"{nameof(Question.Options)}"];
     }
 }

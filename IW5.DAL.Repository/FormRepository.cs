@@ -9,6 +9,17 @@ namespace IW5.DAL.Repository
         public FormRepository(FormsDbContext repositoryContext) : base(repositoryContext)
         {
         }
+        protected override ICollection<string> NavigationPathDetail =>
+            [$"{nameof(Form.Questions)}"];
+        public override async Task<Form> GetById(Guid id)
+        {
+            var query = context.Forms.AsQueryable();
+            foreach (var detail in NavigationPathDetail)
+            {
+                query = query.Include(detail);
+            }
+            return await query.SingleOrDefaultAsync(entity => entity.Id == id);
+        }
         public async Task<IEnumerable<Form>> GetAllFormsAsync(bool trackChanges) =>
             await GetAll(trackChanges)
             .OrderBy(c => c.Title)
