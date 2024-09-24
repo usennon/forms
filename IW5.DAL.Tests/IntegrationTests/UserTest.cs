@@ -34,7 +34,7 @@ namespace IW5.Dal.Tests.IntegrationTests
         public async Task ShouldGetCorrectUser()
         {
             var expectedEntityId = Guid.Parse("c2ad823a-c3bc-49cb-a930-2fd719c0e997");
-            var actualEntity = await _userRepository.GetUserById(expectedEntityId, false);
+            var actualEntity = await _userRepository.GetUserByIdAsync(expectedEntityId, false);
             Assert.Equal(expectedEntityId, actualEntity.Id);
         }
 
@@ -42,7 +42,7 @@ namespace IW5.Dal.Tests.IntegrationTests
         public async Task ShouldGetUserWithForms()
         {
             var user = Guid.Parse("980745cb-b407-4b72-9a6b-1d5c9cf6a5ef");
-            var actualEntity = await _userRepository.GetUserById(Guid.Parse("980745cb-b407-4b72-9a6b-1d5c9cf6a5ef"), trackChanges: false);
+            var actualEntity = await _userRepository.GetUserByIdAsync(Guid.Parse("980745cb-b407-4b72-9a6b-1d5c9cf6a5ef"), trackChanges: false);
             Assert.Equal(4, actualEntity.Forms.Count);
         }
 
@@ -62,10 +62,10 @@ namespace IW5.Dal.Tests.IntegrationTests
                 CreatedAt = DateTime.Now
 
             };
-            _userRepository.Create(newUser);
+            _userRepository.CreateUser(newUser);
             await RepositoryManager.SaveAsync();
 
-            var expectedUser = await _userRepository.GetUserById(newUserId, trackChanges: false);
+            var expectedUser = await _userRepository.GetUserByIdAsync(newUserId, trackChanges: false);
 
             Assert.NotNull(expectedUser);
             Assert.Equal(newUserId, expectedUser.Id);
@@ -74,14 +74,14 @@ namespace IW5.Dal.Tests.IntegrationTests
         [Fact]
         public async Task ShouldUpdateUser()
         {
-            var outdatedEntity = await _userRepository.GetUserById(Guid.Parse("980745cb-b407-4b72-9a6b-1d5c9cf6a5ef"), trackChanges: false);
+            var outdatedEntity = await _userRepository.GetUserByIdAsync(Guid.Parse("980745cb-b407-4b72-9a6b-1d5c9cf6a5ef"), trackChanges: false);
             var updatedEntity = outdatedEntity;
             updatedEntity.PhoneNumber = "1234567890";
 
             _userRepository.Update(updatedEntity);
             await RepositoryManager.SaveAsync();
 
-            var actualEntity = await _userRepository.GetUserById(Guid.Parse("980745cb-b407-4b72-9a6b-1d5c9cf6a5ef"), false);
+            var actualEntity = await _userRepository.GetUserByIdAsync(Guid.Parse("980745cb-b407-4b72-9a6b-1d5c9cf6a5ef"), false);
 
             Assert.NotNull(actualEntity);
             Assert.Equal("1234567890", actualEntity.PhoneNumber);
@@ -90,11 +90,11 @@ namespace IW5.Dal.Tests.IntegrationTests
         [Fact]
         public async Task ShouldDeleteUser()
         {
-            var deletingEntity = await _userRepository.GetUserById(Guid.Parse("980745cb-b407-4b72-9a6b-1d5c9cf6a5ef"), false);
-            _userRepository.Delete(deletingEntity);
+            var deletingEntity = await _userRepository.GetUserByIdAsync(Guid.Parse("980745cb-b407-4b72-9a6b-1d5c9cf6a5ef"), false);
+            _userRepository.DeleteUser(deletingEntity);
             await RepositoryManager.SaveAsync();
 
-            var actualEntity = await _userRepository.GetUserById(Guid.Parse("980745cb-b407-4b72-9a6b-1d5c9cf6a5ef"), false);
+            var actualEntity = await _userRepository.GetUserByIdAsync(Guid.Parse("980745cb-b407-4b72-9a6b-1d5c9cf6a5ef"), false);
 
             Assert.Null(actualEntity);
             

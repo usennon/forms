@@ -9,7 +9,7 @@ namespace IW5.DAL.Repository
         public FormRepository(FormsDbContext repositoryContext) : base(repositoryContext)
         {
         }
-        public async Task<Form> GetFormById(Guid Id, bool trackChanges) 
+        public async Task<Form> GetFormByIdAsync(Guid Id, bool trackChanges) 
         {
             return await GetByCondition(f => f.Id.Equals(Id), trackChanges, f => f.Questions).SingleOrDefaultAsync();
         }
@@ -17,6 +17,14 @@ namespace IW5.DAL.Repository
             await GetAll(trackChanges)
             .OrderBy(c => c.Title)
             .ToListAsync();
+
+        public void CreateFormForAuthor(Guid authorId, Form form)
+        {
+            form.AuthorId = authorId;
+            Create(form);
+        }
+
+        public void DeleteForm(Form form) => Delete(form);
 
     }
 }

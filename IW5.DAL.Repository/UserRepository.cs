@@ -2,6 +2,7 @@
 using IW5.DAL.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices.Marshalling;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 namespace IW5.DAL.Repository
@@ -12,7 +13,7 @@ namespace IW5.DAL.Repository
         {
         }
 
-        public async Task<User> GetUserById(Guid userId, bool trackChanges)
+        public async Task<User> GetUserByIdAsync(Guid userId, bool trackChanges)
         {
             return await GetByCondition(
                 u => u.Id.Equals(userId),
@@ -22,8 +23,12 @@ namespace IW5.DAL.Repository
 
         public async Task<IEnumerable<User>> GetAllUsersAsync(bool trackChanges) =>
             await GetAll(trackChanges)
-            .OrderBy(c => c.Name)
-            .ToListAsync();
+        .OrderBy(c => c.Name)
+        .ToListAsync();
+
+        public void CreateUser(User user) => Create(user);
+
+        public void DeleteUser(User user) => Delete(user);
 
     }
 }
