@@ -11,17 +11,15 @@ namespace IW5.DAL.Repository
         public UserRepository(FormsDbContext repositoryContext) : base(repositoryContext) 
         {
         }
-        protected override ICollection<string> NavigationPathDetail =>
-            [$"{nameof(User.Forms)}"];
-        public override async Task<User> GetById(Guid id)
+
+        public async Task<User> GetUserById(Guid userId, bool trackChanges)
         {
-            var query = context.Users.AsQueryable();
-            foreach(var detail in NavigationPathDetail)
-            {
-                query = _dbSet.Include(detail);
-            }
-            return await query.SingleOrDefaultAsync(entity => entity.Id == id);
-        } 
+            return await GetByCondition(
+                u => u.Id.Equals(userId),
+                trackChanges, u => u.Forms)
+                .SingleOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<User>> GetAllUsersAsync(bool trackChanges) =>
             await GetAll(trackChanges)
             .OrderBy(c => c.Name)

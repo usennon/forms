@@ -14,12 +14,19 @@ namespace IW5.DAL.Repository
         public IQueryable<T> GetAll(bool trackChanges) => !trackChanges ?
             _dbSet.AsNoTracking() : _dbSet;
 
-        //      public IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression, bool trackChanges) => !trackChanges ?
-        //          _dbSet.Where(expression).AsNoTracking() : _dbSet.Where(expression);
-        //
-        public virtual async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
+        public IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression, bool trackChanges,
+            params Expression<Func<T, object>>[] includes)
+        {
+            var query = !trackChanges ?
+            _dbSet.Where(expression).AsNoTracking() : _dbSet.Where(expression);
 
-        public virtual async Task<T> GetById(Guid id) => await _dbSet.SingleOrDefaultAsync(entity => entity.Id == id);
+            if (includes != null && includes.Any())
+            {
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
+            }
+
+            return query;
+        }
 
         public async ValueTask<bool> ExistsAsync(T entity) => entity.Id != Guid.Empty
                 && await _dbSet.AnyAsync(e => e.Id == entity.Id).ConfigureAwait(false);
