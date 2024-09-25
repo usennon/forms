@@ -27,27 +27,27 @@ namespace IW5.DAL.Tests.IntegrationTests
         [Fact]
         public async Task ShouldGetCorrectForm()
         {
-            var expectedEntityId = Guid.Parse("6f28e7f7-42b2-4d98-a6ae-2fe7d7d6fd6c");
-            var actualEntity = await _formRepository.GetFormByIdAsync(expectedEntityId, false);
-            Assert.Equal(expectedEntityId, actualEntity.Id);
+            var expectedEntityTitle = "Remote Work Feedback Survey";
+            var actualEntity = await _formRepository.GetFormByTitleAsync(expectedEntityTitle, false);
+            Assert.Equal(expectedEntityTitle, actualEntity.Title);
         }
 
         [Fact]
         public async Task ShouldGetFormWithQuestions()
         {
-            var form = Guid.Parse("6f28e7f7-42b2-4d98-a6ae-2fe7d7d6fd6c");
-            var actualEntity = await _formRepository.GetFormByIdAsync(form, trackChanges: false);
+            var form = "Remote Work Feedback Survey";
+            var actualEntity = await _formRepository.GetFormByTitleAsync(form, trackChanges: false);
             Assert.Equal(3, actualEntity.Questions.Count);
         }
 
         [Fact]
         public async Task ShouldInsertNewForm()
         {
-            var newFormId = Guid.NewGuid();
+            var newFormTitle = "Albert Popoy's form";
             var newForm = new Form()
             {
-                Id = newFormId,
-                Title = "Albert Popoy",
+                Id = Guid.NewGuid(),
+                Title = newFormTitle,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now,
                 CreatedAt = DateTime.Now
@@ -56,38 +56,39 @@ namespace IW5.DAL.Tests.IntegrationTests
             _formRepository.CreateFormForAuthor(Guid.Parse("c2ad823a-c3bc-49cb-a930-2fd719c0e997"), newForm);
             await RepositoryManager.SaveAsync();
 
-            var expectedForm = await _formRepository.GetFormByIdAsync(newFormId, trackChanges: false);
+            var expectedForm = await _formRepository.GetFormByTitleAsync(newFormTitle, trackChanges: false);
 
             Assert.NotNull(expectedForm);
-            Assert.Equal(newFormId, expectedForm.Id);
+            Assert.Equal(newFormTitle, expectedForm.Title);
         }
 
         [Fact]
         public async Task ShouldUpdateForm()
         {
-            var id = Guid.Parse("df1c5c1d-7a55-4b4a-8e2e-bd3f31230f71");
-            var outdatedEntity = await _formRepository.GetFormByIdAsync(id, trackChanges: false);
+            var title = "Marketing Campaign Effectiveness";
+            var outdatedEntity = await _formRepository.GetFormByTitleAsync(title, trackChanges: false);
             var updatedEntity = outdatedEntity;
-            updatedEntity.Title = "Haha! Changed!";
+            var newTitle = "Haha! Changed!";
+            updatedEntity.Title = newTitle;
 
             _formRepository.Update(updatedEntity);
             await RepositoryManager.SaveAsync();
 
-            var actualEntity = await _formRepository.GetFormByIdAsync(id, false);
+            var actualEntity = await _formRepository.GetFormByTitleAsync(newTitle, false);
 
             Assert.NotNull(actualEntity);
             Assert.Equal("Haha! Changed!", actualEntity.Title);
         }
 
         [Fact]
-        public async Task ShouldDeleteUser()
+        public async Task ShouldDeleteForm()
         {
-            var id = Guid.Parse("982f69fd-6278-4e5d-b896-97e1be5b17d2");
-            var deletingEntity = await _formRepository.GetFormByIdAsync(id, false);
+            var title = "Weekly Team Retrospective";
+            var deletingEntity = await _formRepository.GetFormByTitleAsync(title, false);
             _formRepository.DeleteForm(deletingEntity);
             await RepositoryManager.SaveAsync();
 
-            var actualEntity = await _formRepository.GetFormByIdAsync(id, false);
+            var actualEntity = await _formRepository.GetFormByTitleAsync(title, false);
 
             Assert.Null(actualEntity);
 

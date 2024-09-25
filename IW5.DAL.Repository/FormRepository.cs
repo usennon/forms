@@ -9,18 +9,18 @@ namespace IW5.DAL.Repository
         public FormRepository(FormsDbContext repositoryContext) : base(repositoryContext)
         {
         }
-        public async Task<Form> GetFormByIdAsync(Guid Id, bool trackChanges) 
+        public async Task<Form> GetFormByTitleAsync(string title, bool trackChanges) 
         {
-            return await GetByCondition(f => f.Id.Equals(Id), trackChanges, f => f.Questions).SingleOrDefaultAsync();
+            return await GetByCondition(f => f.Title.Equals(title), trackChanges, f => f.Questions).SingleOrDefaultAsync();
         }
         public async Task<IEnumerable<Form>> GetAllFormsAsync(bool trackChanges) =>
             await GetAll(trackChanges)
             .OrderBy(c => c.Title)
             .ToListAsync();
 
-        public void CreateFormForAuthor(Guid authorId, Form form)
+        public void CreateFormForAuthor(Guid AuthorId, Form form)
         {
-            form.AuthorId = authorId;
+            form.AuthorId = AuthorId;
             Create(form);
         }
 
