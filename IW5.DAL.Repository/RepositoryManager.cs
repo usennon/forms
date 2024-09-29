@@ -5,10 +5,10 @@ namespace IW5.DAL.Repository
     public class RepositoryManager : IRepositoryManager
     {
         private readonly FormsDbContext _repositoryContext;
-        public readonly Lazy<IUserRepository> _userRepository;
-        public readonly Lazy<IFormRepository> _formRepository;
-        public readonly Lazy<IQuestionRepository> _questionRepository;
-        public readonly Lazy<IOptionRepository> _optionRepository;
+        private readonly Lazy<IUserRepository> _userRepository;
+        private readonly Lazy<IFormRepository> _formRepository;
+        private readonly Lazy<IQuestionRepository> _questionRepository;
+        private readonly Lazy<IOptionRepository> _optionRepository;
 
         public RepositoryManager(FormsDbContext repositoryContext)
         {

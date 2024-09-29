@@ -15,16 +15,14 @@ namespace IW5.DAL.Repository
 
         public async Task<User> GetUserByIdAsync(Guid userId, bool trackChanges)
         {
-            return await GetByCondition(
-                u => u.Id.Equals(userId),
-                trackChanges, u => u.Forms)
+            return await GetByCondition(u => u.Id.Equals(userId), trackChanges, u => u.Forms)
                 .SingleOrDefaultAsync();
         }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync(bool trackChanges) =>
             await GetAll(trackChanges)
-        .OrderBy(c => c.Name)
-        .ToListAsync();
+                .OrderBy(c => c.Name)
+                .ToListAsync();
 
         public void CreateUser(User user) => Create(user);
 

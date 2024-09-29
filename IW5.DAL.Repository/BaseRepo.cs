@@ -7,9 +7,8 @@ namespace IW5.DAL.Repository
 {
     public abstract class BaseRepo<T>(FormsDbContext context) : IRepo<T> where T : BaseEntity, new()
     {
-        protected FormsDbContext context = context;
-        protected readonly DbSet<T> _dbSet = context.Set<T>();
-        protected virtual ICollection<string> NavigationPathDetail => new List<string>();
+        private readonly FormsDbContext context = context;
+        private readonly DbSet<T> _dbSet = context.Set<T>();
 
         public IQueryable<T> GetAll(bool trackChanges) => !trackChanges ?
             _dbSet.AsNoTracking() : _dbSet;

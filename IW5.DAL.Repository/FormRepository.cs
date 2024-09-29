@@ -26,5 +26,6 @@ namespace IW5.DAL.Repository
 
         public void DeleteForm(Form form) => Delete(form);
 
+
     }
 }
