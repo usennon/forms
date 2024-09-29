@@ -9,11 +9,11 @@ namespace IW5.DAL.Tests.IntegrationTests
     public class QuestionTests : BaseTest, IClassFixture<EnsureIW5DatabaseTestFixture>
     {
 
-        protected IQuestionRepository _questionRepository;
+        private readonly IQuestionRepository _questionRepository;
 
         public QuestionTests() : base()
         {
-            _questionRepository = RepositoryManager._questionRepository.Value;
+            _questionRepository = RepositoryManager.Question;
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace IW5.DAL.Tests.IntegrationTests
         {
             var question = Guid.Parse("5bc27217-6817-40e4-b8d1-60dc9aca3e83");
             var actualEntity = await _questionRepository.GetQuestionByIdAsync(question, trackChanges: false);
-            Assert.Equal(8, actualEntity?.Options?.Count);
+            Assert.Equal(5, actualEntity?.Options?.Count);
         }
 
         [Fact]

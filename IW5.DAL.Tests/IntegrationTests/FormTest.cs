@@ -10,11 +10,11 @@ namespace IW5.DAL.Tests.IntegrationTests
     public class FormTests : BaseTest, IClassFixture<EnsureIW5DatabaseTestFixture>
     {
 
-        protected IFormRepository _formRepository;
+        private readonly IFormRepository _formRepository;
 
         public FormTests() : base()
         {
-            _formRepository = RepositoryManager._formRepository.Value;
+            _formRepository = RepositoryManager.Form;
         }
 
         [Fact]

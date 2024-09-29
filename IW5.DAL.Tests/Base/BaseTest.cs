@@ -9,28 +9,27 @@ namespace IW5.Dal.Tests.Base
 {
     public abstract class BaseTest : IDisposable 
     {
-        protected readonly IConfiguration Configuration;
-        protected readonly FormsDbContext Context;
-        protected virtual ICollection<string> NavigationPathDetail => new List<string>();
+        private readonly IConfiguration _configuration;
+        private readonly FormsDbContext _context;
         protected readonly RepositoryManager RepositoryManager;
 
         protected BaseTest()
         {
-            Configuration = TestHelpers.GetConfiguration();
-            Context = TestHelpers.GetContext(Configuration);
-            RepositoryManager = new RepositoryManager(Context);
+            _configuration = TestHelpers.GetConfiguration();
+            _context = TestHelpers.GetContext(_configuration);
+            RepositoryManager = new RepositoryManager(_context);
         }
 
         public virtual void Dispose()
         {
-            Context.Dispose();
+            _context.Dispose();
         }
         protected void ExecuteInATransaction(Action actionToExecute)
         {
-            var strategy = Context.Database.CreateExecutionStrategy();
+            var strategy = _context.Database.CreateExecutionStrategy();
             strategy.Execute(() =>
             {
-                using var trans = Context.Database.BeginTransaction();
+                using var trans = _context.Database.BeginTransaction();
                 actionToExecute();
                 trans.Rollback();
             });
@@ -38,10 +37,10 @@ namespace IW5.Dal.Tests.Base
 
         protected void ExecuteInASharedTransaction(Action<IDbContextTransaction> actionToExecute)
         {
-            var strategy = Context.Database.CreateExecutionStrategy();
+            var strategy = _context.Database.CreateExecutionStrategy();
             strategy.Execute(() =>
             {
-                using IDbContextTransaction trans = Context.Database.BeginTransaction(IsolationLevel.ReadUncommitted);
+                using IDbContextTransaction trans = _context.Database.BeginTransaction(IsolationLevel.ReadUncommitted);
                 actionToExecute(trans);
                 trans.Rollback();
             });

@@ -10,17 +10,17 @@ using IW5.DAL.Repository;
 using IW5.Common.Enums;
 using System.ComponentModel.Design;
 
-namespace IW5.Dal.Tests.IntegrationTests
+namespace IW5.DAL.Tests.IntegrationTests
 {
     [Collection("Integration Tests")]
     public class UserTests : BaseTest, IClassFixture<EnsureIW5DatabaseTestFixture>
     {
 
-        protected IUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
 
         public UserTests() : base()
         {
-            _userRepository = RepositoryManager._userRepository.Value;
+            _userRepository = RepositoryManager.User;
         }
 
         [Fact]
