@@ -30,8 +30,6 @@ namespace IW5.Models.Entities
 
         public virtual ICollection<Form> Forms { get; set; } = new List<Form>();
 
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 
     //public class UserEntityMapperProfile : Profile

@@ -27,8 +27,6 @@ namespace IW5.Models.Entities
         [ForeignKey("FormId")]
         public Form Form { get; set; } 
 
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     }
 
