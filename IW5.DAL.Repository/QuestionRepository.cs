@@ -12,19 +12,8 @@ namespace IW5.DAL.Repository
         {
         }
 
-        public async Task<IEnumerable<Question>> GetAllQuestionsAsync(bool trackChanges) =>
-           await GetAll(trackChanges)
+        public async Task<IEnumerable<Question>> GetAllQuestionsFromFormAsync(bool trackChanges, Guid formId) =>
+           await GetByCondition(e => e.FormId.Equals(formId), false)
             .ToListAsync();
-
-        public async Task<Question> GetQuestionByIdAsync(Guid id, bool trackChanges) =>
-            await GetByCondition(q => q.Id.Equals(id), trackChanges, q => q.Options).SingleOrDefaultAsync();
-
-        public void CreateQuestionForForm(Guid FormId, Question question)
-        {
-            question.FormId = FormId;
-            Create(question);
-        }
-
-        public void DeleteQuestion(Question question) => Delete(question);
     }
 }

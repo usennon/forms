@@ -10,11 +10,8 @@ namespace IW5.DAL.Repository
         private readonly FormsDbContext context = context;
         private readonly DbSet<T> _dbSet = context.Set<T>();
 
-        public IQueryable<T> GetAll(bool trackChanges) => !trackChanges ?
-            _dbSet.AsNoTracking() : _dbSet;
-
-        public IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression, bool trackChanges,
-            params Expression<Func<T, object>>[] includes)
+        protected IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression, bool trackChanges,
+            params Expression<Func<T, object>>[]? includes)
         {
             var query = !trackChanges ?
             _dbSet.Where(expression).AsNoTracking() : _dbSet.Where(expression);
@@ -26,12 +23,17 @@ namespace IW5.DAL.Repository
 
             return query;
         }
+        protected async ValueTask<bool> ExistsAsync(T entity)
+            => entity.Id != Guid.Empty
+            && await _dbSet.AnyAsync(e => e.Id == entity.Id).ConfigureAwait(false);
+        public virtual IQueryable<T> GetAll(bool trackChanges) => !trackChanges ?
+            _dbSet.AsNoTracking() : _dbSet;
+        public virtual async Task<T> GetById(Guid id, bool trackChanges) 
+            => await GetByCondition(e => e.Id == id, trackChanges).SingleOrDefaultAsync();
 
-        public async ValueTask<bool> ExistsAsync(T entity) => entity.Id != Guid.Empty
-                && await _dbSet.AnyAsync(e => e.Id == entity.Id).ConfigureAwait(false);
-        public void Create(T entity) => _dbSet.Add(entity);
+        public virtual void Create(T entity) => _dbSet.Add(entity);
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             if (ExistsAsync(entity).Result)
             {
@@ -40,7 +42,7 @@ namespace IW5.DAL.Repository
             }
         }
 
-        public void Delete(T entity) => _dbSet.Remove(entity);
+        public virtual void Delete(T entity) => _dbSet.Remove(entity);
        
     }
 }

@@ -20,7 +20,7 @@ namespace IW5.DAL.Tests.IntegrationTests
         [Fact]
         public async Task ShouldGetAllForms()
         {
-            var forms = await _formRepository.GetAllFormsAsync(false);
+            var forms = _formRepository.GetAll(false);
             Assert.Equal(14, forms.Count());
         }
 

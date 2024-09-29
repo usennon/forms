@@ -9,24 +9,11 @@ namespace IW5.DAL.Repository
 {
     public class UserRepository : BaseRepo<User>, IUserRepository
     {
-        public UserRepository(FormsDbContext repositoryContext) : base(repositoryContext) 
+        public UserRepository(FormsDbContext repositoryContext) : base(repositoryContext)
         {
         }
-
-        public async Task<User> GetUserByIdAsync(Guid userId, bool trackChanges)
-        {
-            return await GetByCondition(u => u.Id.Equals(userId), trackChanges, u => u.Forms)
-                .SingleOrDefaultAsync();
-        }
-
-        public async Task<IEnumerable<User>> GetAllUsersAsync(bool trackChanges) =>
-            await GetAll(trackChanges)
-                .OrderBy(c => c.Name)
-                .ToListAsync();
-
-        public void CreateUser(User user) => Create(user);
-
-        public void DeleteUser(User user) => Delete(user);
-
+        public async Task<IEnumerable<User>?> GetUserByNameAsync(string name, bool trackChanges)
+            => await GetByCondition(e => e.Name.ToLower().Contains(name.ToLower()), trackChanges, f => f.Forms)
+            .ToListAsync();
     }
 }

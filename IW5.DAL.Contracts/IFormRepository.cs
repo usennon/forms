@@ -4,11 +4,8 @@ namespace IW5.DAL.Contracts
 {
     public interface IFormRepository : IRepo<Form>
     {
-        Task<IEnumerable<Form>> GetAllFormsAsync(bool trackChanges);
-        Task<Form> GetFormByTitleAsync(string Title, bool trackChanges);
-        void CreateFormForAuthor(Guid authorId, Form form);
-        void DeleteForm(Form form);
-
-
+        Task<IEnumerable<Form>?> GetFormByTitleAsync(string title, bool trackChanges);
+        Task<IEnumerable<Form>?> GetFormByCreatedAt(bool trackChanges, DateTime? start, DateTime? end);
+        Task<IEnumerable<Form>?> GetActiveForms(bool trackChanges);
     }
 }
