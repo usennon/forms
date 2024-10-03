@@ -6,9 +6,9 @@ namespace IW5.DAL.Contracts
     public interface IRepo<T> where T : BaseEntity, new()
     {
         IQueryable<T> GetAll(bool trackChanges);
-        Task<T> GetById(Guid id, bool trackChanges);
+        Task<T> GetByIdAsync(Guid id, bool trackChanges);
         void Create(T entity);
-        void Update(T entity);
+        Task UpdateAsync(T entity);
         void Delete(T entity);
     }
 }

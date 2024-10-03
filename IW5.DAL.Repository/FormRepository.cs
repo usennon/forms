@@ -12,7 +12,7 @@ namespace IW5.DAL.Repository
         public async Task<IEnumerable<Form>?> GetFormByTitleAsync(string title, bool trackChanges) 
             => await GetByCondition(f => f.Title.ToLower().Contains(title.ToLower()), trackChanges, f => f.Questions)
             .ToListAsync();
-        public async Task<IEnumerable<Form>?> GetFormByCreatedAt(bool trackChanges, DateTime? start, DateTime? end)
+        public async Task<IEnumerable<Form>?> GetFormByCreatedAtAsync(bool trackChanges, DateTime? start, DateTime? end)
         {
             if (start.HasValue && end.HasValue && start < end) 
             { 
@@ -34,7 +34,7 @@ namespace IW5.DAL.Repository
                 return Enumerable.Empty<Form>();
             }
         }
-        public async Task<IEnumerable<Form>?> GetActiveForms(bool trackChanges) =>
+        public async Task<IEnumerable<Form>?> GetActiveFormsAsync(bool trackChanges) =>
             await GetByCondition(f => f.StartDate <= DateTime.Now && f.EndDate >= DateTime.Now, trackChanges, f => f.Questions)
                 .ToListAsync();
         

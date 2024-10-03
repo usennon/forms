@@ -28,14 +28,14 @@ namespace IW5.DAL.Repository
             && await _dbSet.AnyAsync(e => e.Id == entity.Id).ConfigureAwait(false);
         public virtual IQueryable<T> GetAll(bool trackChanges) => !trackChanges ?
             _dbSet.AsNoTracking() : _dbSet;
-        public virtual async Task<T> GetById(Guid id, bool trackChanges) 
+        public virtual async Task<T> GetByIdAsync(Guid id, bool trackChanges) 
             => await GetByCondition(e => e.Id == id, trackChanges).SingleOrDefaultAsync();
 
         public virtual void Create(T entity) => _dbSet.Add(entity);
 
-        public virtual void Update(T entity)
+        public virtual async Task UpdateAsync(T entity)
         {
-            if (ExistsAsync(entity).Result)
+            if (await ExistsAsync(entity))
             {
                 _dbSet.Attach(entity);
                 _dbSet.Update(entity);
