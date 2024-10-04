@@ -13,9 +13,8 @@ namespace IW5.Models.Entities
 
         [ForeignKey("Question")]
         public Guid QuestionId { get; set; }
+        [Required]
         public Question Question { get; set; }
 
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

@@ -26,9 +26,6 @@ namespace IW5.Models.Entities
 
         public ICollection<Question> Questions { get; set; } = new List<Question>();
 
-        [DataType(DataType.DateTime)]
-        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
-
     }
 
     //public class FormEntityMapperProfile : Profile

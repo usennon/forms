@@ -1,5 +1,6 @@
 ﻿using IW5.DAL.Contracts;
 using IW5.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 
@@ -11,5 +12,8 @@ namespace IW5.DAL.Repository
         {
         }
 
+        public async Task<IEnumerable<Question>> GetAllQuestionsFromFormAsync(bool trackChanges, Guid formId) =>
+           await GetByCondition(e => e.FormId.Equals(formId), false)
+            .ToListAsync();
     }
 }
