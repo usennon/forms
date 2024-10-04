@@ -26,7 +26,7 @@ namespace IW5.DAL.Tests.IntegrationTests
         [Fact]
         public async Task ShouldGetAllUsers()
         {
-            var users = await _userRepository.GetAllUsersAsync(false);
+            var users =  _userRepository.GetAll(false);
             Assert.Equal(6, users.Count());
         }
 

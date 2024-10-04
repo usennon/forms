@@ -16,7 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IW5.Models", "IW5.Models\IW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IW5.DAL.Repository", "IW5.DAL.Repository\IW5.DAL.Repository.csproj", "{7EAC5650-BCA5-463A-BE17-07C35A000E4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IW5.DAL.Tests", "IW5.DAL.Tests\IW5.DAL.Tests.csproj", "{E240CFB1-934C-425C-B7EF-F08EBB4FF0C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IW5.DAL.Tests", "IW5.DAL.Tests\IW5.DAL.Tests.csproj", "{E240CFB1-934C-425C-B7EF-F08EBB4FF0C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IW5.API", "IW5.API\IW5.API.csproj", "{DB56BF2E-895E-4870-AFB5-4118EBAAC506}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,10 @@ Global
 		{E240CFB1-934C-425C-B7EF-F08EBB4FF0C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E240CFB1-934C-425C-B7EF-F08EBB4FF0C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E240CFB1-934C-425C-B7EF-F08EBB4FF0C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB56BF2E-895E-4870-AFB5-4118EBAAC506}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB56BF2E-895E-4870-AFB5-4118EBAAC506}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB56BF2E-895E-4870-AFB5-4118EBAAC506}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB56BF2E-895E-4870-AFB5-4118EBAAC506}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

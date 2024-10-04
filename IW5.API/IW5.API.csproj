@@ -8,6 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IW5.DAL.Contracts\IW5.DAL.Contracts.csproj" />
+    <ProjectReference Include="..\IW5.DAL.Repository\IW5.DAL.Repository.csproj" />
+    <ProjectReference Include="..\IW5.Models\IW5.Models.csproj" />
   </ItemGroup>
 
 </Project>
