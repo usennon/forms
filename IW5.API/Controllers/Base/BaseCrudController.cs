@@ -28,9 +28,9 @@ namespace IW5.API.Controllers.Base
         [SwaggerResponse(200, "The execution was successful")]
         [SwaggerResponse(400, "The request was invalid")]
         [HttpGet]
-        public ActionResult<IEnumerable<T>> GetAll()
+        public ActionResult<IQueryable<T>> GetAll()
         {
-            return Ok(MainRepo.GetAll(false).ToList());
+            return Ok(MainRepo.GetAll(false));
         }
     }
 }

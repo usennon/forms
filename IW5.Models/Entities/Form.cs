@@ -22,7 +22,7 @@ namespace IW5.Models.Entities
 
         [Required]
         [DataType(DataType.DateTime)]
-        public DateTimeOffset EndDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public ICollection<Question> Questions { get; set; } = new List<Question>();
 
