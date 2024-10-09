@@ -13,6 +13,7 @@ namespace IW5.API.Controllers.Base
     {
         protected readonly IRepo<T> MainRepo;
 
+
         protected BaseCrudController(IRepo<T> repo)
         {
             MainRepo = repo;
@@ -32,5 +33,51 @@ namespace IW5.API.Controllers.Base
         {
             return Ok(MainRepo.GetAll(false));
         }
+
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [SwaggerResponse(200, "The execution was successful")]
+        [SwaggerResponse(400, "The request was invalid")]
+        [HttpDelete("{Id}")]
+        public ActionResult Delete(T entity)
+        {
+            MainRepo.Delete(entity);
+            return Ok();
+        }
+
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [SwaggerResponse(200, "The execution was successful")]
+        [SwaggerResponse(400, "The request was invalid")]
+        [SwaggerResponse(404, "User was not found")]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IQueryable<T>>> GetById(Guid id)
+        {
+            var entity = await MainRepo.GetByIdAsync(id, false);
+            return entity == null ? NotFound() : Ok();
+        }
+
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [SwaggerResponse(200, "The execution was successful")]
+        [SwaggerResponse(400, "The request was invalid")]
+        [HttpPost]
+        public ActionResult Create(T entity)
+        {
+            MainRepo.Create(entity);
+            return Ok();
+        }
+
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [SwaggerResponse(200, "The execution was successful")]
+        [SwaggerResponse(400, "The request was invalid")]
+        [HttpPut]
+        public ActionResult Update(T entity)
+        {
+            MainRepo.Update(entity);
+            return Ok();
+        }
+
     }
 }
