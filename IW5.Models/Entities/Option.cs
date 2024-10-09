@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AutoMapper;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IW5.Models.Entities
@@ -16,5 +17,12 @@ namespace IW5.Models.Entities
         [Required]
         public Question Question { get; set; }
 
+    }
+    public class OptionEntityMapperProfile : Profile
+    {
+        public OptionEntityMapperProfile()
+        {
+            CreateMap<Option, Option>();
+        }
     }
 }
