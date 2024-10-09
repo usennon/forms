@@ -1,0 +1,19 @@
+﻿using IW5.BL.Models;
+using IW5.Models.Entities;
+using System.Runtime.InteropServices;
+
+namespace IW5.BL.API.Contracts
+{
+    public interface IBLogic<TEntity, TListModel, TDetailModel> 
+        where TEntity : BaseEntity
+        where TListModel : class, IModel
+        where TDetailModel : class, IModel
+    {
+        List<TListModel> GetAll();
+        Task<TDetailModel?> GetByIdAsync(Guid id);
+        Task CreateOrUpdate(TDetailModel model);
+        void Create(TDetailModel model);
+        void Update(TDetailModel model);
+        void Delete(TDetailModel model);
+    }
+}
