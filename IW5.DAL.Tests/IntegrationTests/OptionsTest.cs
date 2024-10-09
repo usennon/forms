@@ -4,6 +4,7 @@ using IW5.Dal.Tests.Base;
 using IW5.DAL.Contracts;
 using IW5.DAL.Repository;
 using IW5.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 
 namespace IW5.DAL.Tests.IntegrationTests
@@ -13,7 +14,7 @@ namespace IW5.DAL.Tests.IntegrationTests
     {
         private readonly IOptionRepository _optionRepository;
 
-        public OptionsTests () : base() 
+        public OptionsTests() : base()
         {
             _optionRepository = RepositoryManager.Option;
         }
@@ -21,7 +22,7 @@ namespace IW5.DAL.Tests.IntegrationTests
         [Fact]
         public async Task ShouldGetAllOptions()
         {
-            var options = await _optionRepository.GetAllOptionsAsync(false);
+            var options = await _optionRepository.GetAll(false).ToListAsync();
             Assert.Equal(12, options.Count());
         }
         [Fact]
@@ -40,7 +41,7 @@ namespace IW5.DAL.Tests.IntegrationTests
                 .OrderBy(id => id)
                 .ToList();
 
-            
+
 
             Assert.Equal(5, options.Count());
             Assert.Equal(expectedIds, actualIds);
@@ -49,7 +50,7 @@ namespace IW5.DAL.Tests.IntegrationTests
         public async Task ShouldGetSpecificOption()
         {
             var expectedId = SampleData.Options[5].Id;
-            var option = await _optionRepository.GetOptionByIdAsync(expectedId, false);
+            var option = await _optionRepository.GetByIdAsync(expectedId, false);
 
             Assert.NotNull(option);
             Assert.Equal(option.Id, expectedId);
@@ -62,27 +63,30 @@ namespace IW5.DAL.Tests.IntegrationTests
             var optionId2 = Guid.NewGuid();
             var optionId3 = Guid.NewGuid();
             var newOptions = new List<Option>()
-            {   
+            {
                 new Option
                 {
                 Id = optionId1,
                 Text = "Yes",
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now,
+                QuestionId = questionId
                 },
                 new Option
                 {
                 Id = optionId2,
                 Text = "Definitely",
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now,
+                QuestionId = questionId
                 },
                 new Option
                 {
                 Id = optionId3,
                 Text = "Absolutely!!!",
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now,
+                QuestionId = questionId
                 }
             };
-            _optionRepository.CreateListOfOptionsForQuestion(questionId, newOptions);
+            _optionRepository.CreateRange(newOptions);
             await RepositoryManager.SaveAsync();
 
             var expectedQuestions = await _optionRepository.GetOptionsFromQuestionAsync(questionId, false);
@@ -94,7 +98,7 @@ namespace IW5.DAL.Tests.IntegrationTests
         public async Task ShouldUpdateOption()
         {
             var optionId = Guid.Parse("a1c0f4ab-6c4d-4b82-baf2-123c78e50d3a");
-            var outdatedEntity = await _optionRepository.GetOptionByIdAsync(optionId, false);
+            var outdatedEntity = await _optionRepository.GetByIdAsync(optionId, false);
             var updatedEntity = outdatedEntity;
 
             updatedEntity.Text = "Maybe!";
@@ -103,7 +107,7 @@ namespace IW5.DAL.Tests.IntegrationTests
             _optionRepository.Update(updatedEntity);
             await RepositoryManager.SaveAsync();
 
-            var expectedEntity = await _optionRepository.GetOptionByIdAsync(optionId, false);
+            var expectedEntity = await _optionRepository.GetByIdAsync(optionId, false);
             Assert.NotNull(expectedEntity);
             Assert.Equal(updatedEntity.Text, expectedEntity.Text);
         }
@@ -112,11 +116,11 @@ namespace IW5.DAL.Tests.IntegrationTests
         public async Task ShouldDeleteOption()
         {
             var optionId = Guid.Parse("5f967174-7366-409e-b33e-6b2d4bce532a");
-            var deletingEntity = await _optionRepository.GetOptionByIdAsync(optionId, false);
-            _optionRepository.DeleteOption(deletingEntity);
+            var deletingEntity = await _optionRepository.GetByIdAsync(optionId, false);
+            _optionRepository.Delete(deletingEntity);
             await RepositoryManager.SaveAsync();
 
-            var actualEntity = await _optionRepository.GetOptionByIdAsync(optionId, false);
+            var actualEntity = await _optionRepository.GetByIdAsync(optionId, false);
 
             Assert.Null(actualEntity);
 
