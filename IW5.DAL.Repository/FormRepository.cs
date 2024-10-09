@@ -9,13 +9,15 @@ namespace IW5.DAL.Repository
         public FormRepository(FormsDbContext repositoryContext) : base(repositoryContext)
         {
         }
-        public async Task<IEnumerable<Form>?> GetFormByTitleAsync(string title, bool trackChanges) 
+        public async Task<Form> GetFormByTitleAsync(string title, bool trackChanges)
             => await GetByCondition(f => f.Title.ToLower().Contains(title.ToLower()), trackChanges, f => f.Questions)
-            .ToListAsync();
+            .SingleOrDefaultAsync();
+        public IQueryable<Form> SearchFormByTitle(string title, bool trackChanges)
+            => GetByCondition(f => f.Title.ToLower().Contains(title.ToLower()), trackChanges, f => f.Questions);
         public async Task<IEnumerable<Form>?> GetFormByCreatedAtAsync(bool trackChanges, DateTime? start, DateTime? end)
         {
-            if (start.HasValue && end.HasValue && start < end) 
-            { 
+            if (start.HasValue && end.HasValue && start < end)
+            {
                 return await GetByCondition(f => f.CreatedAt >= start && f.CreatedAt <= end, trackChanges, f => f.Questions)
                     .ToListAsync();
             }
@@ -37,7 +39,7 @@ namespace IW5.DAL.Repository
         public async Task<IEnumerable<Form>?> GetActiveFormsAsync(bool trackChanges) =>
             await GetByCondition(f => f.StartDate <= DateTime.Now && f.EndDate >= DateTime.Now, trackChanges, f => f.Questions)
                 .ToListAsync();
-        
+
 
     }
 }

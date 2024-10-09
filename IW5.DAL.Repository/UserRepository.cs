@@ -12,8 +12,12 @@ namespace IW5.DAL.Repository
         public UserRepository(FormsDbContext repositoryContext) : base(repositoryContext)
         {
         }
-        public async Task<IEnumerable<User>?> GetUserByNameAsync(string name, bool trackChanges)
-            => await GetByCondition(e => e.Name.ToLower().Contains(name.ToLower()), trackChanges, f => f.Forms)
-            .ToListAsync();
+
+        public async Task<User> GetUserByNameAsync(string name, bool trackChanges)
+            => await GetByCondition(e => e.Name.ToLower().Contains(name.ToLower()), trackChanges, f => f.Forms).SingleOrDefaultAsync();
+
+        public IQueryable<User> SearchUserByName(string name, bool trackChanges)
+            =>  GetByCondition(e => e.Name.ToLower().Contains(name.ToLower()), trackChanges, f => f.Forms);
+
     }
 }

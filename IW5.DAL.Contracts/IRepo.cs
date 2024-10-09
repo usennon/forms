@@ -8,7 +8,9 @@ namespace IW5.DAL.Contracts
         IQueryable<T> GetAll(bool trackChanges);
         Task<T> GetByIdAsync(Guid id, bool trackChanges);
         void Create(T entity);
-        Task UpdateAsync(T entity);
+        ValueTask<bool> ExistsAsync(Guid id);
+        void CreateRange(IEnumerable<T> entities);
+        void Update(T entity);
         void Delete(T entity);
     }
 }
