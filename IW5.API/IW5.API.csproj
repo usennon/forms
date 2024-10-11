@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IW5.BL.API.Contracts\IW5.BL.API.Contracts.csproj" />
     <ProjectReference Include="..\IW5.BL.Models\IW5.BL.Models.csproj" />
+    <ProjectReference Include="..\IW5.BL\IW5.BL.API.csproj" />
     <ProjectReference Include="..\IW5.DAL.Contracts\IW5.DAL.Contracts.csproj" />
     <ProjectReference Include="..\IW5.DAL.Repository\IW5.DAL.Repository.csproj" />
     <ProjectReference Include="..\IW5.Models\IW5.Models.csproj" />
