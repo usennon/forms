@@ -34,10 +34,7 @@ namespace IW5.API
                 options => options.UseSqlServer(connectionString,
                 sqlOptions => sqlOptions.EnableRetryOnFailure()));
 
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IFormRepository, FormRepository>();
-            builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
-            builder.Services.AddScoped<IOptionRepository, OptionRepository>();
+          
             
             var app = builder.Build();
             if (app.Environment.IsDevelopment())

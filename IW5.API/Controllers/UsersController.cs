@@ -9,7 +9,7 @@ namespace IW5.API.Controllers
     public class UsersController : BaseCrudController<User, UsersController>
     {
 
-        public UsersController(IUserRepository carRepo) : base(carRepo)
+        public UsersController() : base()
         {
         }
 
