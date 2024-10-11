@@ -21,12 +21,12 @@ namespace IW5.BL.API
             _mapper = mapper;
         }
 
-        public IQueryable<Question> SearchQuestions(string substring)
+        private IQueryable<Question> SearchQuestions(string substring)
         {
             return _questionRepository.SearchQuestionByText(substring, false);
         }
 
-        public IQueryable<Question> SortQuestions(IQueryable<Question> searchQuery, QuestionSortType type)
+        private IQueryable<Question> SortQuestions(IQueryable<Question> searchQuery, QuestionSortType type)
         {
             switch (type)
             {

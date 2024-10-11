@@ -20,12 +20,12 @@ namespace IW5.BL.API
             _mapper = mapper;
         }
 
-        public IQueryable<User> SearchUsers(string substring)
+        private IQueryable<User> SearchUsers(string substring)
         {
             return _userRepository.SearchUserByName(substring, false);
         }
 
-        public IQueryable<User> SortUsers(IQueryable<User> searchQuery, UserSortType type)
+        private IQueryable<User> SortUsers(IQueryable<User> searchQuery, UserSortType type)
         {
             switch (type) 
             {

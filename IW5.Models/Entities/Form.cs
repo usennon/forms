@@ -29,11 +29,4 @@ namespace IW5.Models.Entities
 
     }
 
-    public class FormEntityMapperProfile : Profile
-    {
-        public FormEntityMapperProfile()
-        {
-            CreateMap<Form, Form>();
-        }
-    }
 }

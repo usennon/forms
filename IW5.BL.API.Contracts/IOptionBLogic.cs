@@ -3,7 +3,8 @@ using IW5.Models.Entities;
 
 namespace IW5.BL.API.Contracts
 {
-    public interface IOptionBLogic : IBLogic<Option, OptionListModel, OptionListModel>
-    {
-    }
+    // TODO ?
+    //public interface IOptionBLogic : IBLogic<Option, OptionListModel, OptionListModel>
+    //{
+    //}
 }

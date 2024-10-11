@@ -1,8 +1,9 @@
-﻿namespace IW5.BL.Models
+﻿using IW5.BL.Models.DetailModels;
+
+namespace IW5.BL.Models
 {
-    public class UserDetailModel : IModel
+    public class UserDetailModel : DetailModelBase
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public string PhotoUrl { get; set; }
         public DateTime CreatedAt { get; set; }

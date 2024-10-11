@@ -30,13 +30,5 @@ namespace IW5.Models.Entities
 
 
     }
-
-    public class QuestionEntityMapperProfile : Profile
-    {
-        public QuestionEntityMapperProfile()
-        {
-            CreateMap<Question, Question>();
-        }
-    }
 }
 

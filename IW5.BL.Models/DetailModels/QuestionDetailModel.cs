@@ -1,8 +1,9 @@
-﻿namespace IW5.BL.Models
+﻿using IW5.BL.Models.DetailModels;
+
+namespace IW5.BL.Models
 {
-    public class QuestionDetailModel : IModel
+    public class QuestionDetailModel : DetailModelBase
     {
-        public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public bool IsRequired { get; set; }

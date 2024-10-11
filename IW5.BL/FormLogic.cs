@@ -21,12 +21,12 @@ namespace IW5.BL.API
             _mapper = mapper;
         }
 
-        public IQueryable<Form> SearchForms(string substring)
+        private IQueryable<Form> SearchForms(string substring)
         {
             return _formRepository.SearchFormByTitle(substring, false);
         }
 
-        public IQueryable<Form> SortForms(IQueryable<Form> searchQuery, FormSortType type)
+        private IQueryable<Form> SortForms(IQueryable<Form> searchQuery, FormSortType type)
         {
             switch (type)
             {

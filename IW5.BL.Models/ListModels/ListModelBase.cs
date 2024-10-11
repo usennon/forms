@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IW5.BL.Models
+namespace IW5.BL.Models.ListModels
 {
-    public interface IModel
+    public abstract class ListModelBase
     {
         Guid Id { get; set; }
     }

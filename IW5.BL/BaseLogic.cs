@@ -5,13 +5,15 @@ using IW5.DAL.Contracts;
 using IW5.BL.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using IW5.Models.Entities;
+using IW5.BL.Models.ListModels;
+using IW5.BL.Models.DetailModels;
 
 namespace IW5.BL.API
 {
     public abstract class BaseLogic<TEntity, TListModel, TDetailModel> : IBLogic<TEntity, TListModel, TDetailModel>
         where TEntity : BaseEntity, new()
-        where TListModel : class, IModel
-        where TDetailModel : class, IModel
+        where TListModel : ListModelBase
+        where TDetailModel : DetailModelBase
     {
         private readonly IRepo<TEntity> _baseRepository;
         private readonly IMapper _mapper;
@@ -33,10 +35,11 @@ namespace IW5.BL.API
             return _mapper.Map<TDetailModel>(ingredientEntity);
         }
 
-        public async Task CreateOrUpdate(TDetailModel model)
+        public async Task CreateOrUpdate(TDetailModel model, Guid id)
         {
-            if (await _baseRepository.ExistsAsync(model.Id)){
+            if (await _baseRepository.ExistsAsync(id)){
                 Update(model);
+                return;
             }
             Create(model);
         }
