@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IW5.BL.API.Contracts;
-using IW5.BL.Models;
+using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ListModels;
 using IW5.Common.Enums.Sorts;
 using IW5.DAL.Contracts;
 using IW5.DAL.Repository;
@@ -16,10 +17,10 @@ namespace IW5.BL.API
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public UserLogic(RepositoryManager repositoryManager, IUserRepository userRepository, IMapper mapper)
-            : base(repositoryManager, userRepository, mapper)
+        public UserLogic(IRepositoryManager repositoryManager, IMapper mapper)
+            : base(repositoryManager, repositoryManager.User, mapper)
         {
-            _userRepository = userRepository;
+            _userRepository = repositoryManager.User;
             _mapper = mapper;
         }
 

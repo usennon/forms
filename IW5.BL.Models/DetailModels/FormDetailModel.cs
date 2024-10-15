@@ -1,8 +1,9 @@
-﻿namespace IW5.BL.Models
+﻿using IW5.BL.Models.ListModels;
+
+namespace IW5.BL.Models.DetailModels
 {
-    public class FormDetailModel : IModel
+    public class FormDetailModel : DetailModelBase
     {
-        public Guid Id { get; set; }
         public string Title { get; set; }
         public Guid AuthorId { get; set; }
         public string AuthorName { get; set; }

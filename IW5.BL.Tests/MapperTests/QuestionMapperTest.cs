@@ -1,5 +1,6 @@
-﻿using IW5.BL.Models;
-using IW5.BL.Models.ModelMappers;
+﻿using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ListModels;
+using IW5.API;
 using IW5.Models.Entities;
 using FluentAssertions;
 using AutoMapper;
@@ -16,8 +17,7 @@ namespace IW5.BL.Tests.MapperTests
             var config = new MapperConfiguration(
                 cfg =>
             {
-                cfg.AddProfile<QuestionMapperProfile>();
-                cfg.AddProfile<OptionMapperProfile>();
+                cfg.AddProfile<MappingProfile>();
             });
             _questionMapper = config.CreateMapper();
         }
@@ -43,7 +43,6 @@ namespace IW5.BL.Tests.MapperTests
             var questionDetailModel = _questionMapper.Map<QuestionDetailModel>(question);
 
             // Assert
-            questionDetailModel.Id.Should().Be(question.Id);
             questionDetailModel.Text.Should().Be(question.Text);
             questionDetailModel.Description.Should().Be(question.Description);
             questionDetailModel.IsRequired.Should().Be(question.IsRequired);
@@ -69,7 +68,6 @@ namespace IW5.BL.Tests.MapperTests
             var questionDetailModel = _questionMapper.Map<QuestionDetailModel>(question);
 
             // Assert
-            questionDetailModel.Id.Should().Be(question.Id);
             questionDetailModel.Text.Should().Be(question.Text);
             questionDetailModel.Description.Should().Be(question.Description);
             questionDetailModel.IsRequired.Should().Be(question.IsRequired);
@@ -93,7 +91,6 @@ namespace IW5.BL.Tests.MapperTests
             var questionDetailModel = _questionMapper.Map<QuestionDetailModel>(question);
 
             // Assert
-            questionDetailModel.Id.Should().Be(question.Id);
             questionDetailModel.Text.Should().Be(question.Text);
             questionDetailModel.Description.Should().Be(question.Description);
             questionDetailModel.IsRequired.Should().Be(question.IsRequired);
@@ -106,14 +103,13 @@ namespace IW5.BL.Tests.MapperTests
             // Arrange
             var questionDetailModel = new QuestionDetailModel
             {
-                Id = Guid.NewGuid(),
                 Text = "Do you like programming?",
                 Description = "Yes or No",
                 IsRequired = true,
                 Options = new List<OptionListModel>
             {
-                new OptionListModel { Id = Guid.NewGuid(), Text = "Yes", IsCheked = true },
-                new OptionListModel { Id = Guid.NewGuid(), Text = "No", IsCheked = false }
+                new OptionListModel { Text = "Yes", IsCheked = true },
+                new OptionListModel { Text = "No", IsCheked = false }
             }
             };
 
@@ -121,7 +117,6 @@ namespace IW5.BL.Tests.MapperTests
             var question = _questionMapper.Map<Question>(questionDetailModel);
 
             // Assert
-            question.Id.Should().Be(questionDetailModel.Id);
             question.Text.Should().Be(questionDetailModel.Text);
             question.Description.Should().Be(questionDetailModel.Description);
             question.IsRequired.Should().Be(questionDetailModel.IsRequired);
@@ -134,7 +129,6 @@ namespace IW5.BL.Tests.MapperTests
             // Arrange
             var questionDetailModel = new QuestionDetailModel
             {
-                Id = Guid.NewGuid(),
                 Text = "Minimal Question",
                 IsRequired = true,
                 Options = new List<OptionListModel>() // Empty options
@@ -144,7 +138,6 @@ namespace IW5.BL.Tests.MapperTests
             var question = _questionMapper.Map<Question>(questionDetailModel);
 
             // Assert
-            question.Id.Should().Be(questionDetailModel.Id);
             question.Text.Should().Be(questionDetailModel.Text);
             question.Description.Should().BeNull(); // Description is not provided, should be null
             question.IsRequired.Should().Be(questionDetailModel.IsRequired);
@@ -165,7 +158,6 @@ namespace IW5.BL.Tests.MapperTests
             var questionListModel = _questionMapper.Map<QuestionListModel>(question);
 
             // Assert
-            questionListModel.Id.Should().Be(question.Id);
             questionListModel.Text.Should().Be(question.Text);
             questionListModel.IsRequired.Should().Be(question.IsRequired);
         }
@@ -215,7 +207,6 @@ namespace IW5.BL.Tests.MapperTests
             var questionListModel = _questionMapper.Map<QuestionListModel>(question);
 
             // Assert
-            questionListModel.Id.Should().Be(question.Id);
             questionListModel.Text.Should().Be(question.Text);
             questionListModel.IsRequired.Should().BeFalse(); // Default value of IsRequired should be false
         }

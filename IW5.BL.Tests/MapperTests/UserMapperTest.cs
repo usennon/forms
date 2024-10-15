@@ -1,5 +1,6 @@
-﻿using IW5.BL.Models;
-using IW5.BL.Models.ModelMappers;
+﻿using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ListModels;
+using IW5.API;
 using IW5.Models.Entities;
 using FluentAssertions;
 using AutoMapper;
@@ -14,8 +15,7 @@ namespace IW5.BL.Tests.MapperTests
             var config = new MapperConfiguration(
             cfg => 
             { 
-                cfg.AddProfile<UserMapperProfile>(); 
-                cfg.AddProfile<FormMapperProfile>(); 
+                cfg.AddProfile<MappingProfile>(); 
             });
             _userMapper = config.CreateMapper();
         }
@@ -35,7 +35,6 @@ namespace IW5.BL.Tests.MapperTests
             var userListModel = _userMapper.Map<UserListModel>(user);
 
             // Assert
-            userListModel.Id.Should().Be(user.Id);
             userListModel.Name.Should().Be(user.Name);
             userListModel.PhotoUrl.Should().Be(user.PhotoUrl);
         }
@@ -61,7 +60,6 @@ namespace IW5.BL.Tests.MapperTests
             var userDetailModel = _userMapper.Map<UserDetailModel>(user);
 
             // Assert
-            userDetailModel.Id.Should().Be(user.Id);
             userDetailModel.Name.Should().Be(user.Name);
             userDetailModel.PhotoUrl.Should().Be(user.PhotoUrl);
             userDetailModel.Forms.Should().HaveCount(2);
@@ -75,14 +73,13 @@ namespace IW5.BL.Tests.MapperTests
             // Arrange
             var userDetailModel = new UserDetailModel
             {
-                Id = Guid.NewGuid(),
                 Name = "John Doe",
                 PhotoUrl = "http://example.com/photo.jpg",
                 CreatedAt = DateTime.UtcNow,
                 Forms = new List<FormListModel>
             {
-                new FormListModel { Id = Guid.NewGuid(), Title = "Form 1" },
-                new FormListModel { Id = Guid.NewGuid(), Title = "Form 2" }
+                new FormListModel { Title = "Form 1" },
+                new FormListModel { Title = "Form 2" }
             }
             };
 
@@ -90,7 +87,6 @@ namespace IW5.BL.Tests.MapperTests
             var user = _userMapper.Map<User>(userDetailModel);
 
             // Assert
-            user.Id.Should().Be(userDetailModel.Id);
             user.Name.Should().Be(userDetailModel.Name);
             user.PhotoUrl.Should().Be(userDetailModel.PhotoUrl);
             user.Forms.Should().BeEmpty();
@@ -113,7 +109,6 @@ namespace IW5.BL.Tests.MapperTests
             var userDetailModel = _userMapper.Map<UserDetailModel>(user);
 
             // Assert
-            userDetailModel.Id.Should().Be(user.Id);
             userDetailModel.Name.Should().Be(user.Name);
             userDetailModel.PhotoUrl.Should().Be(user.PhotoUrl);
             userDetailModel.Forms.Should().BeEmpty();
@@ -139,7 +134,6 @@ namespace IW5.BL.Tests.MapperTests
             var userDetailModel = _userMapper.Map<UserDetailModel>(user);
 
             // Assert
-            userDetailModel.Id.Should().Be(user.Id);
             userDetailModel.Name.Should().Be(user.Name);
             userDetailModel.PhotoUrl.Should().BeNull(); 
             userDetailModel.Forms.Should().HaveCount(1);
@@ -162,7 +156,6 @@ namespace IW5.BL.Tests.MapperTests
             var userDetailModel = _userMapper.Map<UserDetailModel>(user);
 
             // Assert
-            userDetailModel.Id.Should().Be(user.Id);
             userDetailModel.Name.Should().Be(user.Name);
             userDetailModel.PhotoUrl.Should().Be(user.PhotoUrl);
             userDetailModel.Forms.Should().BeEmpty(); 
@@ -174,7 +167,6 @@ namespace IW5.BL.Tests.MapperTests
             // Arrange
             var userDetailModel = new UserDetailModel
             {
-                Id = Guid.NewGuid(),
                 Name = "John Doe",
                 PhotoUrl = "http://example.com/photo.jpg",
                 CreatedAt = DateTime.UtcNow,
@@ -185,7 +177,6 @@ namespace IW5.BL.Tests.MapperTests
             var user = _userMapper.Map<User>(userDetailModel);
 
             // Assert
-            user.Id.Should().Be(userDetailModel.Id);
             user.Name.Should().Be(userDetailModel.Name);
             user.PhotoUrl.Should().Be(userDetailModel.PhotoUrl);
             user.Forms.Should().BeEmpty(); 
@@ -197,14 +188,13 @@ namespace IW5.BL.Tests.MapperTests
             // Arrange
             var userDetailModel = new UserDetailModel
             {
-                Id = Guid.NewGuid(),
                 Name = "John Doe",
                 PhotoUrl = "http://example.com/photo.jpg",
                 CreatedAt = DateTime.UtcNow,
                 Forms = new List<FormListModel>
         {
-            new FormListModel { Id = Guid.NewGuid(), Title = "Form 1" },
-            new FormListModel { Id = Guid.NewGuid(), Title = "Form 2" }
+            new FormListModel { Title = "Form 1" },
+            new FormListModel { Title = "Form 2" }
         }
             };
 
@@ -212,7 +202,6 @@ namespace IW5.BL.Tests.MapperTests
             var user = _userMapper.Map<User>(userDetailModel);
 
             // Assert
-            user.Id.Should().Be(userDetailModel.Id);
             user.Name.Should().Be(userDetailModel.Name);
             user.PhotoUrl.Should().Be(userDetailModel.PhotoUrl);
             user.Forms.Should().BeEmpty(); 
@@ -224,7 +213,6 @@ namespace IW5.BL.Tests.MapperTests
             // Arrange
             var userDetailModel = new UserDetailModel
             {
-                Id = Guid.NewGuid(),
                 Name = "Jane Doe",
                 PhotoUrl = null, // PhotoUrl == null
                 CreatedAt = DateTime.UtcNow,
@@ -235,7 +223,6 @@ namespace IW5.BL.Tests.MapperTests
             var user = _userMapper.Map<User>(userDetailModel);
 
             // Assert
-            user.Id.Should().Be(userDetailModel.Id);
             user.Name.Should().Be(userDetailModel.Name);
             user.PhotoUrl.Should().BeNull(); 
             user.Forms.Should().BeEmpty(); 

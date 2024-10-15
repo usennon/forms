@@ -1,4 +1,5 @@
-﻿using IW5.BL.Models;
+﻿using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ListModels;
 using IW5.Models.Entities;
 using IW5.Common.Enums.Sorts;
 

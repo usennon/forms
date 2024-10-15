@@ -1,8 +1,9 @@
-﻿namespace IW5.BL.Models
+﻿using IW5.BL.Models.ListModels;
+
+namespace IW5.BL.Models.ListModels
 {
-    public class OptionListModel : IModel
+    public class OptionListModel : ListModelBase
     {
-        public Guid Id { get; set; }
         public string Text { get; set; }
         public bool IsCheked { get; set; }
     }

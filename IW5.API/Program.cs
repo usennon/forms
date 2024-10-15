@@ -1,8 +1,7 @@
 
 using IW5.DAL.Initialization;
 using IW5.DAL;
-using IW5.DAL.Contracts;
-using IW5.DAL.Repository;
+using IW5.API.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -23,21 +22,15 @@ namespace IW5.API
             // Read configuration from appsettings.json
             var configuration = builder.Configuration;
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            });
+            builder.Services.ConfigureCors();
+            builder.Services.ConfigureRepositoryManager();
+            builder.Services.ConfigureServiceManager();
 
-            // Add DbContext and Repositories
             var connectionString = configuration.GetConnectionString("IW5");
-            builder.Services.AddDbContextPool<FormsDbContext>(
-                options => options.UseSqlServer(connectionString,
-                sqlOptions => sqlOptions.EnableRetryOnFailure()));
 
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IFormRepository, FormRepository>();
-            builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
-            builder.Services.AddScoped<IOptionRepository, OptionRepository>();
+            builder.Services.ConfigureSqlContext(connectionString);
+
+          
             
             var app = builder.Build();
             if (app.Environment.IsDevelopment())

@@ -9,7 +9,7 @@ namespace IW5.API.Controllers
     public class QuestionsController : BaseCrudController<Question, QuestionsController>
     {
 
-        public QuestionsController(IQuestionRepository carRepo) : base(carRepo)
+        public QuestionsController() : base()
         {
         }
 

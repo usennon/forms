@@ -1,8 +1,9 @@
-﻿using IW5.BL.Models;
-using IW5.BL.Models.ModelMappers;
+﻿using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ListModels;
 using IW5.Models.Entities;
 using FluentAssertions;
 using AutoMapper;
+using IW5.API;
 
 namespace IW5.BL.Tests.MapperTests
 {
@@ -11,7 +12,7 @@ namespace IW5.BL.Tests.MapperTests
         private readonly IMapper _optionMapper;
         public OptionMapperTest() : base()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<OptionMapperProfile>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
             _optionMapper = config.CreateMapper();
         }
 
@@ -29,7 +30,6 @@ namespace IW5.BL.Tests.MapperTests
             var optionListModel = _optionMapper.Map<OptionListModel>(option);
 
             // Assert
-            optionListModel.Id.Should().Be(option.Id);
             optionListModel.Text.Should().Be(option.Text);
             optionListModel.IsCheked.Should().BeFalse(); // By default, IsCheked should be false
         }
@@ -75,7 +75,6 @@ namespace IW5.BL.Tests.MapperTests
             var optionListModel = _optionMapper.Map<OptionListModel>(option);
 
             // Assert
-            optionListModel.Id.Should().Be(option.Id);
             optionListModel.Text.Should().Be(option.Text);
             optionListModel.IsCheked.Should().BeFalse(); // Default value for IsCheked is false
         }

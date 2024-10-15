@@ -32,12 +32,4 @@ namespace IW5.Models.Entities
         public virtual ICollection<Form> Forms { get; set; } = new List<Form>();
 
     }
-
-    public class UserEntityMapperProfile : Profile
-    {
-        public UserEntityMapperProfile()
-        {
-            CreateMap<User, User>();
-        }
-    }
 }

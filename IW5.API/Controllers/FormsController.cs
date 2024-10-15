@@ -9,7 +9,7 @@ namespace IW5.API.Controllers
     public class FormsController : BaseCrudController<Form, FormsController>
     {
 
-        public FormsController(IFormRepository carRepo) : base(carRepo)
+        public FormsController() : base()
         {
         }
 

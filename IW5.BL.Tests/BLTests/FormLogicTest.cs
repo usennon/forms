@@ -1,19 +1,13 @@
 ﻿using IW5.BL.API;
-using IW5.BL.Models;
 using FluentAssertions;
-using System.Linq;
-using System.Threading.Tasks;
-using Xunit;
-using IW5.DAL.Repository;
-using IW5.DAL;
-using IW5.Models.Entities;
+using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ListModels;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using IW5.BL.Tests.Base;
-using IW5.BL.Models.ModelMappers;
 using IW5.DAL.Initialization;
 using IW5.Common.Enums.Sorts;
-using System.ComponentModel.DataAnnotations;
+using IW5.API;
 
 namespace IW5.BL.Tests.BLTests;
 
@@ -27,11 +21,10 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
         var config = new MapperConfiguration(
         cfg =>
         {
-            cfg.AddProfile<FormMapperProfile>();
-            cfg.AddProfile<QuestionMapperProfile>();
+            cfg.AddProfile<MappingProfile>();
         });
         _formMapper = config.CreateMapper();
-        _formLogic = new FormLogic(_repositoryManager, _repositoryManager.Form, _formMapper);
+        _formLogic = new FormLogic(_repositoryManager, _formMapper);
     }
     [Fact]
     public async Task CreateForm_WithExecutionStrategy_ShouldSucceed()
@@ -223,6 +216,8 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
         var forms = _formLogic.GetAll();
         forms.Count(f => f.Title == "Duplicate Title Form").Should().Be(2);
     }
+
+
 
 
 

@@ -5,19 +5,21 @@ using IW5.DAL.Contracts;
 using IW5.BL.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using IW5.Models.Entities;
+using IW5.BL.Models.ListModels;
+using IW5.BL.Models.DetailModels;
 
 namespace IW5.BL.API
 {
     public abstract class BaseLogic<TEntity, TListModel, TDetailModel> : IBLogic<TEntity, TListModel, TDetailModel>
         where TEntity : BaseEntity, new()
-        where TListModel : class, IModel
-        where TDetailModel : class, IModel
+        where TListModel : ListModelBase
+        where TDetailModel : DetailModelBase
     {
-        private readonly RepositoryManager _repositoryManager;
+        private readonly IRepositoryManager _repositoryManager;
         private readonly IRepo<TEntity> _baseRepository;
         private readonly IMapper _mapper;
 
-        public BaseLogic(RepositoryManager repositoryManager, IRepo<TEntity> baseRepository, IMapper mapper)
+        public BaseLogic(IRepositoryManager repositoryManager, IRepo<TEntity> baseRepository, IMapper mapper)
         {
             _repositoryManager = repositoryManager;
             _baseRepository = baseRepository;
@@ -40,14 +42,7 @@ namespace IW5.BL.API
         {
             try
             {
-                if (await _baseRepository.ExistsAsync(model.Id))
-                {
-                    await UpdateAsync(model);
-                }
-                else
-                {
-                    Create(model);
-                }
+                await UpdateAsync(model);
                 await _repositoryManager.SaveAsync();
             }
             catch (Exception)
@@ -65,7 +60,10 @@ namespace IW5.BL.API
 
         public async Task UpdateAsync(TDetailModel ingredientModel)
         {
-            var ingredientEntity = _mapper.Map<TEntity>(ingredientModel);
+            var ingredientEntity = await _baseRepository.GetByIdAsync(ingredientModel.Id, false);
+
+            _mapper.Map(ingredientModel, ingredientEntity);
+
             await _baseRepository.UpdateAsync(ingredientEntity);
         }
 

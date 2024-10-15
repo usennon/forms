@@ -1,10 +1,10 @@
 ﻿using IW5.Common.Enums;
+using IW5.BL.Models.ListModels;
 
-namespace IW5.BL.Models
+namespace IW5.BL.Models.DetailModels
 {
-    public class UserDetailModel : IModel
+    public class UserDetailModel : DetailModelBase
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public string PhotoUrl { get; set; }
         public string Email { get; set; }

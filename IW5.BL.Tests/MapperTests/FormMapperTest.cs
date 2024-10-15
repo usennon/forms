@@ -1,8 +1,9 @@
-﻿using IW5.BL.Models;
-using IW5.BL.Models.ModelMappers;
+﻿using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ListModels;
 using IW5.Models.Entities;
 using FluentAssertions;
 using AutoMapper;
+using IW5.API;
 
 namespace IW5.BL.Tests.MapperTests
 {
@@ -14,8 +15,7 @@ namespace IW5.BL.Tests.MapperTests
             var config = new MapperConfiguration(
                 cfg =>
                 {
-                    cfg.AddProfile<FormMapperProfile>();
-                    cfg.AddProfile<QuestionMapperProfile>();
+                    cfg.AddProfile<MappingProfile>();
                 });
             _formMapper = config.CreateMapper();
         }
@@ -37,7 +37,6 @@ namespace IW5.BL.Tests.MapperTests
             var formListModel = _formMapper.Map<FormListModel>(form);
 
             // Assert
-            formListModel.Id.Should().Be(form.Id);
             formListModel.Title.Should().Be(form.Title);
             formListModel.CreatedAt.Should().Be(form.CreatedAt);
         }
@@ -65,7 +64,6 @@ namespace IW5.BL.Tests.MapperTests
             var formDetailModel = _formMapper.Map<FormDetailModel>(form);
 
             // Assert
-            formDetailModel.Id.Should().Be(form.Id);
             formDetailModel.Title.Should().Be(form.Title);
             formDetailModel.AuthorId.Should().Be(form.Author.Id);
             formDetailModel.AuthorName.Should().Be(form.Author.Name);
@@ -82,15 +80,14 @@ namespace IW5.BL.Tests.MapperTests
             // Arrange
             var formDetailModel = new FormDetailModel
             {
-                Id = Guid.NewGuid(),
                 Title = "Form 1",
                 AuthorId = Guid.NewGuid(),
                 StartDate = DateTime.UtcNow.AddDays(1),
                 EndDate = DateTime.UtcNow.AddDays(2),
                 Questions = new List<QuestionListModel>
             {
-                new QuestionListModel { Id = Guid.NewGuid(), Text = "Question 1" },
-                new QuestionListModel { Id = Guid.NewGuid(), Text = "Question 2" }
+                new QuestionListModel { Text = "Question 1" },
+                new QuestionListModel { Text = "Question 2" }
             }
             };
 
@@ -98,7 +95,6 @@ namespace IW5.BL.Tests.MapperTests
             var form = _formMapper.Map<Form>(formDetailModel);
 
             // Assert
-            form.Id.Should().Be(formDetailModel.Id);
             form.Title.Should().Be(formDetailModel.Title);
             form.AuthorId.Should().Be(formDetailModel.AuthorId);
             form.StartDate.Should().Be(formDetailModel.StartDate);
@@ -123,7 +119,6 @@ namespace IW5.BL.Tests.MapperTests
             var formDetailModel = _formMapper.Map<FormDetailModel>(form);
 
             // Assert
-            formDetailModel.Id.Should().Be(form.Id);
             formDetailModel.Title.Should().Be(form.Title);
             formDetailModel.AuthorId.Should().Be(form.Author.Id);
             formDetailModel.AuthorName.Should().Be(form.Author.Name);
@@ -150,7 +145,6 @@ namespace IW5.BL.Tests.MapperTests
             var formDetailModel = _formMapper.Map<FormDetailModel>(form);
 
             // Assert
-            formDetailModel.Id.Should().Be(form.Id);
             formDetailModel.Title.Should().Be(form.Title);
             formDetailModel.AuthorId.Should().Be(form.Author.Id);
             formDetailModel.AuthorName.Should().Be(form.Author.Name);
@@ -180,7 +174,6 @@ namespace IW5.BL.Tests.MapperTests
             var formDetailModel = _formMapper.Map<FormDetailModel>(form);
 
             // Assert
-            formDetailModel.Id.Should().Be(form.Id);
             formDetailModel.Title.Should().Be(form.Title);
             formDetailModel.AuthorId.Should().Be(Guid.Empty); // AuthorId should be empty Guid
             formDetailModel.AuthorName.Should().BeNull(); // AuthorName should be null
@@ -207,7 +200,6 @@ namespace IW5.BL.Tests.MapperTests
             var formDetailModel = _formMapper.Map<FormDetailModel>(form);
 
             // Assert
-            formDetailModel.Id.Should().Be(form.Id);
             formDetailModel.Title.Should().Be(form.Title);
             formDetailModel.StartDate.Should().Be(form.StartDate);
             formDetailModel.EndDate.Should().Be(form.EndDate);
@@ -222,7 +214,6 @@ namespace IW5.BL.Tests.MapperTests
             // Arrange
             var formDetailModel = new FormDetailModel
             {
-                Id = Guid.NewGuid(),
                 Title = "Form 1",
                 AuthorId = Guid.NewGuid(),
                 AuthorName = "John Doe",
@@ -230,8 +221,8 @@ namespace IW5.BL.Tests.MapperTests
                 EndDate = DateTime.UtcNow.AddDays(2),
                 Questions = new List<QuestionListModel>
         {
-            new QuestionListModel { Id = Guid.NewGuid(), Text = "Question 1" },
-            new QuestionListModel { Id = Guid.NewGuid(), Text = "Question 2" }
+            new QuestionListModel { Text = "Question 1" },
+            new QuestionListModel { Text = "Question 2" }
         }
             };
 
@@ -239,7 +230,6 @@ namespace IW5.BL.Tests.MapperTests
             var form = _formMapper.Map<Form>(formDetailModel);
 
             // Assert
-            form.Id.Should().Be(formDetailModel.Id);
             form.Title.Should().Be(formDetailModel.Title);
             form.AuthorId.Should().Be(formDetailModel.AuthorId);
             form.StartDate.Should().Be(formDetailModel.StartDate);
@@ -253,7 +243,6 @@ namespace IW5.BL.Tests.MapperTests
             // Arrange
             var formDetailModel = new FormDetailModel
             {
-                Id = Guid.NewGuid(),
                 Title = "Form with Empty Questions",
                 AuthorId = Guid.NewGuid(),
                 StartDate = DateTime.UtcNow.AddDays(1),
@@ -265,7 +254,6 @@ namespace IW5.BL.Tests.MapperTests
             var form = _formMapper.Map<Form>(formDetailModel);
 
             // Assert
-            form.Id.Should().Be(formDetailModel.Id);
             form.Title.Should().Be(formDetailModel.Title);
             form.AuthorId.Should().Be(formDetailModel.AuthorId);
             form.StartDate.Should().Be(formDetailModel.StartDate);
@@ -279,7 +267,6 @@ namespace IW5.BL.Tests.MapperTests
             // Arrange
             var formDetailModel = new FormDetailModel
             {
-                Id = Guid.NewGuid(),
                 Title = "Form with Null Questions",
                 AuthorId = Guid.NewGuid(),
                 StartDate = DateTime.UtcNow.AddDays(1),
@@ -291,7 +278,6 @@ namespace IW5.BL.Tests.MapperTests
             var form = _formMapper.Map<Form>(formDetailModel);
 
             // Assert
-            form.Id.Should().Be(formDetailModel.Id);
             form.Title.Should().Be(formDetailModel.Title);
             form.AuthorId.Should().Be(formDetailModel.AuthorId);
             form.StartDate.Should().Be(formDetailModel.StartDate);
@@ -305,7 +291,6 @@ namespace IW5.BL.Tests.MapperTests
             // Arrange
             var formDetailModel = new FormDetailModel
             {
-                Id = Guid.NewGuid(),
                 Title = "Form with Null Author",
                 AuthorId = Guid.Empty, // AuthorId is empty
                 AuthorName = null!, // AuthorName is null
@@ -313,7 +298,7 @@ namespace IW5.BL.Tests.MapperTests
                 EndDate = DateTime.UtcNow.AddDays(2),
                 Questions = new List<QuestionListModel>
         {
-            new QuestionListModel { Id = Guid.NewGuid(), Text = "Question 1" }
+            new QuestionListModel { Text = "Question 1" }
         }
             };
 
@@ -321,7 +306,6 @@ namespace IW5.BL.Tests.MapperTests
             var form = _formMapper.Map<Form>(formDetailModel);
 
             // Assert
-            form.Id.Should().Be(formDetailModel.Id);
             form.Title.Should().Be(formDetailModel.Title);
             form.AuthorId.Should().Be(Guid.Empty); // AuthorId should remain empty
             form.Author.Should().BeNull(); // Author should be null because AuthorName is null

@@ -10,14 +10,6 @@ namespace IW5.DAL.Repository
     {
         private readonly FormsDbContext context = context;
         private readonly DbSet<T> _dbSet = context.Set<T>();
-        private readonly IMapper _mapper = new MapperConfiguration(
-            cfg =>
-            {
-                cfg.AddProfile<UserEntityMapperProfile>();
-                cfg.AddProfile<FormEntityMapperProfile>();
-                cfg.AddProfile<QuestionEntityMapperProfile>();
-                cfg.AddProfile<OptionEntityMapperProfile>();
-            }).CreateMapper();
 
 
         protected IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression, bool trackChanges,
@@ -49,12 +41,7 @@ namespace IW5.DAL.Repository
         {
             if (await ExistsAsync(entity.Id))
             {
-                var existingEntity = await _dbSet
-                .SingleOrDefaultAsync(r => r.Id == entity.Id);
-
-                _mapper.Map(entity, existingEntity);
-
-                _dbSet.Update(existingEntity!);
+                _dbSet.Update(entity!);
             }
         }
 

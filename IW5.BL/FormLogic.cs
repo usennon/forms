@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IW5.BL.API.Contracts;
-using IW5.BL.Models;
+using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ListModels;
 using IW5.Common.Enums.Sorts;
 using IW5.DAL.Contracts;
 using IW5.DAL.Repository;
@@ -16,11 +17,17 @@ namespace IW5.BL.API
         private readonly IFormRepository _formRepository;
         private readonly IMapper _mapper;
 
-        public FormLogic(RepositoryManager repositoryManager, IFormRepository formRepository, IMapper mapper) 
-            : base(repositoryManager, formRepository, mapper)
+        public FormLogic(IRepositoryManager repositoryManager, IMapper mapper) 
+            : base(repositoryManager, repositoryManager.Form, mapper)
         {
-            _formRepository = formRepository;
+            _formRepository = repositoryManager.Form;
             _mapper = mapper;
+        }
+
+        public async Task<FormDetailModel> GetFormByTitleAsync(string title)
+        {
+            var form = await _formRepository.GetFormByTitleAsync(title, false);
+            return _mapper.Map<FormDetailModel>(form);
         }
 
         private IQueryable<Form> SearchForms(string substring)

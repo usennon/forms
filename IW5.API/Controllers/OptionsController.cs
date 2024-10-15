@@ -9,7 +9,7 @@ namespace IW5.API.Controllers
     public class OptionsController : BaseCrudController<Option, OptionsController>
     {
 
-        public OptionsController(IOptionRepository carRepo) : base(carRepo)
+        public OptionsController() : base()
         {
         }
 
