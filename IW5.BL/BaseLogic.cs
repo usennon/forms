@@ -13,18 +13,21 @@ namespace IW5.BL.API
         where TListModel : class, IModel
         where TDetailModel : class, IModel
     {
+        private readonly RepositoryManager _repositoryManager;
         private readonly IRepo<TEntity> _baseRepository;
         private readonly IMapper _mapper;
 
-        public BaseLogic(IRepo<TEntity> baseRepository, IMapper mapper)
+        public BaseLogic(RepositoryManager repositoryManager, IRepo<TEntity> baseRepository, IMapper mapper)
         {
+            _repositoryManager = repositoryManager;
             _baseRepository = baseRepository;
             _mapper = mapper;
         }
 
         public List<TListModel> GetAll()
         {
-            return _mapper.Map<List<TListModel>>(_baseRepository.GetAll(false));
+            var list = _baseRepository.GetAll(false);
+            return _mapper.Map<List<TListModel>>(list);
         }
 
         public async Task<TDetailModel?> GetByIdAsync(Guid id)
@@ -33,12 +36,25 @@ namespace IW5.BL.API
             return _mapper.Map<TDetailModel>(ingredientEntity);
         }
 
-        public async Task CreateOrUpdate(TDetailModel model)
+        public async Task CreateOrUpdateAsync(TDetailModel model)
         {
-            if (await _baseRepository.ExistsAsync(model.Id)){
-                Update(model);
+            try
+            {
+                if (await _baseRepository.ExistsAsync(model.Id))
+                {
+                    await UpdateAsync(model);
+                }
+                else
+                {
+                    Create(model);
+                }
+                await _repositoryManager.SaveAsync();
             }
-            Create(model);
+            catch (Exception)
+            {
+                await _repositoryManager.DisposeAsync();
+                throw;
+            }
         }
 
         public void Create(TDetailModel ingredientModel)
@@ -47,16 +63,29 @@ namespace IW5.BL.API
             _baseRepository.Create(ingredientEntity);
         }
 
-        public void Update(TDetailModel ingredientModel)
+        public async Task UpdateAsync(TDetailModel ingredientModel)
         {
             var ingredientEntity = _mapper.Map<TEntity>(ingredientModel);
-            _baseRepository.Create(ingredientEntity);
+            await _baseRepository.UpdateAsync(ingredientEntity);
         }
 
-        public void Delete(TDetailModel model)
+        public async void Delete(TDetailModel model)
         {
-            var entity = _mapper.Map<TEntity>(model);
-            _baseRepository.Delete(entity);
+            try
+            {
+                var entity = _mapper.Map<TEntity>(model);
+                if (entity != null)
+                {
+                    _baseRepository.Delete(entity);
+                    await _repositoryManager.SaveAsync();
+                }
+            }
+            catch (Exception)
+            {
+                await _repositoryManager.DisposeAsync();
+                throw;
+            }
+
         }
     }
 }

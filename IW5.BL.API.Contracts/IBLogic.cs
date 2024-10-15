@@ -11,9 +11,9 @@ namespace IW5.BL.API.Contracts
     {
         List<TListModel> GetAll();
         Task<TDetailModel?> GetByIdAsync(Guid id);
-        Task CreateOrUpdate(TDetailModel model);
+        Task CreateOrUpdateAsync(TDetailModel model);
         void Create(TDetailModel model);
-        void Update(TDetailModel model);
+        Task UpdateAsync(TDetailModel model);
         void Delete(TDetailModel model);
     }
 }

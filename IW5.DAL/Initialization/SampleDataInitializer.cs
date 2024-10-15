@@ -3,7 +3,7 @@ using IW5.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace IW5.Dal.Initialization
+namespace IW5.DAL.Initialization
 {
     public static class SampleDataInitializer
     {

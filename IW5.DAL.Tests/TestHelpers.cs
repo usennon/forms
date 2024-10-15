@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 
-namespace IW5.Dal.Tests
+namespace IW5.DAL.Tests
 {
     public static class TestHelpers
     {

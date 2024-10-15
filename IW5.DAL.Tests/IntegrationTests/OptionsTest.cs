@@ -1,6 +1,6 @@
 ﻿using IW5.Common.Enums;
-using IW5.Dal.Initialization;
-using IW5.Dal.Tests.Base;
+using IW5.DAL.Initialization;
+using IW5.DAL.Tests.Base;
 using IW5.DAL.Contracts;
 using IW5.DAL.Repository;
 using IW5.Models.Entities;
@@ -104,7 +104,7 @@ namespace IW5.DAL.Tests.IntegrationTests
             updatedEntity.Text = "Maybe!";
             updatedEntity.CreatedAt = DateTime.Now;
 
-            _optionRepository.Update(updatedEntity);
+            await _optionRepository.UpdateAsync(updatedEntity);
             await RepositoryManager.SaveAsync();
 
             var expectedEntity = await _optionRepository.GetByIdAsync(optionId, false);

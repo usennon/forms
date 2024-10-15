@@ -3,6 +3,7 @@ using IW5.BL.API.Contracts;
 using IW5.BL.Models;
 using IW5.Common.Enums.Sorts;
 using IW5.DAL.Contracts;
+using IW5.DAL.Repository;
 using IW5.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,18 +16,19 @@ namespace IW5.BL.API
         private readonly IQuestionRepository _questionRepository;
         private readonly IMapper _mapper;
 
-        public QuestionLogic(IQuestionRepository questionRepository, IMapper mapper) : base(questionRepository, mapper)
+        public QuestionLogic(RepositoryManager repositoryManager, IQuestionRepository questionRepository, IMapper mapper)
+            : base(repositoryManager, questionRepository, mapper)
         {
             _questionRepository = questionRepository;
             _mapper = mapper;
         }
 
-        public IQueryable<Question> SearchQuestions(string substring)
+        private IQueryable<Question> SearchQuestions(string substring)
         {
             return _questionRepository.SearchQuestionByText(substring, false);
         }
 
-        public IQueryable<Question> SortQuestions(IQueryable<Question> searchQuery, QuestionSortType type)
+        private IQueryable<Question> SortQuestions(IQueryable<Question> searchQuery, QuestionSortType type)
         {
             switch (type)
             {

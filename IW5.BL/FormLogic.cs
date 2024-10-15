@@ -3,6 +3,7 @@ using IW5.BL.API.Contracts;
 using IW5.BL.Models;
 using IW5.Common.Enums.Sorts;
 using IW5.DAL.Contracts;
+using IW5.DAL.Repository;
 using IW5.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,18 +16,19 @@ namespace IW5.BL.API
         private readonly IFormRepository _formRepository;
         private readonly IMapper _mapper;
 
-        public FormLogic(IFormRepository formRepository, IMapper mapper) : base(formRepository, mapper)
+        public FormLogic(RepositoryManager repositoryManager, IFormRepository formRepository, IMapper mapper) 
+            : base(repositoryManager, formRepository, mapper)
         {
             _formRepository = formRepository;
             _mapper = mapper;
         }
 
-        public IQueryable<Form> SearchForms(string substring)
+        private IQueryable<Form> SearchForms(string substring)
         {
             return _formRepository.SearchFormByTitle(substring, false);
         }
 
-        public IQueryable<Form> SortForms(IQueryable<Form> searchQuery, FormSortType type)
+        private IQueryable<Form> SortForms(IQueryable<Form> searchQuery, FormSortType type)
         {
             switch (type)
             {

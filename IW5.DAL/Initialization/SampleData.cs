@@ -1,7 +1,7 @@
 ﻿using IW5.Models.Entities;
 using IW5.Common.Enums;
 
-namespace IW5.Dal.Initialization
+namespace IW5.DAL.Initialization
 {
     public static class SampleData
     {
@@ -42,7 +42,7 @@ namespace IW5.Dal.Initialization
             },
             new User
             {
-                Id = Guid.Parse("7d5a7f7b-4a0d-41b6-9b9f-02c68c5d8b98"),
+                Id = Guid.Parse("7d5a7f7b-4a0d-41b6-9b9f-02c68c5d8b99"),
                 Name = "Chris Evans",
                 Email = "chrisevans@example.com",
                 Role = Role.Basic,

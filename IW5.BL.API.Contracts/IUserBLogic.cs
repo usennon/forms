@@ -7,8 +7,6 @@ namespace IW5.BL.API.Contracts
 {
     public interface IUserBLogic : IBLogic<User, UserListModel, UserDetailModel>
     {
-        IQueryable<User> SearchUsers(string substring);
-        IQueryable<User> SortUsers(IQueryable<User> searchQuery, UserSortType type);
         Task<IEnumerable<UserListModel>> GetFilteredUsers(string substring, UserSortType type);
     }
 }

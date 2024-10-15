@@ -3,6 +3,7 @@ using IW5.BL.API.Contracts;
 using IW5.BL.Models;
 using IW5.Common.Enums.Sorts;
 using IW5.DAL.Contracts;
+using IW5.DAL.Repository;
 using IW5.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,17 +16,19 @@ namespace IW5.BL.API
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public UserLogic(IUserRepository userRepository, IMapper mapper) : base(userRepository, mapper) {
+        public UserLogic(RepositoryManager repositoryManager, IUserRepository userRepository, IMapper mapper)
+            : base(repositoryManager, userRepository, mapper)
+        {
             _userRepository = userRepository;
             _mapper = mapper;
         }
 
-        public IQueryable<User> SearchUsers(string substring)
+        private IQueryable<User> SearchUsers(string substring)
         {
             return _userRepository.SearchUserByName(substring, false);
         }
 
-        public IQueryable<User> SortUsers(IQueryable<User> searchQuery, UserSortType type)
+        private IQueryable<User> SortUsers(IQueryable<User> searchQuery, UserSortType type)
         {
             switch (type) 
             {

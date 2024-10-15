@@ -1,5 +1,5 @@
 
-using IW5.Dal.Initialization;
+using IW5.DAL.Initialization;
 using IW5.DAL;
 using IW5.DAL.Contracts;
 using IW5.DAL.Repository;

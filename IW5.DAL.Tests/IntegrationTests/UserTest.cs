@@ -1,9 +1,9 @@
-﻿using IW5.Dal.Tests.Base;
+﻿using IW5.DAL.Tests.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Storage;
-using IW5.Dal.Initialization;
+using IW5.DAL.Initialization;
 using IW5.Models.Entities;
 using IW5.DAL.Contracts;
 using IW5.DAL.Repository;
@@ -78,7 +78,7 @@ namespace IW5.DAL.Tests.IntegrationTests
             var updatedEntity = outdatedEntity;
             updatedEntity.PhoneNumber = "1234567890";
 
-            _userRepository.Update(updatedEntity);
+            await _userRepository.UpdateAsync(updatedEntity);
             await RepositoryManager.SaveAsync();
 
             var actualEntity = await _userRepository.GetByIdAsync(Guid.Parse("980745cb-b407-4b72-9a6b-1d5c9cf6a5ef"), false);

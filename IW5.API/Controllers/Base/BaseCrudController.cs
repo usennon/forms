@@ -73,9 +73,9 @@ namespace IW5.API.Controllers.Base
         [SwaggerResponse(200, "The execution was successful")]
         [SwaggerResponse(400, "The request was invalid")]
         [HttpPut]
-        public ActionResult Update(T entity)
+        public async Task<ActionResult> UpdateAsync(T entity)
         {
-            MainRepo.Update(entity);
+            await MainRepo.UpdateAsync(entity);
             return Ok();
         }
 
