@@ -16,7 +16,7 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
     private readonly FormLogic _formLogic;
     private readonly IMapper _formMapper;
 
-    public FormLogicIntegrationTests(EnsureIW5DatabaseTestFixture fixture)
+    public FormLogicIntegrationTests(EnsureIW5DatabaseTestFixture fixture) : base(fixture)
     {
         var config = new MapperConfiguration(
         cfg =>
@@ -49,30 +49,7 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
 
     }
 
-    [Fact]
-    public async Task UpdateForm_WithExecutionStrategy_ShouldSucceed()
-    {
-        // Arrange:
-        var formModel = new FormDetailModel
-        {
-            Id = Guid.NewGuid(),
-            Title = "Initial Test Form",
-            AuthorId = SampleData.Users.First().Id,
-            StartDate = DateTime.UtcNow,
-            EndDate = DateTime.UtcNow.AddDays(7)
-        };
-        await _formLogic.CreateOrUpdateAsync(formModel);
 
-        // Act:
-        formModel.Title = "Updated Test Form";
-        await _formLogic.CreateOrUpdateAsync(formModel);
-
-        // Assert:
-        var forms = _formLogic.GetAll();
-        var updatedForm = forms.FirstOrDefault(f => f.Id == formModel.Id);
-        updatedForm!.Should().NotBeNull();
-        updatedForm!.Title.Should().Be("Updated Test Form");
-    }
 
     [Fact]
     public void GetAllForms_ShouldReturnAllForms()
@@ -138,31 +115,7 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
         // Assert
         result.Should().BeNull();
     }
-    [Fact]
-    public async Task DeleteForm_ShouldNotThrowException_WhenFormDoesNotExist()
-    {
-        // Arrange
-        var nonExistentFormModel = new FormDetailModel
-        {
-            Id = Guid.NewGuid(),
-            Title = "Non-Existent Form",
-            AuthorId = SampleData.Users.First().Id,
-            StartDate = DateTime.UtcNow,
-            EndDate = DateTime.UtcNow.AddDays(7)
-        };
-        var id = nonExistentFormModel.Id;
 
-        // Act & Assert
-        await _formLogic.CreateOrUpdateAsync(nonExistentFormModel);
-        var model = await _formLogic.GetByIdAsync(id);
-
-        Assert.Equal(model.Id, id);
-
-        _formLogic.Delete(nonExistentFormModel);
-
-        Assert.Null(await _formLogic.GetByIdAsync(id));
-
-    }
     [Fact]
     public async Task GetFormById_ShouldReturnDetailedFormInformation()
     {

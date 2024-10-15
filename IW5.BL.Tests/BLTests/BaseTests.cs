@@ -5,33 +5,35 @@ using System.Data;
 using IW5.DAL;
 using IW5.DAL.Repository;
 using IW5.BL.Tests;
+using IW5.BL.Tests.BLTests;
 
 namespace IW5.BL.Tests.Base
 {
-    public abstract class BaseTest : IDisposable
+    public abstract class BaseTest : IClassFixture<EnsureIW5DatabaseTestFixture>
     {
-        private readonly IConfiguration _configuration;
+
         protected readonly FormsDbContext _context;
         protected readonly RepositoryManager _repositoryManager;
 
-        protected BaseTest()
+        protected BaseTest(EnsureIW5DatabaseTestFixture fixture)
         {
-            _configuration = TestHelpers.GetConfiguration();
-            _context = TestHelpers.GetContext(_configuration);
+            _context = fixture.GetContext(); // Используем контекст из фикстуры
             _repositoryManager = new RepositoryManager(_context);
         }
 
 
-        protected void ExecuteInATransaction(Action actionToExecute)
+
+        protected async Task ExecuteInATransactionAsync(Func<Task> actionToExecute)
         {
             var strategy = _context.Database.CreateExecutionStrategy();
-            strategy.Execute(() =>
+            await strategy.ExecuteAsync(async () =>
             {
-                using var trans = _context.Database.BeginTransaction();
-                actionToExecute();
-                trans.Rollback();
+                using var trans = await _context.Database.BeginTransactionAsync();
+                await actionToExecute();
+                await trans.RollbackAsync(); 
             });
         }
+
 
         protected void ExecuteInASharedTransaction(Action<IDbContextTransaction> actionToExecute)
         {
@@ -42,10 +44,6 @@ namespace IW5.BL.Tests.Base
                 actionToExecute(trans);
                 trans.Rollback();
             });
-        }
-        public virtual void Dispose()
-        {
-            _context.Dispose();
         }
     }
 }

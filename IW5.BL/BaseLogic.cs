@@ -40,16 +40,16 @@ namespace IW5.BL.API
 
         public async Task CreateOrUpdateAsync(TDetailModel model)
         {
-            try
-            {
-                await UpdateAsync(model);
+
+                if (await _baseRepository.ExistsAsync(model.Id))
+                {
+                    await UpdateAsync(model);
+                }
+                else
+                {
+                    Create(model);
+                }
                 await _repositoryManager.SaveAsync();
-            }
-            catch (Exception)
-            {
-                await _repositoryManager.DisposeAsync();
-                throw;
-            }
         }
 
         public void Create(TDetailModel ingredientModel)
