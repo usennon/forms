@@ -2,6 +2,9 @@
 using IW5.BL.API;
 using IW5.DAL.Contracts;
 using AutoMapper;
+using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ListModels;
+using IW5.Models.Entities;
 
 namespace IW5.BL.API
 {
@@ -21,5 +24,20 @@ namespace IW5.BL.API
         public IUserBLogic UserService => _userService.Value;
         public IFormBLogic FormService => _formService.Value;
         public IQuestionBLogic QuestionService => _questionService.Value;
+
+        public IBLogic<TEntity, TListModel, TDetailModel> GetService<TEntity, TListModel, TDetailModel>()
+        where TEntity : BaseEntity
+        where TListModel : ListModelBase
+        where TDetailModel : DetailModelBase
+        {
+            if (typeof(TEntity) == typeof(Form))
+                return (IBLogic<TEntity, TListModel, TDetailModel>)_formService.Value;
+            if (typeof(TEntity) == typeof(User))
+                return (IBLogic<TEntity, TListModel, TDetailModel>)_userService.Value;
+            if (typeof(TEntity) == typeof(Question))
+                return (IBLogic<TEntity, TListModel, TDetailModel>)_questionService.Value;
+
+            throw new InvalidOperationException($"Сервис для типа {typeof(TEntity).Name} не найден.");
+        }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using IW5.BL.API.Contracts;
+using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ListModels;
 using IW5.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -7,12 +9,13 @@ namespace IW5.API.Controllers.Base
 {
     [ApiController]
     [Route("api/[controller]")]
-    public abstract class BaseCrudController<T, TController> : ControllerBase
-        where T : BaseEntity, new()
-        where TController : BaseCrudController<T, TController>
+    public abstract class BaseCrudController<TEntity, TListModel, TDetailModel> : ControllerBase
+        where TEntity : BaseEntity, new()
+        where TListModel : ListModelBase
+        where TDetailModel : DetailModelBase
     {
-        private readonly IServiceManager _service;
-       // protected BaseCrudController(IServiceManager service) => _service = service;
+        protected readonly IBLogic<TEntity, TListModel, TDetailModel> _service;
+        protected BaseCrudController(IServiceManager serviceManager) => _service = serviceManager.GetService<TEntity, TListModel, TDetailModel>();
 
         ///// <summary>
         ///// Gets all records
