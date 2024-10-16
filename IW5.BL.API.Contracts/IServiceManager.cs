@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace IW5.BL.API.Contracts
 {
-    public class IServiceManager
+    public interface IServiceManager
     {
         IFormBLogic FormService { get; }
         IUserBLogic UserService { get; }
-        IUserBLogic QuestionService { get; }
+        IQuestionBLogic QuestionService { get; }
+        IOptionBLogic OptionService { get; }
     }
 }

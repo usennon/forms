@@ -12,67 +12,63 @@ namespace IW5.API.Controllers.Base
         where TController : BaseCrudController<T, TController>
     {
         private readonly IServiceManager _service;
-       // protected BaseCrudController(IServiceManager service) => _service = service;
+        protected BaseCrudController(IServiceManager service) => _service = service;
 
-        ///// <summary>
-        ///// Gets all records
-        ///// </summary>
-        ///// <returns>All records</returns>
-        ///// <response code="200">Returns all items</response>
-        //[Produces("application/json")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[SwaggerResponse(200, "The execution was successful")]
-        //[SwaggerResponse(400, "The request was invalid")]
-        //[HttpGet]
-        //public ActionResult<IQueryable<T>> GetAll()
-        //{
-        //    return Ok(_service.GetAll(false));
-        //}
+        /// <summary>
+        /// Gets all records
+        /// </summary>
+        /// <returns>All records</returns>
+        /// <response code="200">Returns all items</response>
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [SwaggerResponse(200, "The execution was successful")]
+        [SwaggerResponse(400, "The request was invalid")]
+        [HttpGet]
+        public virtual ActionResult<IQueryable<T>> GetAll()
+        {
+            return Ok();
+        }
 
-        //[Produces("application/json")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[SwaggerResponse(200, "The execution was successful")]
-        //[SwaggerResponse(400, "The request was invalid")]
-        //[HttpDelete("{Id}")]
-        //public ActionResult Delete(T entity)
-        //{
-        //    _service.Delete(entity);
-        //    return Ok();
-        //}
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [SwaggerResponse(200, "The execution was successful")]
+        [SwaggerResponse(400, "The request was invalid")]
+        [HttpDelete("{Id}")]
+        public virtual async Task<ActionResult> Delete(Guid id)
+        {
+            return await Task.FromResult(Ok());
+        }
 
-        //[Produces("application/json")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[SwaggerResponse(200, "The execution was successful")]
-        //[SwaggerResponse(400, "The request was invalid")]
-        //[SwaggerResponse(404, "User was not found")]
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<IQueryable<T>>> GetById(Guid id)
-        //{
-        //    var entity = await _service.GetByIdAsync(id, false);
-        //    return entity == null ? NotFound() : Ok();
-        //}
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [SwaggerResponse(200, "The execution was successful")]
+        [SwaggerResponse(400, "The request was invalid")]
+        [SwaggerResponse(404, "User was not found")]
+        [HttpGet("{id}")]
+        public virtual async Task<ActionResult<IQueryable<T>>> GetById(Guid id)
+        {
+            return await Task.FromResult(Ok());
+        }
 
-        //[Produces("application/json")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[SwaggerResponse(200, "The execution was successful")]
-        //[SwaggerResponse(400, "The request was invalid")]
-        //[HttpPost]
-        //public ActionResult Create(T entity)
-        //{
-        //    _service.Create(entity);
-        //    return Ok();
-        //}
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [SwaggerResponse(200, "The execution was successful")]
+        [SwaggerResponse(400, "The request was invalid")]
+        [HttpPost]
+        public virtual async Task<ActionResult> Create(Guid id)
+        {
+            return await Task.FromResult(Ok());
+        }
 
-        //[Produces("application/json")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[SwaggerResponse(200, "The execution was successful")]
-        //[SwaggerResponse(400, "The request was invalid")]
-        //[HttpPut]
-        //public async Task<ActionResult> UpdateAsync(T entity)
-        //{
-        //    _service.Update(entity);
-        //    return Ok();
-        //}
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [SwaggerResponse(200, "The execution was successful")]
+        [SwaggerResponse(400, "The request was invalid")]
+        [HttpPut]
+        public virtual async Task<ActionResult> UpdateAsync(Guid id)
+        {
+            return await Task.FromResult(Ok());
+        }
 
     }
     }
