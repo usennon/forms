@@ -1,5 +1,5 @@
-﻿using IW5.API.Controllers.Base;
-using IW5.BL.API.Contracts;
+﻿using IW5.BL.API.Contracts;
+using IW5.BL.Models.DetailModels;
 using IW5.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,63 +7,44 @@ namespace IW5.API.Controllers
 {
 
     [Microsoft.AspNetCore.Components.Route("api/[controller]")]
-    public class QuestionsController : BaseCrudController<Question, QuestionsController>
+    public class QuestionsController : ControllerBase
     {
         private readonly IQuestionBLogic _questionsLogic;
-        public QuestionsController(IServiceManager serviceManager) : base(serviceManager)
+        public QuestionsController(IServiceManager serviceManager)
         {
             _questionsLogic = serviceManager.QuestionService;
         }
 
-        public override ActionResult<IQueryable<Question>> GetAll()
+        [HttpGet]
+        public ActionResult<IQueryable<Question>> GetAll()
         {
             return Ok(_questionsLogic.GetAll());
         }
 
-        public override async Task<ActionResult> Delete(Guid id)
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> Delete(Guid id)
         {
-            var model = await _questionsLogic.GetByIdAsync(id);
-            if (model == null)
-            {
-                return NotFound();
-            }
-            try
-            {
-                _questionsLogic.Delete(model);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-            return Ok();
+            await _questionsLogic.DeleteAsync(id, false);
+            return NoContent();
         }
 
-        public override async Task<ActionResult<IQueryable<Question>>> GetById(Guid id)
-        {
-            return Ok(await _questionsLogic.GetByIdAsync(id));
-        }
-        
-        public override async Task<ActionResult> Create(Guid id)
+        [HttpGet("{id:guid}", Name = "QuestionById")]
+        public async Task<ActionResult<IQueryable<Question>>> GetById(Guid id)
         {
             return Ok(await _questionsLogic.GetByIdAsync(id));
         }
 
-        public override async Task<ActionResult> UpdateAsync(Guid id)
+        [HttpPost]
+        public async Task<ActionResult> Create([FromBody] QuestionDetailModel question)
         {
-            
-            var model = await _questionsLogic.GetByIdAsync(id);
-            if (model == null)
-            {
-                return NotFound();
-            }
-            try
-            {
-                await _questionsLogic.CreateOrUpdateAsync(model);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            var result = await _questionsLogic.Create(question);
+            return CreatedAtRoute("QuestionById", new { id = result.Id }, result);
+        }
+
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult> UpdateQuestionAsync(Guid id, [FromBody] QuestionDetailModel question)
+        {
+            await _questionsLogic.UpdateAsync(id, question, true);
             return Ok();
         }
 

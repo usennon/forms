@@ -1,5 +1,6 @@
-﻿using IW5.API.Controllers.Base;
+﻿using IW5.BL.API;
 using IW5.BL.API.Contracts;
+using IW5.BL.Models.DetailModels;
 using IW5.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,63 +8,44 @@ namespace IW5.API.Controllers
 {
 
     [Microsoft.AspNetCore.Components.Route("api/[controller]")]
-    public class FormsController : BaseCrudController<Form, FormsController>
+    public class FormsController : ControllerBase
     {
         private readonly IFormBLogic _formLogic;
-        public FormsController(IServiceManager serviceManager) : base(serviceManager)
+        public FormsController(IServiceManager serviceManager)
         {
             _formLogic = serviceManager.FormService;
         }
 
-        public override ActionResult<IQueryable<Form>> GetAll()
+        [HttpGet]
+        public ActionResult<IQueryable<Form>> GetAll()
         {
             return Ok(_formLogic.GetAll());
         }
 
-        public override async Task<ActionResult> Delete(Guid id)
+        [HttpDelete]
+        public async Task<ActionResult> Delete(Guid id)
         {
-            var model = await _formLogic.GetByIdAsync(id);
-            if (model == null)
-            {
-                return NotFound();
-            }
-            try
-            {
-                _formLogic.Delete(model);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-            return Ok();
+            await _formLogic.DeleteAsync(id, false);
+            return NoContent();
         }
 
-        public override async Task<ActionResult<IQueryable<Form>>> GetById(Guid id)
-        {
-            return Ok(await _formLogic.GetByIdAsync(id));
-        }
-        
-        public override async Task<ActionResult> Create(Guid id)
+        [HttpGet("{id:guid}", Name = "FormById")]
+        public async Task<ActionResult<IQueryable<Form>>> GetById(Guid id)
         {
             return Ok(await _formLogic.GetByIdAsync(id));
         }
 
-        public override async Task<ActionResult> UpdateAsync(Guid id)
+        [HttpPost]
+        public async Task<ActionResult> CreateForm([FromBody] FormDetailModel form)
         {
-            
-            var model = await _formLogic.GetByIdAsync(id);
-            if (model == null)
-            {
-                return NotFound();
-            }
-            try
-            {
-                await _formLogic.CreateOrUpdateAsync(model);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            var result = await _formLogic.Create(form);
+            return CreatedAtRoute("FormById", new { id = result.Id }, result);
+        }
+
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult> UpdateFormAsync(Guid id, [FromBody] FormDetailModel form)
+        {
+            await _formLogic.UpdateAsync(id, form, true);
             return Ok();
         }
     }

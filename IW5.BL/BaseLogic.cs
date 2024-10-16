@@ -43,7 +43,7 @@ namespace IW5.BL.API
 
                 if (await _baseRepository.ExistsAsync(model.Id))
                 {
-                    await UpdateAsync(model);
+                    await UpdateAsync(model.Id, model, true);
                 }
                 else
                 {
@@ -52,26 +52,34 @@ namespace IW5.BL.API
                 await _repositoryManager.SaveAsync();
         }
 
-        public void Create(TDetailModel ingredientModel)
+        public async Task<TDetailModel> Create(TDetailModel ingredientModel)
         {
             var ingredientEntity = _mapper.Map<TEntity>(ingredientModel);
+
             _baseRepository.Create(ingredientEntity);
+            await _repositoryManager.SaveAsync();
+
+            var entityToReturn = _mapper.Map<TDetailModel>(ingredientEntity);
+
+            return entityToReturn;
         }
 
-        public async Task UpdateAsync(TDetailModel ingredientModel)
+        public async Task UpdateAsync(Guid id, TDetailModel dtoModel, bool trackChanges)
         {
-            var ingredientEntity = await _baseRepository.GetByIdAsync(ingredientModel.Id, false);
+            var entity = await _baseRepository.GetByIdAsync(id, trackChanges);
+            if (entity is null)
+                throw new Exception();
 
-            _mapper.Map(ingredientModel, ingredientEntity);
+            _mapper.Map(dtoModel, entity);
 
-            await _baseRepository.UpdateAsync(ingredientEntity);
+            await _repositoryManager.SaveAsync();
         }
 
-        public async void Delete(TDetailModel model)
+        public async Task DeleteAsync(Guid id, bool trackChanges)
         {
             try
             {
-                var entity = _mapper.Map<TEntity>(model);
+                var entity = await _baseRepository.GetByIdAsync(id, trackChanges);
                 if (entity != null)
                 {
                     _baseRepository.Delete(entity);

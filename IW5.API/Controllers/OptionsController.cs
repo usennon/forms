@@ -1,5 +1,6 @@
-﻿using IW5.API.Controllers.Base;
+﻿using IW5.BL.API;
 using IW5.BL.API.Contracts;
+using IW5.BL.Models.DetailModels;
 using IW5.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,63 +8,44 @@ namespace IW5.API.Controllers
 {
 
     [Microsoft.AspNetCore.Components.Route("api/[controller]")]
-    public class OptionsController : BaseCrudController<Option, OptionsController>
+    public class OptionsController : ControllerBase
     {
         private readonly IOptionBLogic _optionsLogic;
-        public OptionsController(IServiceManager serviceManager) : base(serviceManager)
+        public OptionsController(IServiceManager serviceManager)
         {
             _optionsLogic = serviceManager.OptionService;
         }
 
-        public override ActionResult<IQueryable<Option>> GetAll()
+        [HttpGet]
+        public ActionResult<IQueryable<Option>> GetAll()
         {
             return Ok(_optionsLogic.GetAll());
         }
 
-        public override async Task<ActionResult> Delete(Guid id)
+        [HttpDelete]
+        public async Task<ActionResult> Delete(Guid id)
         {
-            var model = await _optionsLogic.GetByIdAsync(id);
-            if (model == null)
-            {
-                return NotFound();
-            }
-            try
-            {
-                _optionsLogic.Delete(model);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-            return Ok();
+            await _optionsLogic.DeleteAsync(id, false);
+            return NoContent();
         }
 
-        public override async Task<ActionResult<IQueryable<Option>>> GetById(Guid id)
-        {
-            return Ok(await _optionsLogic.GetByIdAsync(id));
-        }
-        
-        public override async Task<ActionResult> Create(Guid id)
+        [HttpGet("{id:guid}", Name = "OptionById")]
+        public async Task<ActionResult<IQueryable<Option>>> GetById(Guid id)
         {
             return Ok(await _optionsLogic.GetByIdAsync(id));
         }
 
-        public override async Task<ActionResult> UpdateAsync(Guid id)
+        [HttpPost]
+        public async Task<ActionResult> CreateOption([FromBody] OptionDetailModel option)
         {
-            
-            var model = await _optionsLogic.GetByIdAsync(id);
-            if (model == null)
-            {
-                return NotFound();
-            }
-            try
-            {
-                await _optionsLogic.CreateOrUpdateAsync(model);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            var result = await _optionsLogic.Create(option);
+            return CreatedAtRoute("OptionById", new { id = result.Id }, result);
+        }
+
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult> UpdateOptionAsync(Guid id, [FromBody] OptionDetailModel option)
+        {
+            await _optionsLogic.UpdateAsync(id, option, true);
             return Ok();
         }
 

@@ -13,8 +13,8 @@ namespace IW5.BL.API.Contracts
         List<TListModel> GetAll();
         Task<TDetailModel?> GetByIdAsync(Guid id);
         Task CreateOrUpdateAsync(TDetailModel model);
-        void Create(TDetailModel model);
-        Task UpdateAsync(TDetailModel model);
-        void Delete(TDetailModel model);
+        Task<TDetailModel> Create(TDetailModel model);
+        Task UpdateAsync(Guid id, TDetailModel model, bool trackChanges);
+        Task DeleteAsync(Guid id, bool trackChanges);
     }
 }
