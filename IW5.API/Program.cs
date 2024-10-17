@@ -29,9 +29,9 @@ namespace IW5.API
             var connectionString = configuration.GetConnectionString("IW5");
 
             builder.Services.ConfigureSqlContext(connectionString);
+            builder.Services.AddAutoMapper(typeof(Program));
 
-          
-            
+
             var app = builder.Build();
             if (app.Environment.IsDevelopment())
             {

@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace IW5.API.Controllers
 {
 
-    [Microsoft.AspNetCore.Components.Route("api/[controller]")]
+    [ApiController]
+    [Route("api/users/{userId}/forms/{formId}/questions")]
     public class QuestionsController : ControllerBase
     {
         private readonly IQuestionBLogic _questionsLogic;

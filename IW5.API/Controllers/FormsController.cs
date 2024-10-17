@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace IW5.API.Controllers
 {
 
-    [Microsoft.AspNetCore.Components.Route("api/[controller]")]
+    [ApiController]
+    [Route("api/users/{userId}/forms")]
     public class FormsController : ControllerBase
     {
         private readonly IFormBLogic _formLogic;
@@ -22,7 +23,7 @@ namespace IW5.API.Controllers
             return Ok(_formLogic.GetAll());
         }
 
-        [HttpDelete]
+        [HttpDelete("{id:guid}")]
         public async Task<ActionResult> Delete(Guid id)
         {
             await _formLogic.DeleteAsync(id, false);

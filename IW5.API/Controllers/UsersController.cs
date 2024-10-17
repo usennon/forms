@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IW5.API.Controllers
 {
-    
-    [Microsoft.AspNetCore.Components.Route("api/[controller]")]
+
+    [ApiController]
+    [Route("api/users")]
     public class UsersController : ControllerBase
     {
         private readonly IUserBLogic _userLogic;

@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace IW5.API.Controllers
 {
 
-    [Microsoft.AspNetCore.Components.Route("api/[controller]")]
+    [ApiController]
+    [Route("api/users/{userId}/forms/{formId}/questions/{questionId}/options")]
     public class OptionsController : ControllerBase
     {
         private readonly IOptionBLogic _optionsLogic;
@@ -22,7 +23,7 @@ namespace IW5.API.Controllers
             return Ok(_optionsLogic.GetAll());
         }
 
-        [HttpDelete]
+        [HttpDelete("{id:guid}")]
         public async Task<ActionResult> Delete(Guid id)
         {
             await _optionsLogic.DeleteAsync(id, false);
