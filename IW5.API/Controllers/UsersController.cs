@@ -1,6 +1,7 @@
 ﻿using IW5.BL.API.Contracts;
 using IW5.BL.Models.DetailModels;
 using IW5.BL.Models.ListModels;
+using IW5.Common.Enums.Sorts;
 using IW5.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,10 +18,16 @@ namespace IW5.API.Controllers
             _userLogic = serviceManager.UserService;
         }
 
-        [HttpGet(Name = "GetUsers")]
+        [HttpGet("all", Name = "GetUsers")]
         public ActionResult<IQueryable<User>> GetAll()
         {
             return Ok(_userLogic.GetAll());
+        }
+        
+        [HttpGet("filtered", Name = "GetSortedOrSearchUsers")]
+        public ActionResult<IQueryable<Form>> GetFilteredOrSorted(UserSortType type, string searchString = "")
+        {
+            return Ok(_userLogic.GetFilteredUsers(searchString, type));
         }
 
         [HttpDelete("{id:guid}")]

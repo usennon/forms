@@ -1,5 +1,6 @@
 ﻿using IW5.BL.API.Contracts;
 using IW5.BL.Models.DetailModels;
+using IW5.Common.Enums.Sorts;
 using IW5.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,12 +17,18 @@ namespace IW5.API.Controllers
             _questionsLogic = serviceManager.QuestionService;
         }
 
-        [HttpGet]
+        [HttpGet("all", Name = "GetAllQuestions")]
         public ActionResult<IQueryable<Question>> GetAll()
         {
             return Ok(_questionsLogic.GetAll());
         }
 
+        [HttpPatch("filtered", Name = "GetSortedOrSearchQuestions")]
+        public ActionResult<IQueryable<Form>> GetFilteredOrSorted(string searchString = "", QuestionSortType type = QuestionSortType.None)
+        {
+            return Ok(_questionsLogic.GetFilteredQuestions(searchString, type));
+        }
+        
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> Delete(Guid id)
         {
