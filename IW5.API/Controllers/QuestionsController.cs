@@ -8,7 +8,7 @@ namespace IW5.API.Controllers
 {
 
     [ApiController]
-    [Route("api/users/{userId}/forms/{formId}/questions")]
+    [Route("api/[controller]")]
     public class QuestionsController : ControllerBase
     {
         private readonly IQuestionBLogic _questionsLogic;

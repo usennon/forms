@@ -8,7 +8,7 @@ namespace IW5.API.Controllers
 {
 
     [ApiController]
-    [Route("api/users/{userId}/forms/{formId}/questions/{questionId}/options")]
+    [Route("api/[controller]")]
     public class OptionsController : ControllerBase
     {
         private readonly IOptionBLogic _optionsLogic;

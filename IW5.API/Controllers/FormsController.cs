@@ -9,7 +9,7 @@ namespace IW5.API.Controllers
 {
 
     [ApiController]
-    [Route("api/users/{userId}/forms")]
+    [Route("api/[controller]")]
     public class FormsController : ControllerBase
     {
         private readonly IFormBLogic _formLogic;

@@ -9,7 +9,7 @@ namespace IW5.API.Controllers
 {
 
     [ApiController]
-    [Route("api/users")]
+    [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
         private readonly IUserBLogic _userLogic;
@@ -53,7 +53,6 @@ namespace IW5.API.Controllers
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> UpdateUserAsync(Guid id, [FromBody] UserDetailModel user)
         {
-
             await _userLogic.UpdateAsync(id, user, true);
             return Ok();
         }
