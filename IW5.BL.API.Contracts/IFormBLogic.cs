@@ -7,7 +7,7 @@ namespace IW5.BL.API.Contracts
 {
     public interface IFormBLogic : IBLogic<Form, FormListModel, FormDetailModel>
     {
-        Task<IEnumerable<FormListModel>> GetFilteredForms(string substring, FormSortType type);
+        IEnumerable<FormListModel> GetFilteredForms(string substring, FormSortType type);
         Task<FormDetailModel> GetFormByTitleAsync(string title);
     }
 }

@@ -7,6 +7,6 @@ namespace IW5.BL.API.Contracts
 {
     public interface IQuestionBLogic : IBLogic<Question, QuestionListModel, QuestionDetailModel>
     {
-        Task<IEnumerable<QuestionListModel>> GetFilteredQuestions(string substring, QuestionSortType type);
+        IEnumerable<QuestionListModel> GetFilteredQuestions(string substring, QuestionSortType type);
     }
 }

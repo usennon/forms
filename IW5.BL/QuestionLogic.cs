@@ -29,25 +29,25 @@ namespace IW5.BL.API
             return _questionRepository.SearchQuestionByText(substring, false);
         }
 
-        private IQueryable<Question> SortQuestions(IQueryable<Question> searchQuery, QuestionSortType type)
+        private IEnumerable<QuestionListModel> SortQuestions(IQueryable<Question> searchQuery, QuestionSortType type)
         {
+            var result = _mapper.Map<List<QuestionListModel>>(searchQuery);
             switch (type)
             {
                 case QuestionSortType.AscendingName:
-                    return searchQuery.OrderBy(e => e.Text);
+                    return result.OrderBy(e => e.Text);
                 case QuestionSortType.DescendingName:
-                    return searchQuery.OrderByDescending(e => e.Text);
+                    return result.OrderByDescending(e => e.Text);
                 default:
-                    return searchQuery;
+                    return result;
             }
         }
 
-        public async Task<IEnumerable<QuestionListModel>> GetFilteredQuestions(string substring = "", QuestionSortType type = QuestionSortType.None)
+        public IEnumerable<QuestionListModel> GetFilteredQuestions(string substring = "", QuestionSortType type = QuestionSortType.None)
         {
             var searchedQuestions = SearchQuestions(substring);
             var filteredQuestions = SortQuestions(searchedQuestions, type);
-            var result = await filteredQuestions.ToListAsync();
-            return _mapper.Map<List<QuestionListModel>>(result);
+            return filteredQuestions;
         }
     }
 }

@@ -29,24 +29,26 @@ namespace IW5.BL.API
             return _userRepository.SearchUserByName(substring, false);
         }
 
-        private IQueryable<User> SortUsers(IQueryable<User> searchQuery, UserSortType type)
+        private IEnumerable<UserListModel> SortUsers(IQueryable<User> searchQuery, UserSortType type)
         {
+            var result = _mapper.Map<IEnumerable<UserListModel>>(searchQuery);
             switch (type) 
             {
                 case UserSortType.AscendingName:
-                    return searchQuery.OrderBy(e => e.Name);
+                    return result.OrderBy(e => e.Name);
                 case UserSortType.DescendingName:
-                    return searchQuery.OrderByDescending(e => e.Name);
-                default: return searchQuery;
+                    return result.OrderByDescending(e => e.Name);
+                default:
+                    return result;
             }
         }
 
-        public async Task<IEnumerable<UserListModel>> GetFilteredUsers(string substring = "", UserSortType type = UserSortType.None)
+        public IEnumerable<UserListModel> GetFilteredUsers(string substring = "", UserSortType type = UserSortType.None)
         {
             var searchedUsers = SearchUsers(substring);
             var filteredUsers = SortUsers(searchedUsers, type);
-            var result = await filteredUsers.ToListAsync();
-            return _mapper.Map<List<UserListModel>>(result);
+            return filteredUsers;
+
         }
     }
 }

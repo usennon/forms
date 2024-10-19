@@ -34,8 +34,8 @@ namespace IW5.BL.API
 
         public async Task<TDetailModel?> GetByIdAsync(Guid id)
         {
-            var ingredientEntity = await _baseRepository.GetByIdAsync(id, false);
-            return _mapper.Map<TDetailModel>(ingredientEntity);
+            var entity = await _baseRepository.GetByIdAsync(id, false);
+            return _mapper.Map<TDetailModel>(entity);
         }
 
         public async Task CreateOrUpdateAsync(TDetailModel model)
@@ -52,14 +52,14 @@ namespace IW5.BL.API
                 await _repositoryManager.SaveAsync();
         }
 
-        public async Task<TDetailModel> Create(TDetailModel ingredientModel)
+        public async Task<TDetailModel> Create(TDetailModel model)
         {
-            var ingredientEntity = _mapper.Map<TEntity>(ingredientModel);
+            var entity = _mapper.Map<TEntity>(model);
 
-            _baseRepository.Create(ingredientEntity);
+            _baseRepository.Create(entity);
             await _repositoryManager.SaveAsync();
 
-            var entityToReturn = _mapper.Map<TDetailModel>(ingredientEntity);
+            var entityToReturn = _mapper.Map<TDetailModel>(entity);
 
             return entityToReturn;
         }

@@ -35,34 +35,35 @@ namespace IW5.BL.API
             return _formRepository.SearchFormByTitle(substring, false);
         }
 
-        private IQueryable<Form> SortForms(IQueryable<Form> searchQuery, FormSortType type)
+        private IEnumerable<FormListModel> SortForms(IQueryable<Form> searchQuery, FormSortType type)
         {
+            var result = _mapper.Map<List<FormListModel>>(searchQuery);;
             switch (type)
             {
                 case FormSortType.AscendingTitle:
-                    return searchQuery.OrderBy(e => e.Title);
+                    return result.OrderBy(e => e.Title);
                 case FormSortType.DescendingTitle:
-                    return searchQuery.OrderByDescending(e => e.Title);
+                    return result.OrderByDescending(e => e.Title);
                 case FormSortType.AscendingStartDate:
-                    return searchQuery.OrderBy(e => e.StartDate);
+                    return result.OrderBy(e => e.StartDate);
                 case FormSortType.DescendingStartDate:
-                    return searchQuery.OrderByDescending(e => e.StartDate);
+                    return result.OrderByDescending(e => e.StartDate);
                 case FormSortType.AscendingEndDate:
-                    return searchQuery.OrderBy(e => e.EndDate);
+                    return result.OrderBy(e => e.EndDate);
                 case FormSortType.DescendingEndDate:
-                    return searchQuery.OrderByDescending(e => e.EndDate);
+                    return result.OrderByDescending(e => e.EndDate);
                 default: 
-                    return searchQuery;
+                    return result;
             }
         }
 
-        public async Task<IEnumerable<FormListModel>> GetFilteredForms(string substring = "", FormSortType type = FormSortType.None)
+        public IEnumerable<FormListModel> GetFilteredForms(string substring = "", FormSortType type = FormSortType.None)
         {
             var searchedForms = SearchForms(substring);
             var filteredForms = SortForms(searchedForms, type);
-            var result = await filteredForms.ToListAsync();
-            return _mapper.Map<List<FormListModel>>(result);
+            return filteredForms;
         }
+        
     }
 }
 

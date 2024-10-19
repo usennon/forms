@@ -86,7 +86,7 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
         await _formLogic.CreateOrUpdateAsync(formModel2);
 
         // Act:
-        var result = await _formLogic.GetFilteredForms("Survey");
+        var result = _formLogic.GetFilteredForms("Survey");
 
         // Assert: 
         result.Should().NotBeEmpty();
@@ -94,10 +94,10 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
     }
 
     [Fact]
-    public async Task GetFilteredForms_ShouldReturnFormsSortedByStartDate()
+    public void GetFilteredForms_ShouldReturnFormsSortedByStartDate()
     {
         // Act: 
-        var result = await _formLogic.GetFilteredForms(type: FormSortType.AscendingStartDate);
+        var result =  _formLogic.GetFilteredForms(type: FormSortType.AscendingStartDate);
 
         // Assert: 
         result.Should().NotBeEmpty();

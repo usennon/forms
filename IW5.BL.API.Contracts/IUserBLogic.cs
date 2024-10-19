@@ -7,6 +7,6 @@ namespace IW5.BL.API.Contracts
 {
     public interface IUserBLogic : IBLogic<User, UserListModel, UserDetailModel>
     {
-        Task<IEnumerable<UserListModel>> GetFilteredUsers(string substring, UserSortType type);
+        IEnumerable<UserListModel> GetFilteredUsers(string substring, UserSortType type);
     }
 }
