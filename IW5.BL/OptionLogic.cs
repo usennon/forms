@@ -5,10 +5,11 @@ using IW5.BL.API.Contracts;
 using AutoMapper;
 using IW5.DAL.Contracts;
 using IW5.DAL.Repository;
+using IW5.BL.Models.ManipulationModels.OptionModels;
 
 namespace IW5.BL.API
 {
-    public class OptionLogic : BaseLogic<Option, OptionListModel, OptionDetailModel>, IOptionBLogic
+    public class OptionLogic : BaseLogic<Option, OptionListModel, OptionDetailModel, OptionForManipulationDTO>, IOptionBLogic
     {
         private readonly IOptionRepository _optionRepository;
         private readonly IMapper _mapper;

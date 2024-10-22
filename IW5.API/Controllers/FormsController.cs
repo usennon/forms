@@ -1,6 +1,7 @@
 ﻿using IW5.BL.API;
 using IW5.BL.API.Contracts;
 using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ManipulationModels.FormsModels;
 using IW5.Common.Enums.Sorts;
 using IW5.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -44,14 +45,14 @@ namespace IW5.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateForm([FromBody] FormDetailModel form)
+        public async Task<ActionResult> CreateForm([FromBody] FormForManipulationDTO form)
         {
             var result = await _formLogic.Create(form);
             return CreatedAtRoute("FormById", new { id = result.Id }, result);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult> UpdateFormAsync(Guid id, [FromBody] FormDetailModel form)
+        public async Task<ActionResult> UpdateFormAsync(Guid id, [FromBody] FormForManipulationDTO form)
         {
             await _formLogic.UpdateAsync(id, form, true);
             return Ok();

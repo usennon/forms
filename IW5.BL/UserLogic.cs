@@ -2,6 +2,7 @@
 using IW5.BL.API.Contracts;
 using IW5.BL.Models.DetailModels;
 using IW5.BL.Models.ListModels;
+using IW5.BL.Models.ManipulationModels.UserModels;
 using IW5.Common.Enums.Sorts;
 using IW5.DAL.Contracts;
 using IW5.DAL.Repository;
@@ -11,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace IW5.BL.API
 {    
     public class UserLogic : 
-        BaseLogic<User, UserListModel, UserDetailModel>, 
+        BaseLogic<User, UserListModel, UserDetailModel, UserForManipulationDTO>, 
         IUserBLogic
     {
         private readonly IUserRepository _userRepository;

@@ -1,6 +1,7 @@
 ﻿using IW5.BL.API.Contracts;
 using IW5.BL.Models.DetailModels;
 using IW5.BL.Models.ListModels;
+using IW5.BL.Models.ManipulationModels.UserModels;
 using IW5.Common.Enums.Sorts;
 using IW5.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -44,14 +45,14 @@ namespace IW5.API.Controllers
         }
 
         [HttpPost(Name = "CreateUser")]
-        public async Task<ActionResult> CreateUser([FromBody] UserDetailModel user)
+        public async Task<ActionResult> CreateUser([FromBody] UserForManipulationDTO user)
         {
             var result = await _userLogic.Create(user);
             return CreatedAtRoute("UserById", new { id = result.Id }, result);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult> UpdateUserAsync(Guid id, [FromBody] UserDetailModel user)
+        public async Task<ActionResult> UpdateUserAsync(Guid id, [FromBody] UserForManipulationDTO user)
         {
             await _userLogic.UpdateAsync(id, user, true);
             return Ok();

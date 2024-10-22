@@ -1,6 +1,7 @@
 ﻿using IW5.BL.API;
 using IW5.BL.API.Contracts;
 using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ManipulationModels.OptionModels;
 using IW5.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,14 +38,14 @@ namespace IW5.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateOption([FromBody] OptionDetailModel option)
+        public async Task<ActionResult> CreateOption([FromBody] OptionForManipulationDTO option)
         {
             var result = await _optionsLogic.Create(option);
             return CreatedAtRoute("OptionById", new { id = result.Id }, result);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult> UpdateOptionAsync(Guid id, [FromBody] OptionDetailModel option)
+        public async Task<ActionResult> UpdateOptionAsync(Guid id, [FromBody] OptionForManipulationDTO option)
         {
             await _optionsLogic.UpdateAsync(id, option, true);
             return Ok();
