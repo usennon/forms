@@ -7,13 +7,16 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using IW5.Models.Entities;
 using IW5.BL.Models.ListModels;
 using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ManipulationModels;
 
 namespace IW5.BL.API
 {
-    public abstract class BaseLogic<TEntity, TListModel, TDetailModel> : IBLogic<TEntity, TListModel, TDetailModel>
+    public abstract class BaseLogic<TEntity, TListModel, TDetailModel, TManipulationModel>
+        : IBLogic<TEntity, TListModel, TDetailModel, TManipulationModel>
         where TEntity : BaseEntity, new()
         where TListModel : ListModelBase
         where TDetailModel : DetailModelBase
+        where TManipulationModel : IManipulationDTO
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IRepo<TEntity> _baseRepository;
@@ -38,21 +41,21 @@ namespace IW5.BL.API
             return _mapper.Map<TDetailModel>(entity);
         }
 
-        public async Task CreateOrUpdateAsync(TDetailModel model)
-        {
+        //public async Task CreateOrUpdateAsync(TManipulationModel model)
+        //{
 
-                if (await _baseRepository.ExistsAsync(model.Id))
-                {
-                    await UpdateAsync(model.Id, model, true);
-                }
-                else
-                {
-                    Create(model);
-                }
-                await _repositoryManager.SaveAsync();
-        }
+        //        if (await _baseRepository.ExistsAsync(model.Id))
+        //        {
+        //            await UpdateAsync(model.Id, model, true);
+        //        }
+        //        else
+        //        {
+        //            Create(model);
+        //        }
+        //        await _repositoryManager.SaveAsync();
+        //}
 
-        public async Task<TDetailModel> Create(TDetailModel model)
+        public async Task<TDetailModel> Create(TManipulationModel model)
         {
             var entity = _mapper.Map<TEntity>(model);
 
@@ -64,7 +67,7 @@ namespace IW5.BL.API
             return entityToReturn;
         }
 
-        public async Task UpdateAsync(Guid id, TDetailModel dtoModel, bool trackChanges)
+        public async Task UpdateAsync(Guid id, TManipulationModel dtoModel, bool trackChanges)
         {
             var entity = await _baseRepository.GetByIdAsync(id, trackChanges);
             if (entity is null)

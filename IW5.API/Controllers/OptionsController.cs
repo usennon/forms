@@ -1,6 +1,7 @@
 ﻿using IW5.BL.API;
 using IW5.BL.API.Contracts;
 using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ManipulationModels.OptionModels;
 using IW5.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,7 +46,7 @@ namespace IW5.API.Controllers
 
         // POST: api/Options
         [HttpPost]
-        public async Task<ActionResult> CreateOption([FromBody] OptionDetailModel option)
+        public async Task<ActionResult> CreateOption([FromBody] OptionForManipulationDTO option)
         {
             if (option == null)
             {
@@ -63,7 +64,7 @@ namespace IW5.API.Controllers
 
         // PUT: api/Options/{id}
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult> UpdateOptionAsync(Guid id, [FromBody] OptionDetailModel option)
+        public async Task<ActionResult> UpdateOptionAsync(Guid id, [FromBody] OptionForManipulationDTO option)
         {
             if (option == null || id != option.Id)
             {

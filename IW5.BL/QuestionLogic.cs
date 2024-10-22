@@ -2,6 +2,7 @@
 using IW5.BL.API.Contracts;
 using IW5.BL.Models.DetailModels;
 using IW5.BL.Models.ListModels;
+using IW5.BL.Models.ManipulationModels.QuestionModels;
 using IW5.Common.Enums.Sorts;
 using IW5.DAL.Contracts;
 using IW5.DAL.Repository;
@@ -11,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace IW5.BL.API
 {
     public class QuestionLogic :
-        BaseLogic<Question, QuestionListModel, QuestionDetailModel>,
+        BaseLogic<Question, QuestionListModel, QuestionDetailModel, QuestionForManipulationDTO>,
         IQuestionBLogic
     {
         private readonly IQuestionRepository _questionRepository;

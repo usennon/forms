@@ -1,5 +1,6 @@
 ﻿using IW5.BL.API.Contracts;
 using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ManipulationModels.QuestionModels;
 using IW5.Common.Enums.Sorts;
 using IW5.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -43,14 +44,14 @@ namespace IW5.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] QuestionDetailModel question)
+        public async Task<ActionResult> Create([FromBody] QuestionForManipulationDTO question)
         {
             var result = await _questionsLogic.Create(question);
             return CreatedAtRoute("QuestionById", new { id = result.Id }, result);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult> UpdateQuestionAsync(Guid id, [FromBody] QuestionDetailModel question)
+        public async Task<ActionResult> UpdateQuestionAsync(Guid id, [FromBody] QuestionForManipulationDTO question)
         {
             await _questionsLogic.UpdateAsync(id, question, true);
             return Ok();
