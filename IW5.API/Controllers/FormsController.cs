@@ -1,60 +1,88 @@
-﻿using IW5.BL.API;
-using IW5.BL.API.Contracts;
+﻿using IW5.BL.API.Contracts;
 using IW5.BL.Models.DetailModels;
 using IW5.Common.Enums.Sorts;
 using IW5.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IW5.API.Controllers
+[ApiController]
+[Route("api/[controller]")]
+public class FormsController : ControllerBase
 {
+    private readonly IFormBLogic _formLogic;
 
-    [ApiController]
-    [Route("api/[controller]")]
-    public class FormsController : ControllerBase
+    public FormsController(IServiceManager serviceManager)
     {
-        private readonly IFormBLogic _formLogic;
-        public FormsController(IServiceManager serviceManager)
+        _formLogic = serviceManager.FormService;
+    }
+
+    [HttpGet("all", Name = "GetAllForms")]
+    public async Task<ActionResult<List<Form>>> GetAll()
+    {
+        var forms =  _formLogic.GetAll();
+        return Ok(forms.ToList());
+    }
+
+    [HttpGet("filter/{type}/{searchString?}")]
+    public ActionResult<List<Form>> GetFilteredOrSorted(FormSortType type, string searchString = "")
+    {
+        var forms = _formLogic.GetFilteredForms(searchString, type);
+        return Ok(forms.ToList());
+    }
+
+    [HttpGet("{id:guid}", Name = "FormById")]
+    public async Task<ActionResult<Form>> GetById(Guid id)
+    {
+        var form = await _formLogic.GetByIdAsync(id);
+        if (form == null)
         {
-            _formLogic = serviceManager.FormService;
+            return NotFound();
         }
 
-        [HttpGet("all", Name = "GetAllForms")]
-        public ActionResult<IQueryable<Form>> GetAll()
+        return Ok(form);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> CreateForm([FromBody] FormDetailModel form)
+    {
+        if (!ModelState.IsValid)
         {
-            return Ok(_formLogic.GetAll());
-        }
-        
-        [HttpGet("filtered", Name = "GetSortedOrSearchForms")]
-        public ActionResult<IQueryable<Form>> GetFilteredOrSorted(FormSortType type, string searchString = "")
-        {
-            return Ok(_formLogic.GetFilteredForms(searchString, type));
+            return BadRequest(ModelState);
         }
 
-        [HttpDelete("{id:guid}")]
-        public async Task<ActionResult> Delete(Guid id)
+        var result = await _formLogic.Create(form);
+        return CreatedAtRoute("FormById", new { id = result.Id }, result);
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<ActionResult> UpdateFormAsync(Guid id, [FromBody] FormDetailModel form)
+    {
+        if (!ModelState.IsValid)
         {
-            await _formLogic.DeleteAsync(id, false);
-            return NoContent();
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("{id:guid}", Name = "FormById")]
-        public async Task<ActionResult<IQueryable<Form>>> GetById(Guid id)
+        var existingForm = await _formLogic.GetByIdAsync(id);
+        if (existingForm == null)
         {
-            return Ok(await _formLogic.GetByIdAsync(id));
+            return NotFound();
         }
 
-        [HttpPost]
-        public async Task<ActionResult> CreateForm([FromBody] FormDetailModel form)
+        await _formLogic.UpdateAsync(existingForm.Id, form, true);
+
+        return Ok(); 
+    }
+
+
+    [HttpDelete("{id:guid}")]
+    public async Task<ActionResult> Delete(Guid id)
+    {
+        var form = await _formLogic.GetByIdAsync(id);
+        if (form == null)
         {
-            var result = await _formLogic.Create(form);
-            return CreatedAtRoute("FormById", new { id = result.Id }, result);
+            return NotFound();
         }
 
-        [HttpPut("{id:guid}")]
-        public async Task<ActionResult> UpdateFormAsync(Guid id, [FromBody] FormDetailModel form)
-        {
-            await _formLogic.UpdateAsync(id, form, true);
-            return Ok();
-        }
+        await _formLogic.DeleteAsync(id, false);
+        return Ok();
     }
 }

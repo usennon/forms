@@ -28,7 +28,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IW5.BL.Models", "IW5.BL.Mod
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{28907FCF-8F39-47DF-9EE3-C209CD3BDF15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IW5.BL.Tests", "IW5.BL.Tests\IW5.BL.Tests.csproj", "{7C4B6F21-413A-4655-A532-86DA4FF17343}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IW5.BL.Tests", "IW5.BL.Tests\IW5.BL.Tests.csproj", "{7C4B6F21-413A-4655-A532-86DA4FF17343}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IW5.API.Tests", "IW5.API.Tests\IW5.API.Tests.csproj", "{3FE2330C-B827-415C-9090-1A8110714FB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,6 +82,10 @@ Global
 		{7C4B6F21-413A-4655-A532-86DA4FF17343}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C4B6F21-413A-4655-A532-86DA4FF17343}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C4B6F21-413A-4655-A532-86DA4FF17343}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FE2330C-B827-415C-9090-1A8110714FB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FE2330C-B827-415C-9090-1A8110714FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FE2330C-B827-415C-9090-1A8110714FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FE2330C-B827-415C-9090-1A8110714FB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
