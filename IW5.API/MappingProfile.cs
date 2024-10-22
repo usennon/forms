@@ -44,6 +44,7 @@ namespace IW5.API
             // option mapper
             CreateMap<Option, OptionListModel>();
             CreateMap<OptionForManipulationDTO, Option>().ReverseMap();
+            CreateMap<Option, OptionDetailModel>();
         }
     }
 }
