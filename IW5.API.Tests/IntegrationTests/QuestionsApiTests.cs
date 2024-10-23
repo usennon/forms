@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 using FluentAssertions;
 using IW5.BL.Models.DetailModels;
 using IW5.BL.Models.ManipulationModels.QuestionModels;
 using IW5.Common.Enums.Sorts;
+using IW5.DAL.Initialization;
 using IW5.DAL.Tests.Base;
 using Xunit;
 
@@ -75,6 +77,7 @@ namespace IW5.API.Tests
             {
                 Description = "Test question description",
                 IsRequired = true,
+                FormId = SampleData.Forms.First().Id,
                 Text = "Test question text"
             };
 
@@ -95,8 +98,9 @@ namespace IW5.API.Tests
             var testQuestionId = Guid.Parse("5bc27217-6817-40e4-b8d1-60dc9aca3e83"); // Assuming this question exists
             var updatedQuestion = await client.Value.GetAsync($"/api/Questions/{testQuestionId}");
             var question = await updatedQuestion.Content.ReadFromJsonAsync<QuestionDetailModel>();
-            question.Text = "Updated Test Question";
-            
+            question!.Text = "Updated Test Question";
+            question!.Description = "Some descripton here";
+
 
             // Act
             var response = await client.Value.PutAsJsonAsync($"/api/Questions/{testQuestionId}", question);

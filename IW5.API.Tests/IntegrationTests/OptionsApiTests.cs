@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using IW5.BL.Models.ListModels;
 using IW5.BL.Models.ManipulationModels.OptionModels;
+using IW5.DAL.Initialization;
 using IW5.DAL.Tests.Base;
 using Xunit;
 
@@ -71,6 +72,7 @@ namespace IW5.API.Tests
             var newOption = new OptionForManipulationDTO
             {
                 Text = "Test Option",
+                QuestionId = SampleData.Questions.First().Id,
                 IsCheked = false
             };
 
@@ -103,6 +105,7 @@ namespace IW5.API.Tests
             var updatedOption = new OptionForManipulationDTO
             {
                 Text = "Updated Option",
+                QuestionId = SampleData.Questions.First().Id,
                 IsCheked = true
             };
 

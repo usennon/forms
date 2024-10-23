@@ -98,8 +98,8 @@ namespace IW5.API.Tests
             var testFormId = Guid.Parse("34a2a6b7-84e6-4ffb-9cd7-f506e7f853b7"); // Assuming this form exists
             var updatedForm = await client.Value.GetAsync($"/api/Forms/{testFormId}");
             var form =  await updatedForm.Content.ReadFromJsonAsync<FormDetailModel>();
-            form.Title = "Updated Test Form";
-            form.AuthorName = "Updated Author";
+            form!.Title = "Updated Test Form";
+            form!.AuthorName = "Updated Author";
             // Act
 
             var response = await client.Value.PutAsJsonAsync($"/api/Forms/{testFormId}", form);

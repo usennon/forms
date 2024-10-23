@@ -13,7 +13,7 @@ namespace IW5.API.Tests
             {
                 // Load controller assemblies
                 var controllerAssemblyName = typeof(Program).Assembly.FullName;
-                collection.AddMvc().AddApplicationPart(Assembly.Load(controllerAssemblyName));
+                collection.AddMvc().AddApplicationPart(Assembly.Load(controllerAssemblyName!));
             });
             return base.CreateHost(builder);
         }

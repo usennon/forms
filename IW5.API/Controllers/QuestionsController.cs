@@ -1,4 +1,5 @@
-﻿using IW5.BL.API.Contracts;
+﻿using IW5.BL.API;
+using IW5.BL.API.Contracts;
 using IW5.BL.Models.DetailModels;
 using IW5.BL.Models.ManipulationModels.QuestionModels;
 using IW5.Common.Enums.Sorts;
@@ -58,6 +59,16 @@ namespace IW5.API.Controllers
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> UpdateQuestionAsync(Guid id, [FromBody] QuestionForManipulationDTO question)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingQuestion = await _questionsLogic.GetByIdAsync(id);
+            if (existingQuestion == null)
+            {
+                return NotFound();
+            }
             await _questionsLogic.UpdateAsync(id, question, true);
             return Ok();
         }

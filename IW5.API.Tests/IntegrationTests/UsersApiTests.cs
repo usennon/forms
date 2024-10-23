@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 using FluentAssertions;
 using IW5.BL.Models.DetailModels;
@@ -98,6 +99,7 @@ namespace IW5.API.Tests
             var updatedUser = await client.Value.GetAsync($"/api/Users/{testUserId}");
             var user = await updatedUser.Content.ReadFromJsonAsync<UserDetailModel>();
             user.Name = "Updated Test User";
+            user.PhotoUrl = "some url";
             // Act
 
             var response = await client.Value.PutAsJsonAsync($"/api/Users/{testUserId}", user);
