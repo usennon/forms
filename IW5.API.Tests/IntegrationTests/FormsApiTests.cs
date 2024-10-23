@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using IW5.BL.Models.DetailModels;
 using IW5.BL.Models.ListModels;
+using IW5.BL.Models.ManipulationModels.FormsModels;
+using IW5.DAL.Tests.Base;
 using Xunit;
 
 namespace IW5.API.Tests
 {
-    public class FormsControllerTests : IAsyncDisposable
+    public class FormsControllerTests : IAsyncDisposable, IClassFixture<EnsureIW5DatabaseTestFixture>
     {
         private readonly CustomWebApplicationFactory application;
         private readonly Lazy<HttpClient> client;
@@ -68,16 +70,14 @@ namespace IW5.API.Tests
         public async Task CreateForm_Returns_CreatedForm()
         {
             // Arrange
-            var newForm = new FormDetailModel
-            {
-                Id = Guid.NewGuid(),
-                AuthorId = Guid.Parse("980745cb-b407-4b72-9a6b-1d5c9cf6a5ef"),
+            var newForm = new FormForManipulationDTO
+            { 
                 Title = "New Test Form",
-                AuthorName = "Test Author",
                 StartDate = DateTime.UtcNow,
                 EndDate = DateTime.UtcNow.AddHours(1),
-                CreatedAt = DateTime.UtcNow
-               // Questions = new List<QuestionListModel>()
+                AuthorId = Guid.Parse("7d5a7f7b-4a0d-41b6-9b9f-02c68c5d8b99") // Assuming this author exists
+
+                // Questions = new List<QuestionListModel>()
             };
 
             // Act
@@ -112,7 +112,7 @@ namespace IW5.API.Tests
         public async Task DeleteForm_Returns_OK_On_SuccessfulDeletion()
         {
             // Arrange
-            var testFormId = Guid.Parse("34a2a6b7-84e6-4ffb-9cd7-f506e7f853b7"); // Assuming this form exists
+            var testFormId = Guid.Parse("c9f89913-d2e9-46b7-b013-30b9d256d502"); // Assuming this form exists
 
             // Act
             var response = await client.Value.DeleteAsync($"/api/Forms/{testFormId}");

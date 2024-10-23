@@ -5,11 +5,12 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using FluentAssertions;
 using IW5.BL.Models.ListModels;
+using IW5.DAL.Tests.Base;
 using Xunit;
 
 namespace IW5.API.Tests
 {
-    public class OptionsControllerTests : IAsyncDisposable
+    public class OptionsControllerTests : IAsyncDisposable, IClassFixture<EnsureIW5DatabaseTestFixture>
     {
         private readonly CustomWebApplicationFactory application;
         private readonly Lazy<HttpClient> client;

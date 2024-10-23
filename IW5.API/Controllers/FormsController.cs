@@ -43,7 +43,7 @@ public class FormsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateForm([FromBody] FormDetailModel form)
+    public async Task<ActionResult> CreateForm([FromBody] FormForManipulationDTO form)
     {
         if (!ModelState.IsValid)
         {
@@ -55,7 +55,7 @@ public class FormsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult> UpdateFormAsync(Guid id, [FromBody] FormDetailModel form)
+    public async Task<ActionResult> UpdateFormAsync(Guid id, [FromBody] FormForManipulationDTO form)
     {
         if (!ModelState.IsValid)
         {

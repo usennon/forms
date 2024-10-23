@@ -40,7 +40,12 @@ namespace IW5.API.Controllers
         [HttpGet("{id:guid}", Name = "QuestionById")]
         public async Task<ActionResult<IQueryable<Question>>> GetById(Guid id)
         {
-            return Ok(await _questionsLogic.GetByIdAsync(id));
+            var question = await _questionsLogic.GetByIdAsync(id);
+            if (question == null)
+            {
+                return NotFound();
+            }
+            return Ok(question);
         }
 
         [HttpPost]

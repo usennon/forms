@@ -66,7 +66,7 @@ namespace IW5.API.Controllers
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> UpdateOptionAsync(Guid id, [FromBody] OptionForManipulationDTO option)
         {
-            if (option == null || id != option.Id)
+            if (option == null)
             {
                 return BadRequest("Invalid data."); // Return 400 Bad Request if input data is invalid
             }

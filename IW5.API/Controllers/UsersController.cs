@@ -41,7 +41,12 @@ namespace IW5.API.Controllers
         [HttpGet("{id:guid}", Name = "UserById")]
         public async Task<ActionResult<IQueryable<User>>> GetById(Guid id)
         {
-            return Ok(await _userLogic.GetByIdAsync(id));
+            var user = await _userLogic.GetByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
         }
 
         [HttpPost(Name = "CreateUser")]
