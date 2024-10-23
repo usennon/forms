@@ -8,6 +8,7 @@ using IW5.BL.Tests.Base;
 using IW5.DAL.Initialization;
 using IW5.Common.Enums.Sorts;
 using IW5.API;
+using IW5.BL.Models.ManipulationModels.FormsModels;
 
 namespace IW5.BL.Tests.BLTests;
 
@@ -30,9 +31,8 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
     public async Task CreateForm_WithExecutionStrategy_ShouldSucceed()
     {
         // Arrange
-        var formModel = new FormDetailModel
+        var formModel = new FormForManipulationDTO
         {
-            Id = Guid.NewGuid(),
             Title = "Test Form",
             AuthorId = SampleData.Users.First().Id,
             StartDate = DateTime.UtcNow,
@@ -41,7 +41,7 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
 
 
         // Act: create the form
-        await _formLogic.CreateOrUpdateAsync(formModel);
+        await _formLogic.Create(formModel);
 
         // Assert: check if the form was created
         var forms = _formLogic.GetAll();
@@ -65,25 +65,23 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
     public async Task GetFilteredForms_ShouldReturnFormsContainingSubstring()
     {
         // Arrange:
-        var formModel1 = new FormDetailModel
+        var formModel1 = new FormForManipulationDTO
         {
-            Id = Guid.NewGuid(),
             Title = "Survey Form 1",
             AuthorId = SampleData.Users.First().Id,
             StartDate = DateTime.UtcNow,
             EndDate = DateTime.UtcNow.AddDays(7)
         };
-        await _formLogic.CreateOrUpdateAsync(formModel1);
+        await _formLogic.Create(formModel1);
 
-        var formModel2 = new FormDetailModel
+        var formModel2 = new FormForManipulationDTO
         {
-            Id = Guid.NewGuid(),
             Title = "Feedback Form 2",
             AuthorId = SampleData.Users.First().Id,
             StartDate = DateTime.UtcNow,
             EndDate = DateTime.UtcNow.AddDays(7)
         };
-        await _formLogic.CreateOrUpdateAsync(formModel2);
+        await _formLogic.Create(formModel2);
 
         // Act:
         var result = _formLogic.GetFilteredForms("Survey");
@@ -120,18 +118,17 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
     public async Task GetFormById_ShouldReturnDetailedFormInformation()
     {
         // Arrange
-        var formModel = new FormDetailModel
+        var formModel = new FormForManipulationDTO
         {
-            Id = Guid.NewGuid(),
             Title = "Detailed Test Form",
             AuthorId = SampleData.Users.First().Id,
             StartDate = DateTime.UtcNow,
             EndDate = DateTime.UtcNow.AddDays(7)
         };
-        await _formLogic.CreateOrUpdateAsync(formModel);
+        await _formLogic.Create(formModel);
 
         // Act
-        var result = await _formLogic.GetByIdAsync(formModel.Id);
+        var result = await _formLogic.GetFormByTitleAsync(formModel.Title);
 
         // Assert
         result.Should().NotBeNull();
@@ -144,17 +141,15 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
     public async Task CreateMultipleForms_WithSameTitle_ShouldSucceed()
     {
         // Arrange
-        var formModel1 = new FormDetailModel
+        var formModel1 = new FormForManipulationDTO
         {
-            Id = Guid.NewGuid(),
             Title = "Duplicate Title Form",
             AuthorId = SampleData.Users.First().Id,
             StartDate = DateTime.UtcNow,
             EndDate = DateTime.UtcNow.AddDays(7)
         };
-        var formModel2 = new FormDetailModel
+        var formModel2 = new FormForManipulationDTO
         {
-            Id = Guid.NewGuid(),
             Title = "Duplicate Title Form",
             AuthorId = SampleData.Users.First().Id,
             StartDate = DateTime.UtcNow,
@@ -162,8 +157,8 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
         };
 
         // Act
-        await _formLogic.CreateOrUpdateAsync(formModel1);
-        await _formLogic.CreateOrUpdateAsync(formModel2);
+        await _formLogic.Create(formModel1);
+        await _formLogic.Create(formModel2);
 
         // Assert
         var forms = _formLogic.GetAll();
