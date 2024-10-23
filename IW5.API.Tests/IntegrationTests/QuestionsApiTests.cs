@@ -96,6 +96,7 @@ namespace IW5.API.Tests
             var updatedQuestion = await client.Value.GetAsync($"/api/Questions/{testQuestionId}");
             var question = await updatedQuestion.Content.ReadFromJsonAsync<QuestionDetailModel>();
             question.Text = "Updated Test Question";
+            
 
             // Act
             var response = await client.Value.PutAsJsonAsync($"/api/Questions/{testQuestionId}", question);
