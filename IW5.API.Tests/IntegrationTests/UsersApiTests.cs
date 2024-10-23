@@ -14,12 +14,13 @@ using Xunit;
 
 namespace IW5.API.Tests
 {
-    public class UsersControllerTests : IAsyncDisposable, IClassFixture<EnsureIW5DatabaseTestFixture>
+    [Collection("Integration Tests")]
+    public class UsersControllerTests : BaseTest, IClassFixture<EnsureIW5DatabaseTestFixture>//, IAsyncDisposable
     {
         private readonly CustomWebApplicationFactory application;
         private readonly Lazy<HttpClient> client;
 
-        public UsersControllerTests()
+        public UsersControllerTests() : base()
         {
             application = new CustomWebApplicationFactory();
             client = new Lazy<HttpClient>(application.CreateClient());

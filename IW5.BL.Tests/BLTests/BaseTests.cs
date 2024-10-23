@@ -17,7 +17,7 @@ namespace IW5.BL.Tests.Base
 
         protected BaseTest(EnsureIW5DatabaseTestFixture fixture)
         {
-            _context = fixture.GetContext(); // Используем контекст из фикстуры
+            _context = fixture.GetContext();
             _repositoryManager = new RepositoryManager(_context);
         }
 
