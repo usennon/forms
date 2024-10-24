@@ -74,7 +74,7 @@ steps:
     azureSubscription: '$(azureSubscription)'
     appType: 'webApp'
     appName: '$(appName)'
-    package: '$(Pipeline.Workspace)/drop/WebApp.zip'   # Ensure this path is correct
+    Package: '$(build.artifactStagingDirectory)/**/*.zip'
     appSettings: |
       -Name1 $(Value1)
       -Name2 $(Value2)
