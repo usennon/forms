@@ -33,23 +33,16 @@ namespace IW5.API
 
 
             var app = builder.Build();
-            if (app.Environment.IsDevelopment())
-            {
                 if (configuration.GetValue<bool>("RebuildDataBase"))
                 {
                     SampleDataInitializer.InitializeData(new FormsDbContext(
                                                new DbContextOptionsBuilder<FormsDbContext>()
                                                                           .UseSqlServer(connectionString).Options));
                 }
+
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            }
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            
 
             app.UseHttpsRedirection();
 
