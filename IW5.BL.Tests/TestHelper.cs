@@ -10,7 +10,7 @@ namespace IW5.BL.Tests
         public static IConfiguration GetConfiguration() =>
             new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile("appsettings.Development.json", false, true)
                 .Build();
 
         public static FormsDbContext GetContext(IConfiguration configuration)

@@ -15,20 +15,20 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageReference Include="xunit" Version="2.5.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IW5.API\IW5.API.csproj" />
     <ProjectReference Include="..\IW5.Common\IW5.Common.csproj" />
     <ProjectReference Include="..\IW5.DAL.Contracts\IW5.DAL.Contracts.csproj" />
     <ProjectReference Include="..\IW5.DAL.Repository\IW5.DAL.Repository.csproj" />
     <ProjectReference Include="..\IW5.DAL\IW5.DAL.csproj" />
     <ProjectReference Include="..\IW5.Models\IW5.Models.csproj" />
+	<AdditionalFiles Include="..\IW5.API\appsettings.Development.json" />
   </ItemGroup>
 	<ItemGroup>
 		<Using Include="Xunit" />
-		<None Update="appsettings.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 	</ItemGroup>
   <ItemGroup>
     <Using Include="Xunit" />
