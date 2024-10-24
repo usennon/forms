@@ -27,10 +27,7 @@ steps:
   inputs:
     folderPath: '$(Build.SourcesDirectory)'
     jsonTargetFiles: '**/appsettings*.json'  
-- task: FileTransform@2
-  inputs:
-    folderPath: '$(Build.SourcesDirectory)'
-    jsonTargetFiles: '**/appsettings.Development*.json' 
+
 
 - task: VSBuild@1
   inputs:
