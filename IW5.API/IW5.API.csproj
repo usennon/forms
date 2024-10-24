@@ -25,5 +25,10 @@
     <ProjectReference Include="..\IW5.DAL.Repository\IW5.DAL.Repository.csproj" />
     <ProjectReference Include="..\IW5.Models\IW5.Models.csproj" />
   </ItemGroup>
+	<ItemGroup>
+		<None Update="..\IW5.API\appsettings.Development.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>

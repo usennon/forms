@@ -33,5 +33,9 @@
   <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
-
+	<ItemGroup>
+		<None Update="..\IW5.API\appsettings.Development.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>
