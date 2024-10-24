@@ -51,7 +51,15 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(Build.ArtifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+# Publish the web application to a folder
+- task: VSBuild@1
+  displayName: 'Publish Web App'
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:WebPublishMethod=FileSystem /p:PublishProfile=FolderProfile /p:publishUrl="$(Build.ArtifactStagingDirectory)\publish"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
@@ -61,10 +69,19 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-# Publish the artifact (Web Deploy package)
+# Archive the published output
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)\publish'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)\WebApp.zip'
+    replaceExistingArchive: true
+
+# Publish the artifact (WebApp.zip)
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\WebApp.zip'
     ArtifactName: 'drop'
     publishLocation: 'Container'
 
@@ -74,7 +91,7 @@ steps:
     azureSubscription: '$(azureSubscription)'
     appType: 'webApp'
     appName: '$(appName)'
-    Package: '$(build.artifactStagingDirectory)/**/*.zip'
+    package: '$(build.artifactStagingDirectory)/**/*.zip'
     appSettings: |
       -Name1 $(Value1)
       -Name2 $(Value2)
