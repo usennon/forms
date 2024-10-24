@@ -1,62 +1,47 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
 trigger:
-  branches:
-    include:
-      - main
+- api.tests
+
+pool:
+  vmImage: 'windows-latest'
 
 variables:
-  azureSubscription: 'AzureServiceConnection' # Replace with your service connection name
-  appName: 'app-iw5-2024-team-xpopov10-api' # Replace with your Azure App Service name
-  environmentName: 'production'
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  # Secret variables should be defined in the pipeline variables UI, not here
 
-stages:
-  - stage: Build
-    displayName: Build Stage
-    jobs:
-      - job: Build
-        displayName: Build Job
-        pool:
-          vmImage: 'windows-latest'
-        steps:
-          - task: UseDotNet@2
-            inputs:
-              packageType: 'sdk'
-              version: '8.0.x' # Use the version appropriate for your app
+steps:
+- task: NuGetToolInstaller@1
 
-          - task: DotNetCoreCLI@2
-            displayName: 'Build Solution'
-            inputs:
-                command: 'build'
-                projects: '**/*.sln'
-    
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
 
-          - task: DotNetCoreCLI@2
-            displayName: 'Publish Artifact'
-            inputs:
-              command: 'publish'
-              publishWebProjects: true
-              arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
-              zipAfterPublish: true
+# Add the File Transform task to perform variable substitution
+- task: replacetokens@5
+  inputs:
+    targetFiles: '**/appsettings*.json'
+    encoding: 'auto'
+    writeBOM: true
+    actionOnMissing: 'warn'
+    keepToken: false
+    tokenPrefix: '#{'
+    tokenSuffix: '}#'
 
-          - publish: $(Build.ArtifactStagingDirectory)
-            artifact: drop
 
-  - stage: Deploy
-    displayName: Deploy Stage
-    dependsOn: Build
-    jobs:
-      - deployment: DeployWeb
-        displayName: Deploy Job
-        environment: $(environmentName)
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - download: current
-                  artifact: drop
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
 
-                - task: AzureWebApp@1
-                  inputs:
-                    azureSubscription: $(azureSubscription)
-                    appType: webApp
-                    appName: $(appName)
-                    package: $(Pipeline.Workspace)/drop/**/*.zip
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
