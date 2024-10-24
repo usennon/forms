@@ -365,3 +365,6 @@ FodyWeavers.xsd
 appsettings.json
 /IW5.API/appsettings.Development.json
 /IW5.DAL/Factories/FormsDbContextFactory.cs
+/IW5.API/appsettings.Production.json
+/IW5.API/appsettings.Development.json
+/IW5.BL.Tests/appsettings.json
