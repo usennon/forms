@@ -10,33 +10,24 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  # Solution and build configuration
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-
   # Azure deployment variables
-  azureSubscription: 'AzureServiceConnection'   # Replace with your service connection name
-  appName: 'app-iw5-2024-team-xpopov10-api'     # Replace with your Azure App Service name
-  resourceGroupName: 'rg-iw5-2024-project'      # Replace with your resource group name
-
-  # Application settings variables
-  Value1: 'YourValue1'                          # Replace with actual value or define as a pipeline variable
-  Value2: 'YourValue2'                          # Replace with actual value or define as a pipeline variable
-
-  # Note: Store sensitive information like connection strings as secret variables in Azure DevOps
-  # Define 'ConnectionString' as a secret variable in your pipeline variables
+  azureSubscription: 'AzureServiceConnection'  # Replace with your service connection name
+  appName: 'app-iw5-2024-team-xpopov10-api'             # Replace with your Azure App Service name
+  resourceGroupName: 'rg-iw5-2024-project'     # Replace with your resource group name
+  deployToSlotOrASE: false                     # Set to true if deploying to a deployment slot
+  slotName: 'production'                       # Change if deploying to a different slot
 
 steps:
-# Install NuGet (if not already installed on the agent)
 - task: NuGetToolInstaller@1
 
-# Restore NuGet packages
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
 
-# Replace tokens in appsettings*.json files (if using tokenization)
+# Replace tokens in appsettings*.json if needed
 - task: replacetokens@5
   inputs:
     targetFiles: '**/appsettings*.json'
@@ -47,54 +38,39 @@ steps:
     tokenPrefix: '#{'
     tokenSuffix: '}#'
 
-# Build the solution
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)" /p:DeployIisAppPath="Default Web Site"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-# Publish the web application to a folder
-- task: VSBuild@1
-  displayName: 'Publish Web App'
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:WebPublishMethod=FileSystem /p:PublishProfile=FolderProfile /p:publishUrl="$(Build.ArtifactStagingDirectory)\publish"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-# Run unit tests
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-# Archive the published output
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)\publish'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)\WebApp.zip'
-    replaceExistingArchive: true
-
-# Publish the artifact (WebApp.zip)
+# Publish the artifact (Web Deploy package)
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)\WebApp.zip'
+    PathtoPublish: '$(build.artifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
 
 # Deploy to Azure App Service
-- task: AzureWebApp@1
+- task: AzureRmWebAppDeployment@4
   inputs:
+    ConnectionType: 'AzureRM'
     azureSubscription: '$(azureSubscription)'
     appType: 'webApp'
-    appName: '$(appName)'
-    package: '$(build.artifactStagingDirectory)/**/*.zip'
-    appSettings: |
-      -Name1 $(Value1)
-      -Name2 $(Value2)
+    WebAppName: '$(appName)'
+    ResourceGroupName: '$(resourceGroupName)'
+    deployToSlotOrASE: false
+    SlotName: '$(slotName)'
+    Package: '$(build.artifactStagingDirectory)/**/*.zip'
+    # Remove the following line if you don't need to transform configurations
+    XMLTransformation: true
+
 
 # Update connection strings in Azure App Service configuration
 - task: AzureAppServiceSettings@1
