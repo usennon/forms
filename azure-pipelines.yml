@@ -25,7 +25,7 @@ steps:
 # Add the File Transform task to perform variable substitution
 - task: replacetokens@5
   inputs:
-    targetFiles: '**/appsettings.json'
+    targetFiles: '**/appsettings*.json'
     encoding: 'auto'
     writeBOM: true
     actionOnMissing: 'warn'
