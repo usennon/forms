@@ -24,7 +24,7 @@
     <ProjectReference Include="..\IW5.API\IW5.API.csproj" />
     <ProjectReference Include="..\IW5.BL\IW5.BL.API.csproj" />
     <ProjectReference Include="..\IW5.DAL\IW5.DAL.csproj" />
-	<AdditionalFiles Include="..\IW5.API\appsettings.Development.json" />
+	 <AdditionalFiles Include="..\IW5.API\appsettings.Development.json" />
   </ItemGroup>
 
   <ItemGroup>
