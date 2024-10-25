@@ -4,6 +4,7 @@ namespace IW5.DAL.Contracts
 {
     public interface IUserRepository : IRepo<User>
     {
-        Task<IEnumerable<User>?> GetUserByNameAsync(string name, bool trackChanges);
+        Task<User> GetUserByNameAsync(string name, bool trackChanges);
+        IQueryable<User> SearchUserByName(string name, bool trackChanges);
     }
 }

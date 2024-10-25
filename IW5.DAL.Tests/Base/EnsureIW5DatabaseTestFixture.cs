@@ -1,6 +1,6 @@
-﻿using IW5.Dal.Initialization;
+﻿using IW5.DAL.Initialization;
 
-namespace IW5.Dal.Tests.Base
+namespace IW5.DAL.Tests.Base
 {
     public sealed class EnsureIW5DatabaseTestFixture
     {

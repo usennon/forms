@@ -1,8 +1,9 @@
 ﻿using IW5.Common.Enums;
 using IW5.DAL.Contracts;
 using IW5.DAL.Repository;
-using IW5.Dal.Tests.Base;
+using IW5.DAL.Tests.Base;
 using IW5.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace IW5.DAL.Tests.IntegrationTests
 {
@@ -20,7 +21,7 @@ namespace IW5.DAL.Tests.IntegrationTests
         [Fact]
         public async Task ShouldGetAllForms()
         {
-            var forms = _formRepository.GetAll(false);
+            var forms = await _formRepository.GetAll(false).ToListAsync();
             Assert.Equal(14, forms.Count());
         }
 
@@ -47,13 +48,14 @@ namespace IW5.DAL.Tests.IntegrationTests
             var newForm = new Form()
             {
                 Id = Guid.NewGuid(),
+                AuthorId = Guid.Parse("c2ad823a-c3bc-49cb-a930-2fd719c0e997"),
                 Title = newFormTitle,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now,
                 CreatedAt = DateTime.Now
 
             };
-            _formRepository.CreateFormForAuthor(Guid.Parse("c2ad823a-c3bc-49cb-a930-2fd719c0e997"), newForm);
+            _formRepository.Create(newForm);
             await RepositoryManager.SaveAsync();
 
             var expectedForm = await _formRepository.GetFormByTitleAsync(newFormTitle, trackChanges: false);
@@ -71,7 +73,7 @@ namespace IW5.DAL.Tests.IntegrationTests
             var newTitle = "Haha! Changed!";
             updatedEntity.Title = newTitle;
 
-            _formRepository.Update(updatedEntity);
+            await _formRepository.UpdateAsync(updatedEntity);
             await RepositoryManager.SaveAsync();
 
             var actualEntity = await _formRepository.GetFormByTitleAsync(newTitle, false);
@@ -85,7 +87,7 @@ namespace IW5.DAL.Tests.IntegrationTests
         {
             var title = "Weekly Team Retrospective";
             var deletingEntity = await _formRepository.GetFormByTitleAsync(title, false);
-            _formRepository.DeleteForm(deletingEntity);
+            _formRepository.Delete(deletingEntity);
             await RepositoryManager.SaveAsync();
 
             var actualEntity = await _formRepository.GetFormByTitleAsync(title, false);

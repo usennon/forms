@@ -9,12 +9,12 @@ namespace IW5.DAL.Factories
         public FormsDbContext CreateDbContext(string[] args)
         {
             var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true)
                 .AddUserSecrets<FormsDbContextFactory>(optional: true)
                 .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<FormsDbContext>();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("IW5"));
+            optionsBuilder.UseSqlServer("Server=tcp:sqldb-iw5-2024-team-xpopov10.database.windows.net,1433;Initial Catalog=db-iw5-2024-team-xpopov10;Persist Security Info=False;User ID=xpopov10;Password=/Automation#567*;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=100;");
             return new FormsDbContext(optionsBuilder.Options);
         }
     }

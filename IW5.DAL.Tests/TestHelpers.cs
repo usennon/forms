@@ -1,16 +1,15 @@
-﻿using IW5.DAL;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 
-namespace IW5.Dal.Tests
+namespace IW5.DAL.Tests
 {
     public static class TestHelpers
     {
         public static IConfiguration GetConfiguration() =>
             new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile(@"appsettings.Development.json", false, true)
                 .Build();
 
         public static FormsDbContext GetContext(IConfiguration configuration)

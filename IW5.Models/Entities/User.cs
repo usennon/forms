@@ -1,4 +1,5 @@
-﻿using IW5.Common.Enums;
+﻿using AutoMapper;
+using IW5.Common.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -31,12 +32,4 @@ namespace IW5.Models.Entities
         public virtual ICollection<Form> Forms { get; set; } = new List<Form>();
 
     }
-
-    //public class UserEntityMapperProfile : Profile
-    //{
-    //    public UserEntityMapperProfile()
-    //    {
-    //        CreateMap<UserEntity, UserEntity>();
-    //    }
-    //}
 }

@@ -39,12 +39,10 @@ namespace IW5.DAL
             modelBuilder.Entity<User>()
                 .HasIndex(user => user.PhoneNumber)
                 .IsUnique();
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.Property(u => u.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("GETDATE()");
-            });
+            modelBuilder.Entity<User>()
+                .Property(user => user.CreatedAt)
+                .HasColumnType("datetime2")
+                .HasDefaultValueSql("GETDATE()");
         }
 
         private void ConfigureFormEntity(ModelBuilder modelBuilder)
@@ -54,6 +52,16 @@ namespace IW5.DAL
                 .WithOne(question => question.Form)
                 .HasForeignKey(question => question.FormId)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Form>()
+                .Property(form => form.CreatedAt)
+                .HasColumnType("datetime2")
+                .HasDefaultValueSql("GETDATE()");
+            modelBuilder.Entity<Form>()
+                .Property(form => form.StartDate)
+                .HasColumnType("datetime2");
+            modelBuilder.Entity<Form>()
+                .Property(form => form.EndDate)
+                .HasColumnType("datetime2");
         }
 
         private void ConfigureQuestionEntity(ModelBuilder modelBuilder)
@@ -63,21 +71,25 @@ namespace IW5.DAL
                 .WithOne(option => option.Question)
                 .HasForeignKey(option => option.QuestionId)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Question>()
+                .Property(question => question.CreatedAt)
+                .HasColumnType("datetime2")
+                .HasDefaultValueSql("GETDATE()");
         }
 
         private void ConfigureOptionEntity(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Option>(entity =>
             {
-                entity.Property(o => o.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("GETDATE()");
-
                 entity.HasOne(o => o.Question)
                     .WithMany(q => q.Options)
                     .HasForeignKey(o => o.QuestionId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
+            modelBuilder.Entity<Option>()
+                .Property(option => option.CreatedAt)
+                .HasColumnType("datetime2")
+                .HasDefaultValueSql("GETDATE()");
         }
     }
 }
