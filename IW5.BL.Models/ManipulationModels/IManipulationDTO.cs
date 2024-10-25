@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IW5.BL.Models
+namespace IW5.BL.Models.ManipulationModels
 {
-    public interface IModel
+    public interface IManipulationDTO
     {
-        Guid Id { get; set; }
     }
 }

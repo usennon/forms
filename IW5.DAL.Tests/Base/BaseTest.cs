@@ -5,7 +5,7 @@ using System.Data;
 using IW5.DAL;
 using IW5.DAL.Repository;
 
-namespace IW5.Dal.Tests.Base
+namespace IW5.DAL.Tests.Base
 {
     public abstract class BaseTest : IDisposable 
     {

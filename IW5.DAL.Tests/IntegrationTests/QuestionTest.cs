@@ -1,5 +1,5 @@
 ﻿using IW5.DAL.Contracts;
-using IW5.Dal.Tests.Base;
+using IW5.DAL.Tests.Base;
 using IW5.Models.Entities;
 using IW5.Common.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -70,7 +70,7 @@ namespace IW5.DAL.Tests.IntegrationTests
             var updatedEntity = outdatedEntity;
             updatedEntity.Text = "Haha! Changed!";
 
-            _questionRepository.Update(updatedEntity);
+            await _questionRepository.UpdateAsync(updatedEntity);
             await RepositoryManager.SaveAsync();
 
             var actualEntity = await _questionRepository.GetByIdAsync(id, false);

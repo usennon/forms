@@ -10,7 +10,7 @@ namespace IW5.DAL.Contracts
         void Create(T entity);
         ValueTask<bool> ExistsAsync(Guid id);
         void CreateRange(IEnumerable<T> entities);
-        void Update(T entity);
+        Task UpdateAsync(T entity);
         void Delete(T entity);
     }
 }

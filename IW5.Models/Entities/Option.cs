@@ -18,11 +18,4 @@ namespace IW5.Models.Entities
         public Question Question { get; set; }
 
     }
-    public class OptionEntityMapperProfile : Profile
-    {
-        public OptionEntityMapperProfile()
-        {
-            CreateMap<Option, Option>();
-        }
-    }
 }

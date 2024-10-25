@@ -23,9 +23,9 @@ namespace IW5.DAL.Repository
         public IUserRepository User => _userRepository.Value;
         public IQuestionRepository Question => _questionRepository.Value;
         public IOptionRepository Option => _optionRepository.Value;
+        
 
-
-        public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
+        public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync().ConfigureAwait(false);
         public async ValueTask DisposeAsync() => await _repositoryContext.DisposeAsync().ConfigureAwait(false);
 
 

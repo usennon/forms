@@ -360,3 +360,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# App settings
+appsettings.json
+/IW5.DAL/Factories/FormsDbContextFactory.cs
+/IW5.API/appsettings.Production.json
+/IW5.BL.Tests/appsettings.json

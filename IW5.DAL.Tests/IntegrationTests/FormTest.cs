@@ -1,7 +1,7 @@
 ﻿using IW5.Common.Enums;
 using IW5.DAL.Contracts;
 using IW5.DAL.Repository;
-using IW5.Dal.Tests.Base;
+using IW5.DAL.Tests.Base;
 using IW5.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -73,7 +73,7 @@ namespace IW5.DAL.Tests.IntegrationTests
             var newTitle = "Haha! Changed!";
             updatedEntity.Title = newTitle;
 
-            _formRepository.Update(updatedEntity);
+            await _formRepository.UpdateAsync(updatedEntity);
             await RepositoryManager.SaveAsync();
 
             var actualEntity = await _formRepository.GetFormByTitleAsync(newTitle, false);

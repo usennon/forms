@@ -1,8 +1,9 @@
-﻿namespace IW5.BL.Models
+﻿using IW5.BL.Models.ListModels;
+
+namespace IW5.BL.Models.ListModels
 {
-    public class UserListModel : IModel
+    public class UserListModel : ListModelBase
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public string PhotoUrl { get; set; }
     }
