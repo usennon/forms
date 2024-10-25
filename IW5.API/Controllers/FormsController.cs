@@ -20,7 +20,7 @@ public class FormsController : ControllerBase
     public async Task<ActionResult<List<Form>>> GetAll()
     {
         var forms =  _formLogic.GetAll();
-        return Ok(forms.ToList());
+        return Ok(forms);
     }
 
     [HttpGet("filter/{type}/{searchString?}")]

@@ -25,7 +25,7 @@ namespace IW5.API.Controllers
             return Ok(_questionsLogic.GetAll());
         }
 
-        [HttpPatch("filtered", Name = "GetSortedOrSearchQuestions")]
+        [HttpGet("filtered", Name = "GetSortedOrSearchQuestions")]
         public ActionResult<IQueryable<Form>> GetFilteredOrSorted(string searchString = "", QuestionSortType type = QuestionSortType.None)
         {
             return Ok(_questionsLogic.GetFilteredQuestions(searchString, type));

@@ -19,15 +19,10 @@ namespace IW5.API.Controllers
         }
 
         // GET: api/Options
-        [HttpGet]
+        [HttpGet("all")]
         public ActionResult<IQueryable<Option>> GetAll()
         {
             var options = _optionsLogic.GetAll();
-            if (!options.Any())
-            {
-                return NoContent(); // Return 204 No Content if the list is empty
-            }
-
             return Ok(options); // Return 200 OK with the list of options
         }
 
