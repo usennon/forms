@@ -133,7 +133,7 @@ namespace IW5.API.Tests
             var sortType = QuestionSortType.None; // Assuming 1 is some valid sort type
 
             // Act
-            var response = await client.Value.PatchAsync($"/api/Questions/filtered?searchString={searchString}&type={sortType}", null);
+            var response = await client.Value.GetAsync($"/api/Questions/filtered?searchString={searchString}&type={sortType}");
             response.EnsureSuccessStatusCode();
 
             // Assert

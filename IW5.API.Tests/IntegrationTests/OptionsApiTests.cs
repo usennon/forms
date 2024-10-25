@@ -28,7 +28,7 @@ namespace IW5.API.Tests
         public async Task GetAllOptions_Returns_At_Least_One_Option()
         {
             // Act
-            var response = await client.Value.GetAsync("/api/Options");
+            var response = await client.Value.GetAsync("/api/Options/all");
             response.EnsureSuccessStatusCode();
 
             // Assert
