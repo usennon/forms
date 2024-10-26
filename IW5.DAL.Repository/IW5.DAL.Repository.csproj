@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IW5.DAL.Contracts\IW5.DAL.Contracts.csproj" />
+    <ProjectReference Include="..\IW5.DAL\IW5.DAL.csproj" />
+    <ProjectReference Include="..\IW5.Models\IW5.Models.csproj" />
+  </ItemGroup>
+
+</Project>
