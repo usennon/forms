@@ -31,8 +31,11 @@ namespace IW5.API
             builder.Services.ConfigureSqlContext(connectionString);
             builder.Services.AddAutoMapper(typeof(Program));
 
-
+            
             var app = builder.Build();
+            // At the time of the evaluation of phase 1, the check for in development or production was removed.
+            // Since the website is in production, and we would like to give teachers the opportunity to evaluate it remotely without launching it locally.
+            
                 if (configuration.GetValue<bool>("RebuildDataBase"))
                 {
                     SampleDataInitializer.InitializeData(new FormsDbContext(
