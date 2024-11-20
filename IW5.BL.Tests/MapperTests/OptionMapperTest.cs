@@ -31,7 +31,7 @@ namespace IW5.BL.Tests.MapperTests
 
             // Assert
             optionListModel.Text.Should().Be(option.Text);
-            optionListModel.IsCheked.Should().BeFalse(); // By default, IsCheked should be false
+            optionListModel.IsChecked.Should().BeFalse(); // By default, IsChecked should be false
         }
 
         [Fact]
@@ -76,7 +76,7 @@ namespace IW5.BL.Tests.MapperTests
 
             // Assert
             optionListModel.Text.Should().Be(option.Text);
-            optionListModel.IsCheked.Should().BeFalse(); // Default value for IsCheked is false
+            optionListModel.IsChecked.Should().BeFalse(); // Default value for IsChecked is false
         }
 
         [Fact]

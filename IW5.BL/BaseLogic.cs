@@ -16,7 +16,7 @@ namespace IW5.BL.API
         where TEntity : BaseEntity, new()
         where TListModel : ListModelBase
         where TDetailModel : DetailModelBase
-        where TManipulationModel : IManipulationDTO
+        where TManipulationModel : IManipulationModel
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IRepo<TEntity> _baseRepository;
@@ -41,20 +41,6 @@ namespace IW5.BL.API
             return _mapper.Map<TDetailModel>(entity);
         }
 
-        //public async Task CreateOrUpdateAsync(TManipulationModel model)
-        //{
-
-        //        if (await _baseRepository.ExistsAsync(model.Id))
-        //        {
-        //            await UpdateAsync(model.Id, model, true);
-        //        }
-        //        else
-        //        {
-        //            Create(model);
-        //        }
-        //        await _repositoryManager.SaveAsync();
-        //}
-
         public async Task<TDetailModel> Create(TManipulationModel model)
         {
             var entity = _mapper.Map<TEntity>(model);
@@ -74,7 +60,7 @@ namespace IW5.BL.API
                 throw new Exception();
 
             _mapper.Map(dtoModel, entity);
-
+            await _baseRepository.UpdateAsync(entity);
             await _repositoryManager.SaveAsync();
         }
 
@@ -91,7 +77,6 @@ namespace IW5.BL.API
             }
             catch (Exception)
             {
-                await _repositoryManager.DisposeAsync();
                 throw;
             }
 

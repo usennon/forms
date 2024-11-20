@@ -23,7 +23,7 @@ namespace IW5.API.Controllers
         public ActionResult<IQueryable<Option>> GetAll()
         {
             var options = _optionsLogic.GetAll();
-            return Ok(options); // Return 200 OK with the list of options
+            return Ok(options); 
         }
 
         // GET: api/Options/{id}
@@ -33,10 +33,10 @@ namespace IW5.API.Controllers
             var option = await _optionsLogic.GetByIdAsync(id);
             if (option == null)
             {
-                return NotFound($"Option with ID {id} not found."); // Return 404 Not Found if no option is found
+                return NotFound($"Option with ID {id} not found.");
             }
 
-            return Ok(option); // Return 200 OK with the option data
+            return Ok(option);
         }
 
         // POST: api/Options
@@ -45,16 +45,15 @@ namespace IW5.API.Controllers
         {
             if (option == null)
             {
-                return BadRequest("Option data is null."); // Return 400 Bad Request if input is null
+                return BadRequest("Option data is null.");
             }
-
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState); // Return 400 Bad Request if the model is invalid
+                return BadRequest(ModelState); 
             }
 
             var createdOption = await _optionsLogic.Create(option);
-            return CreatedAtRoute("OptionById", new { id = createdOption.Id }, createdOption); // Return 201 Created with the location of the new option
+            return CreatedAtRoute("OptionById", new { id = createdOption.Id }, createdOption);
         }
 
         // PUT: api/Options/{id}
@@ -63,17 +62,17 @@ namespace IW5.API.Controllers
         {
             if (option == null)
             {
-                return BadRequest("Invalid data."); // Return 400 Bad Request if input data is invalid
+                return BadRequest("Invalid data.");
             }
 
             var optionExists = await _optionsLogic.GetByIdAsync(id);
             if (optionExists == null)
             {
-                return NotFound($"Option with ID {id} not found."); // Return 404 Not Found if no option is found for update
+                return NotFound($"Option with ID {id} not found.");
             }
 
             await _optionsLogic.UpdateAsync(id, option, true);
-            return Ok(); // Return 200 OK after successful update
+            return Ok();
         }
 
         // DELETE: api/Options/{id}
@@ -83,7 +82,7 @@ namespace IW5.API.Controllers
             var option = await _optionsLogic.GetByIdAsync(id);
             if (option == null)
             {
-                return NotFound($"Option with ID {id} not found."); // Return 404 Not Found if the option to delete doesn't exist
+                return NotFound($"Option with ID {id} not found.");
             }
 
             await _optionsLogic.DeleteAsync(id, false);

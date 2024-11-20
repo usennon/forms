@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IW5.BL.Models.ManipulationModels
 {
-    public interface IManipulationDTO
+    public interface IManipulationModel
     {
     }
 }

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Scrutor" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IW5.BL.API.Contracts\IW5.BL.API.Contracts.csproj" />
+    <ProjectReference Include="..\IW5.BL.Models\IW5.BL.Models.csproj" />
+    <ProjectReference Include="..\IW5.Common\IW5.Common.csproj" />
+    <ProjectReference Include="..\IW5.IdentityProvider.DAL\IW5.IdentityProvider.DAL.csproj" />
+  </ItemGroup>
+
+</Project>
