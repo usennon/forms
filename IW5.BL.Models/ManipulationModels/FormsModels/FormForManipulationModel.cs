@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IW5.BL.Models.ManipulationModels.FormsModels
 {
-    public record FormForManipulationDTO : IManipulationModel
+    public record FormForManipulationModel : IManipulationModel
     {
         public string Title { get; init; }
         public DateTime StartDate { get; init; }

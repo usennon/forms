@@ -69,7 +69,7 @@ namespace IW5.API.Tests
         public async Task CreateOption_Returns_CreatedOption()
         {
             // Arrange
-            var newOption = new OptionForManipulationDTO
+            var newOption = new OptionForManipulationModel
             {
                 Text = "Test Option",
                 QuestionId = SampleData.Questions.First().Id,
@@ -89,7 +89,7 @@ namespace IW5.API.Tests
         public async Task CreateOption_Returns_BadRequest_When_DataIsInvalid()
         {
             // Arrange
-            OptionForManipulationDTO invalidOption = null;
+            OptionForManipulationModel invalidOption = null;
 
             // Act
             var response = await client.Value.PostAsJsonAsync("/api/Options", invalidOption);
@@ -102,7 +102,7 @@ namespace IW5.API.Tests
         {
             // Arrange
             var existingOptionId = Guid.Parse("fcd24794-b03f-4e93-bfe6-896981ed87f7");
-            var updatedOption = new OptionForManipulationDTO
+            var updatedOption = new OptionForManipulationModel
             {
                 Text = "Updated Option",
                 QuestionId = SampleData.Questions.First().Id,
@@ -120,7 +120,7 @@ namespace IW5.API.Tests
         {
             // Arrange
             var nonExistentOptionId = Guid.NewGuid();
-            var updatedOption = new OptionForManipulationDTO
+            var updatedOption = new OptionForManipulationModel
             {
                 Text = "Non-existent Option",
                 IsChecked = false

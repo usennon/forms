@@ -50,14 +50,14 @@ namespace IW5.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] QuestionForManipulationDTO question)
+        public async Task<ActionResult> Create([FromBody] QuestionForManipulationModel question)
         {
             var result = await _questionsLogic.Create(question);
             return CreatedAtRoute("QuestionById", new { id = result.Id }, result);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult> UpdateQuestionAsync(Guid id, [FromBody] QuestionForManipulationDTO question)
+        public async Task<ActionResult> UpdateQuestionAsync(Guid id, [FromBody] QuestionForManipulationModel question)
         {
             if (!ModelState.IsValid)
             {

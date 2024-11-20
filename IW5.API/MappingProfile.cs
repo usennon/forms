@@ -26,24 +26,24 @@ namespace IW5.API
             CreateMap<User, UserListModel>();
             CreateMap<User, UserDetailModel>().MapMember(dst => dst.Forms, src => src.Forms);
             CreateMap<UserDetailModel, User>().Ignore(dst => dst.Forms);
-            CreateMap<UserForManipulationDTO, User>().ReverseMap();
+            CreateMap<UserForManipulationModel, User>().ReverseMap();
 
             // form mapper
             CreateMap<Form, FormListModel>();
             CreateMap<Form, FormDetailModel>().MapMember(dst => dst.Questions, src => src.Questions);
             CreateMap<FormDetailModel, Form>().Ignore(dst => dst.Questions);
-            CreateMap<FormForManipulationDTO, Form>().ReverseMap();
+            CreateMap<FormForManipulationModel, Form>().ReverseMap();
 
             // question mapper
             CreateMap<Question, QuestionListModel>();
             CreateMap<Question, QuestionDetailModel>().MapMember(dst => dst.Options, src => src.Options);
             CreateMap<QuestionDetailModel, Question>().Ignore(dst => dst.Options);
-            CreateMap<UserForManipulationDTO, User>().ReverseMap();
-            CreateMap<QuestionForManipulationDTO, Question>().ReverseMap();
+            CreateMap<UserForManipulationModel, User>().ReverseMap();
+            CreateMap<QuestionForManipulationModel, Question>().ReverseMap();
 
             // option mapper
             CreateMap<Option, OptionListModel>();
-            CreateMap<OptionForManipulationDTO, Option>().ReverseMap();
+            CreateMap<OptionForManipulationModel, Option>().ReverseMap();
             CreateMap<Option, OptionDetailModel>();
         }
     }

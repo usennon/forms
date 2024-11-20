@@ -5,7 +5,7 @@ using IW5.BL.Models.ManipulationModels.OptionModels;
 
 namespace IW5.BL.API.Contracts
 {
-    public interface IOptionBLogic : IBLogic<Option, OptionListModel, OptionDetailModel, OptionForManipulationDTO>
+    public interface IOptionBLogic : IBLogic<Option, OptionListModel, OptionDetailModel, OptionForManipulationModel>
     {
     }
 }

@@ -2,7 +2,7 @@
 
 namespace IW5.BL.Models.ManipulationModels.UserModels
 {
-    public record UserForManipulationDTO : IManipulationModel
+    public record UserForManipulationModel : IManipulationModel
     {
         public string Name { get; init; }
         public string PhotoUrl { get; init; }

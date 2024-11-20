@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IW5.BL.Models.ManipulationModels.QuestionModels
 {
-    public record QuestionForManipulationDTO : IManipulationModel
+    public record QuestionForManipulationModel : IManipulationModel
     {
         public string Text { get; init; }
         public string Description { get; init; }

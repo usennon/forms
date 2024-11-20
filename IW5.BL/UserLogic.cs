@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace IW5.BL.API
 {    
     public class UserLogic : 
-        BaseLogic<User, UserListModel, UserDetailModel, UserForManipulationDTO>, 
+        BaseLogic<User, UserListModel, UserDetailModel, UserForManipulationModel>, 
         IUserBLogic
     {
         private readonly IUserRepository _userRepository;

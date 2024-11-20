@@ -41,7 +41,7 @@ namespace IW5.API.Controllers
 
         // POST: api/Options
         [HttpPost]
-        public async Task<ActionResult> CreateOption([FromBody] OptionForManipulationDTO option)
+        public async Task<ActionResult> CreateOption([FromBody] OptionForManipulationModel option)
         {
             if (option == null)
             {
@@ -58,7 +58,7 @@ namespace IW5.API.Controllers
 
         // PUT: api/Options/{id}
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult> UpdateOptionAsync(Guid id, [FromBody] OptionForManipulationDTO option)
+        public async Task<ActionResult> UpdateOptionAsync(Guid id, [FromBody] OptionForManipulationModel option)
         {
             if (option == null)
             {

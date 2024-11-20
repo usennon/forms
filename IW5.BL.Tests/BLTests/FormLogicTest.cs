@@ -31,7 +31,7 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
     public async Task CreateForm_WithExecutionStrategy_ShouldSucceed()
     {
         // Arrange
-        var formModel = new FormForManipulationDTO
+        var formModel = new FormForManipulationModel
         {
             Title = "Test Form",
             AuthorId = SampleData.Users.First().Id,
@@ -65,7 +65,7 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
     public async Task GetFilteredForms_ShouldReturnFormsContainingSubstring()
     {
         // Arrange:
-        var formModel1 = new FormForManipulationDTO
+        var formModel1 = new FormForManipulationModel
         {
             Title = "Survey Form 1",
             AuthorId = SampleData.Users.First().Id,
@@ -74,7 +74,7 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
         };
         await _formLogic.Create(formModel1);
 
-        var formModel2 = new FormForManipulationDTO
+        var formModel2 = new FormForManipulationModel
         {
             Title = "Feedback Form 2",
             AuthorId = SampleData.Users.First().Id,
@@ -118,7 +118,7 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
     public async Task GetFormById_ShouldReturnDetailedFormInformation()
     {
         // Arrange
-        var formModel = new FormForManipulationDTO
+        var formModel = new FormForManipulationModel
         {
             Title = "Detailed Test Form",
             AuthorId = SampleData.Users.First().Id,
@@ -141,14 +141,14 @@ public class FormLogicIntegrationTests : BaseTest, IClassFixture<EnsureIW5Databa
     public async Task CreateMultipleForms_WithSameTitle_ShouldSucceed()
     {
         // Arrange
-        var formModel1 = new FormForManipulationDTO
+        var formModel1 = new FormForManipulationModel
         {
             Title = "Duplicate Title Form",
             AuthorId = SampleData.Users.First().Id,
             StartDate = DateTime.UtcNow,
             EndDate = DateTime.UtcNow.AddDays(7)
         };
-        var formModel2 = new FormForManipulationDTO
+        var formModel2 = new FormForManipulationModel
         {
             Title = "Duplicate Title Form",
             AuthorId = SampleData.Users.First().Id,
