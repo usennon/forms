@@ -73,7 +73,7 @@ namespace IW5.API.Tests
         public async Task CreateUser_Returns_CreatedUser()
         {
             // Arrange
-            var newUser = new UserForManipulationDTO
+            var newUser = new UserForManipulationModel
             {
                 Name = "Test User",
                 Email = "testuser@example.com",

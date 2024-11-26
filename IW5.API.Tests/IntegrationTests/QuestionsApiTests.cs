@@ -73,7 +73,7 @@ namespace IW5.API.Tests
         public async Task CreateQuestion_Returns_CreatedQuestion()
         {
             // Arrange
-            var newQuestion = new QuestionForManipulationDTO
+            var newQuestion = new QuestionForManipulationModel
             {
                 Description = "Test question description",
                 IsRequired = true,

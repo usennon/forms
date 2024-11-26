@@ -1,9 +1,9 @@
-
 using IW5.DAL.Initialization;
 using IW5.DAL;
 using IW5.API.Extensions;
+using IW5.API.Common;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace IW5.API
 {
@@ -25,6 +25,7 @@ namespace IW5.API
             builder.Services.ConfigureCors();
             builder.Services.ConfigureRepositoryManager();
             builder.Services.ConfigureServiceManager();
+
 
             var connectionString = configuration.GetConnectionString("IW5");
 
@@ -54,6 +55,23 @@ namespace IW5.API
             app.MapControllers();
 
             app.Run();
+        }
+
+        void ConfigureAuthentication(IServiceCollection serviceCollection, string identityServerUrl)
+        {
+            serviceCollection.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = identityServerUrl;
+                    options.TokenValidationParameters.ValidateAudience = false;
+                });
+
+            serviceCollection.AddAuthorization(
+                options =>
+                {
+                    options.AddPolicy(ApiPolicies.IngredientAdmin, policy => policy.RequireRole(AppRoles.Admin));
+                });
+            serviceCollection.AddHttpContextAccessor();
         }
     }
 }

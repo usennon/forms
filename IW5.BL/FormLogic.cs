@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace IW5.BL.API
 {
     public class FormLogic :
-        BaseLogic<Form, FormListModel, FormDetailModel, FormForManipulationDTO>,
+        BaseLogic<Form, FormListModel, FormDetailModel, FormForManipulationModel>,
         IFormBLogic
     {
         private readonly IFormRepository _formRepository;

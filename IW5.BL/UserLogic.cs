@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace IW5.BL.API
 {    
     public class UserLogic : 
-        BaseLogic<User, UserListModel, UserDetailModel, UserForManipulationDTO>, 
+        BaseLogic<User, UserListModel, UserDetailModel, UserForManipulationModel>, 
         IUserBLogic
     {
         private readonly IUserRepository _userRepository;
@@ -36,9 +36,9 @@ namespace IW5.BL.API
             switch (type) 
             {
                 case UserSortType.AscendingName:
-                    return result.OrderBy(e => e.Name);
+                    return result.OrderBy(e => e.UserName);
                 case UserSortType.DescendingName:
-                    return result.OrderByDescending(e => e.Name);
+                    return result.OrderByDescending(e => e.UserName);
                 default:
                     return result;
             }

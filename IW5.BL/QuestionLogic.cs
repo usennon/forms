@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace IW5.BL.API
 {
     public class QuestionLogic :
-        BaseLogic<Question, QuestionListModel, QuestionDetailModel, QuestionForManipulationDTO>,
+        BaseLogic<Question, QuestionListModel, QuestionDetailModel, QuestionForManipulationModel>,
         IQuestionBLogic
     {
         private readonly IQuestionRepository _questionRepository;

@@ -26,8 +26,6 @@ namespace IW5.DAL.Repository
         
 
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync().ConfigureAwait(false);
-        public async ValueTask DisposeAsync() => await _repositoryContext.DisposeAsync().ConfigureAwait(false);
-
 
 
     }

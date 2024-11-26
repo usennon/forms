@@ -9,7 +9,7 @@ using IW5.BL.Models.ManipulationModels.OptionModels;
 
 namespace IW5.BL.API
 {
-    public class OptionLogic : BaseLogic<Option, OptionListModel, OptionDetailModel, OptionForManipulationDTO>, IOptionBLogic
+    public class OptionLogic : BaseLogic<Option, OptionListModel, OptionDetailModel, OptionForManipulationModel>, IOptionBLogic
     {
         private readonly IOptionRepository _optionRepository;
         private readonly IMapper _mapper;

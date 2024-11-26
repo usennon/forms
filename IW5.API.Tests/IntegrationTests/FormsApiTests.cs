@@ -71,7 +71,7 @@ namespace IW5.API.Tests
         public async Task CreateForm_Returns_CreatedForm()
         {
             // Arrange
-            var newForm = new FormForManipulationDTO
+            var newForm = new FormForManipulationModel
             { 
                 Title = "New Test Form",
                 StartDate = DateTime.UtcNow,

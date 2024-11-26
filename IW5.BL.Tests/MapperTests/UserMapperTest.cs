@@ -35,7 +35,7 @@ namespace IW5.BL.Tests.MapperTests
             var userListModel = _userMapper.Map<UserListModel>(user);
 
             // Assert
-            userListModel.Name.Should().Be(user.Name);
+            userListModel.UserName.Should().Be(user.Name);
             userListModel.PhotoUrl.Should().Be(user.PhotoUrl);
         }
 
