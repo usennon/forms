@@ -50,14 +50,14 @@ namespace IW5.API.Controllers
         }
 
         [HttpPost(Name = "CreateUser")]
-        public async Task<ActionResult> CreateUser([FromBody] UserForManipulationDTO user)
+        public async Task<ActionResult> CreateUser([FromBody] UserForManipulationModel user)
         {
             var result = await _userLogic.Create(user);
             return CreatedAtRoute("UserById", new { id = result.Id }, result);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult> UpdateUserAsync(Guid id, [FromBody] UserForManipulationDTO user)
+        public async Task<ActionResult> UpdateUserAsync(Guid id, [FromBody] UserForManipulationModel user)
         {
             await _userLogic.UpdateAsync(id, user, true);
             return Ok();

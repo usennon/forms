@@ -10,11 +10,10 @@ namespace IW5.BL.API.Contracts
         where TEntity : BaseEntity
         where TListModel : ListModelBase
         where TDetailModel : DetailModelBase
-        where TManipulationModel : IManipulationDTO
+        where TManipulationModel : IManipulationModel
     {
         List<TListModel> GetAll();
         Task<TDetailModel?> GetByIdAsync(Guid id);
-       // Task CreateOrUpdateAsync(TDetailModel model);
         Task<TDetailModel> Create(TManipulationModel model);
         Task UpdateAsync(Guid id, TManipulationModel model, bool trackChanges);
         Task DeleteAsync(Guid id, bool trackChanges);

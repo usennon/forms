@@ -6,7 +6,7 @@ using IW5.Models.Entities;
 
 namespace IW5.BL.API.Contracts
 {
-    public interface IFormBLogic : IBLogic<Form, FormListModel, FormDetailModel, FormForManipulationDTO>
+    public interface IFormBLogic : IBLogic<Form, FormListModel, FormDetailModel, FormForManipulationModel>
     {
         IEnumerable<FormListModel> GetFilteredForms(string substring, FormSortType type);
         Task<FormDetailModel> GetFormByTitleAsync(string title);

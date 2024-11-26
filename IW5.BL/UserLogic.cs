@@ -12,22 +12,17 @@ using Microsoft.EntityFrameworkCore;
 namespace IW5.BL.API
 {    
     public class UserLogic : 
-        BaseLogic<User, UserListModel, UserDetailModel, UserForManipulationDTO>, 
+        BaseLogic<User, UserListModel, UserDetailModel, UserForManipulationModel>, 
         IUserBLogic
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IMapper _mapper;
-
         public UserLogic(IRepositoryManager repositoryManager, IMapper mapper)
             : base(repositoryManager, repositoryManager.User, mapper)
         {
-            _userRepository = repositoryManager.User;
-            _mapper = mapper;
         }
 
         private IQueryable<User> SearchUsers(string substring)
         {
-            return _userRepository.SearchUserByName(substring, false);
+            return _repositoryManager.User.SearchUserByName(substring, false);
         }
 
         private IEnumerable<UserListModel> SortUsers(IQueryable<User> searchQuery, UserSortType type)

@@ -6,7 +6,7 @@ using IW5.BL.Models.ManipulationModels.QuestionModels;
 
 namespace IW5.BL.API.Contracts
 {
-    public interface IQuestionBLogic : IBLogic<Question, QuestionListModel, QuestionDetailModel, QuestionForManipulationDTO>
+    public interface IQuestionBLogic : IBLogic<Question, QuestionListModel, QuestionDetailModel, QuestionForManipulationModel>
     {
         IEnumerable<QuestionListModel> GetFilteredQuestions(string substring, QuestionSortType type);
     }

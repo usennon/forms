@@ -16,11 +16,11 @@ namespace IW5.BL.API
         where TEntity : BaseEntity, new()
         where TListModel : ListModelBase
         where TDetailModel : DetailModelBase
-        where TManipulationModel : IManipulationDTO
+        where TManipulationModel : IManipulationModel
     {
-        private readonly IRepositoryManager _repositoryManager;
-        private readonly IRepo<TEntity> _baseRepository;
-        private readonly IMapper _mapper;
+        protected readonly IRepositoryManager _repositoryManager;
+        protected readonly IRepo<TEntity> _baseRepository;
+        protected readonly IMapper _mapper;
 
         public BaseLogic(IRepositoryManager repositoryManager, IRepo<TEntity> baseRepository, IMapper mapper)
         {
@@ -41,20 +41,6 @@ namespace IW5.BL.API
             return _mapper.Map<TDetailModel>(entity);
         }
 
-        //public async Task CreateOrUpdateAsync(TManipulationModel model)
-        //{
-
-        //        if (await _baseRepository.ExistsAsync(model.Id))
-        //        {
-        //            await UpdateAsync(model.Id, model, true);
-        //        }
-        //        else
-        //        {
-        //            Create(model);
-        //        }
-        //        await _repositoryManager.SaveAsync();
-        //}
-
         public async Task<TDetailModel> Create(TManipulationModel model)
         {
             var entity = _mapper.Map<TEntity>(model);
@@ -71,7 +57,8 @@ namespace IW5.BL.API
         {
             var entity = await _baseRepository.GetByIdAsync(id, trackChanges);
             if (entity is null)
-                throw new Exception();
+                throw new KeyNotFoundException($"Entity with id {id} not found!");
+
 
             _mapper.Map(dtoModel, entity);
 
@@ -91,7 +78,6 @@ namespace IW5.BL.API
             }
             catch (Exception)
             {
-                await _repositoryManager.DisposeAsync();
                 throw;
             }
 

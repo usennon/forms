@@ -6,7 +6,7 @@ using IW5.Models.Entities;
 
 namespace IW5.BL.API.Contracts
 {
-    public interface IUserBLogic : IBLogic<User, UserListModel, UserDetailModel, UserForManipulationDTO>
+    public interface IUserBLogic : IBLogic<User, UserListModel, UserDetailModel, UserForManipulationModel>
     {
         IEnumerable<UserListModel> GetFilteredUsers(string substring, UserSortType type);
     }
