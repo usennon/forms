@@ -12,8 +12,14 @@ namespace IW5.API.Extensions
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
         services.AddScoped<IRepositoryManager, RepositoryManager>();
 
-        public static void ConfigureServiceManager(this IServiceCollection services) =>
-            services.AddScoped<IServiceManager, ServiceManager>();
+        public static void ConfigureLogic(this IServiceCollection services)
+        {
+            services.AddScoped<IFormBLogic, FormLogic>();
+            services.AddScoped<IQuestionBLogic, QuestionLogic>();
+            services.AddScoped<IOptionBLogic, OptionLogic>();
+            services.AddScoped<IUserBLogic, UserLogic>();
+
+        }
         public static void ConfigureCors(this IServiceCollection services) =>
             services.AddCors(options =>
             {

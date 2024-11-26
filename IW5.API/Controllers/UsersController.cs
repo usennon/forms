@@ -14,9 +14,9 @@ namespace IW5.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserBLogic _userLogic;
-        public UsersController(IServiceManager serviceManager)
+        public UsersController(IUserBLogic userLogic)
         {
-            _userLogic = serviceManager.UserService;
+            _userLogic = userLogic;
         }
 
         [HttpGet("all", Name = "GetUsers")]

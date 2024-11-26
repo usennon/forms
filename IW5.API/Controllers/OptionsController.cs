@@ -13,9 +13,9 @@ namespace IW5.API.Controllers
     {
         private readonly IOptionBLogic _optionsLogic;
 
-        public OptionsController(IServiceManager serviceManager)
+        public OptionsController(IOptionBLogic optionsLogic)
         {
-            _optionsLogic = serviceManager.OptionService;
+            _optionsLogic = optionsLogic;
         }
 
         // GET: api/Options
