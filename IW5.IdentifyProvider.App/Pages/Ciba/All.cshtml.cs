@@ -6,7 +6,7 @@ using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IW5.IdentifyProvider.App.Pages.Ciba;
+namespace IW5.IdentityProvider.App.Pages.Ciba;
 
 [SecurityHeaders]
 [Authorize]

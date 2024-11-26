@@ -5,7 +5,7 @@ using IW5.IdentityProvider.DAL.Entities;
 using IW5.IdentityProvider.DAL.Repositories;
 using Microsoft.AspNetCore.Identity;
 
-namespace CookBook.IdentityProvider.BL.Facades;
+namespace IW5.IdentityProvider.BL.Facades;
 
 public class AppUserFacade(
     UserManager<AppUserEntity> userManager,

@@ -1,7 +1,7 @@
 // Copyright (c) Duende Software. All rights reserved.
 // See LICENSE in the project root for license information.
 
-namespace IW5.IdentifyProvider.App.Pages.Device;
+namespace IW5.IdentityProvider.App.Pages.Device;
 
 public static class DeviceOptions
 {

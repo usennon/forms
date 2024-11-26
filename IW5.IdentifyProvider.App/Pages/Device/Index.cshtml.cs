@@ -7,13 +7,13 @@ using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Validation;
-using IW5.IdentifyProvider.App.Pages.Consent;
+using IW5.IdentityProvider.App.Pages.Consent;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
 
-namespace IW5.IdentifyProvider.App.Pages.Device;
+namespace IW5.IdentityProvider.App.Pages.Device;
 
 [SecurityHeaders]
 [Authorize]

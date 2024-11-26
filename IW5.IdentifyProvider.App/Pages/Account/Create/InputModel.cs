@@ -3,7 +3,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace IW5.IdentifyProvider.App.Pages.Create;
+namespace IW5.IdentityProvider.App.Pages.Create;
 
 public class InputModel
 {

@@ -1,22 +1,29 @@
+using IW5.IdentityProvider.App;
+using IW5.IdentityProvider.App.Endpoints;
+using IW5.IdentityProvider.App.Services;
 using Serilog;
 
-namespace IW5.IdentifyProvider.App
+namespace IW5.IdentityProvider.App
 {
     internal static class HostingExtensions
     {
         public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
         {
-            // uncomment if you want to add a UI
             builder.Services.AddRazorPages();
 
             builder.Services.AddIdentityServer(options =>
-                {
-                    // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
-                    options.EmitStaticAudienceClaim = true;
-                })
+            {
+                // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
+                options.EmitStaticAudienceClaim = true;
+            })  .AddServerSideSessions()
                 .AddInMemoryIdentityResources(Config.IdentityResources)
+                .AddInMemoryApiResources(Config.ApiResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients);
+                .AddInMemoryClients(Config.Clients)
+                .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
+                .AddProfileService<LocalAppUserProfileService>()
+                .AddTestUsers(TestUsers.Users)
+                ;
 
             return builder.Build();
         }
@@ -25,20 +32,26 @@ namespace IW5.IdentifyProvider.App
         {
             app.UseSerilogRequestLogging();
 
+            app.UseCors(policy =>
+            {
+                policy.AllowAnyHeader();
+                policy.AllowAnyMethod();
+                policy.AllowAnyOrigin();
+            });
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            // uncomment if you want to add a UI
             app.UseStaticFiles();
             app.UseRouting();
 
             app.UseIdentityServer();
 
-            // uncomment if you want to add a UI
             app.UseAuthorization();
             app.MapRazorPages().RequireAuthorization();
+            app.UseUserEndpoints();
 
             return app;
         }

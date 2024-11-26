@@ -2,7 +2,7 @@
 using IW5.BL.Models.ListModels;
 using IW5.IdentityProvider.BL.Models;
 
-namespace CookBook.IdentityProvider.BL.Facades;
+namespace IW5.IdentityProvider.BL.Facades;
 
 public interface IAppUserFacade : ILogic
 {

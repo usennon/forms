@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IW5.IdentifyProvider.App.Pages.Logout;
+namespace IW5.IdentityProvider.App.Pages.Logout;
 
 [SecurityHeaders]
 [AllowAnonymous]
@@ -69,8 +69,7 @@ public class Index : PageModel
             LogoutId ??= await _interaction.CreateLogoutContextAsync();
                 
             // delete local authentication cookie
-            await HttpContext.SignOutAsync();
-
+            await HttpContext.SignOutAsync("Identity.Application");
             // see if we need to trigger federated logout
             var idp = User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
 

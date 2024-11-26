@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IW5.IdentifyProvider.App.Pages.Redirect;
+namespace IW5.IdentityProvider.App.Pages.Redirect;
 
 [AllowAnonymous]
 public class IndexModel : PageModel

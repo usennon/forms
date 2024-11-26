@@ -6,8 +6,9 @@ using System.Security.Claims;
 using System.Text.Json;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Test;
+using IW5.DAL.Initialization;
 
-namespace IW5.IdentifyProvider.App;
+namespace IW5.IdentityProvider.App;
 
 public static class TestUsers
 {
@@ -22,42 +23,58 @@ public static class TestUsers
                 postal_code = "69118",
                 country = "Germany"
             };
-                
-            return new List<TestUser>
+
+            var identityUsers = new List<TestUser>
             {
                 new TestUser
                 {
                     SubjectId = "1",
-                    Username = "alice",
-                    Password = "alice",
+                    Username = "tempUser",
+                    Password = "password",
                     Claims =
                     {
-                        new Claim(JwtClaimTypes.Name, "Alice Smith"),
-                        new Claim(JwtClaimTypes.GivenName, "Alice"),
-                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                        new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
-                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                        new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
-                        new Claim(JwtClaimTypes.Address, JsonSerializer.Serialize(address), IdentityServerConstants.ClaimValueTypes.Json)
+                        new Claim(JwtClaimTypes.Name, "User CookBook"),
+                        new Claim(JwtClaimTypes.GivenName, "User"),
+                        new Claim(JwtClaimTypes.FamilyName, "CookBook"),
+                        new Claim(JwtClaimTypes.Email, "usercookbook@email.com"),
+                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean)
                     }
                 },
                 new TestUser
                 {
                     SubjectId = "2",
-                    Username = "bob",
-                    Password = "bob",
+                    Username = "admin",
+                    Password = "password",
                     Claims =
                     {
-                        new Claim(JwtClaimTypes.Name, "Bob Smith"),
-                        new Claim(JwtClaimTypes.GivenName, "Bob"),
-                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                        new Claim(JwtClaimTypes.Email, "BobSmith@email.com"),
-                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                        new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
-                        new Claim(JwtClaimTypes.Address, JsonSerializer.Serialize(address), IdentityServerConstants.ClaimValueTypes.Json)
+                        new Claim(JwtClaimTypes.Name, "Admin CookBook"),
+                        new Claim(JwtClaimTypes.GivenName, "Admin"),
+                        new Claim(JwtClaimTypes.FamilyName, "CookBook"),
+                        new Claim(JwtClaimTypes.Email, "admincookbook@email.com"),
+                        new Claim(JwtClaimTypes.Role, "admin")
                     }
                 }
             };
+            var id = 3;
+            foreach(var tempUser in SampleData.Users)
+            {
+                var userToAdd = new TestUser
+                {
+                    SubjectId = id++.ToString(),
+                    Username = tempUser.Name,
+                    Password = tempUser.Name + "@password",
+                    Claims =
+                    {
+                        new Claim(JwtClaimTypes.Name, tempUser.Name),
+                        new Claim(JwtClaimTypes.GivenName, tempUser.Name),
+                        new Claim(JwtClaimTypes.FamilyName, tempUser.Name),
+                        new Claim(JwtClaimTypes.Email, tempUser.Email),
+                        new Claim(JwtClaimTypes.Role, tempUser.Role.ToString())
+                    }
+                };
+                identityUsers.Add(userToAdd);
+            }
+            return identityUsers;
         }
     }
 }

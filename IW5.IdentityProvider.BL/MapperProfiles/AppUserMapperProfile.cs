@@ -28,6 +28,7 @@ public class AppUserMapperProfile : Profile
             .Ignore(entity => entity.AccessFailedCount);
 
         CreateMap<AppUserEntity, AppUserDetailModel>();
-        CreateMap<AppUserEntity, UserListModel>();
+        CreateMap<AppUserEntity, UserListModel>()
+            .Ignore(user => user.PhotoUrl);
     }
 }

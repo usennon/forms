@@ -4,7 +4,7 @@ using IW5.IdentityProvider.BL.Models;
 using IW5.IdentityProvider.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 
-namespace CookBook.IdentityProvider.BL.Facades;
+namespace IW5.IdentityProvider.BL.Facades;
 
 public class AppUserClaimsFacade : IAppUserClaimsFacade
 {

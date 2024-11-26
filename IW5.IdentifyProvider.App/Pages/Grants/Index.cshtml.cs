@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IW5.IdentifyProvider.App.Pages.Grants;
+namespace IW5.IdentityProvider.App.Pages.Grants;
 
 [SecurityHeaders]
 [Authorize]

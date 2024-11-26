@@ -1,7 +1,7 @@
 // Copyright (c) Duende Software. All rights reserved.
 // See LICENSE in the project root for license information.
 
-namespace IW5.IdentifyProvider.App.Pages.Login;
+namespace IW5.IdentityProvider.App.Pages.Login;
 
 public class ViewModel
 {
@@ -12,17 +12,11 @@ public class ViewModel
     public IEnumerable<ViewModel.ExternalProvider> VisibleExternalProviders => ExternalProviders.Where(x => !String.IsNullOrWhiteSpace(x.DisplayName));
 
     public bool IsExternalLoginOnly => EnableLocalLogin == false && ExternalProviders?.Count() == 1;
-    public string? ExternalLoginScheme => IsExternalLoginOnly ? ExternalProviders?.SingleOrDefault()?.AuthenticationScheme : null;
-        
+    public string ExternalLoginScheme => IsExternalLoginOnly ? ExternalProviders?.SingleOrDefault()?.AuthenticationScheme : null;
+
     public class ExternalProvider
     {
-        public ExternalProvider(string authenticationScheme, string? displayName = null)
-        {
-            AuthenticationScheme = authenticationScheme;
-            DisplayName = displayName;
-        }
-
-        public string? DisplayName { get; set; }
+        public string DisplayName { get; set; }
         public string AuthenticationScheme { get; set; }
     }
 }

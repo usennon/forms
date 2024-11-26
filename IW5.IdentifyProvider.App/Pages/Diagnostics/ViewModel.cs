@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using System.Text;
 using System.Text.Json;
 
-namespace IW5.IdentifyProvider.App.Pages.Diagnostics;
+namespace IW5.IdentityProvider.App.Pages.Diagnostics;
 
 public class ViewModel
 {

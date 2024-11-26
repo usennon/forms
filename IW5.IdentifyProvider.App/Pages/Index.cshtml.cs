@@ -6,22 +6,15 @@ using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IW5.IdentifyProvider.App.Pages.Home;
+namespace IW5.IdentityProvider.App.Pages.Home;
 
 [AllowAnonymous]
 public class Index : PageModel
 {
-    public Index(IdentityServerLicense? license = null)
-    {
-        License = license;
-    }
+    public string Version;
 
-    public string Version
+    public void OnGet()
     {
-        get => typeof(Duende.IdentityServer.Hosting.IdentityServerMiddleware).Assembly
-            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
-            ?.InformationalVersion.Split('+').First()
-            ?? "unavailable";
+        Version = typeof(Duende.IdentityServer.Hosting.IdentityServerMiddleware).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+').First();
     }
-    public IdentityServerLicense? License { get; }
 }

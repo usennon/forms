@@ -1,9 +1,12 @@
-﻿using IW5.BL.API.Contracts;
+﻿using IW5.API.Common;
+using IW5.BL.API.Contracts;
 using IW5.BL.Models.DetailModels;
 using IW5.BL.Models.ManipulationModels.FormsModels;
 using IW5.Common.Enums.Sorts;
 using IW5.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 [ApiController]
 [Route("api/[controller]")]
