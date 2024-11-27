@@ -24,7 +24,7 @@ namespace IW5.API
 
             builder.Services.ConfigureCors();
             builder.Services.ConfigureRepositoryManager();
-            builder.Services.ConfigureServiceManager();
+            builder.Services.ConfigureLogic();
 
 
             var connectionString = configuration.GetConnectionString("IW5");

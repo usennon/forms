@@ -14,9 +14,9 @@ namespace IW5.API.Controllers
     public class QuestionsController : ControllerBase
     {
         private readonly IQuestionBLogic _questionsLogic;
-        public QuestionsController(IServiceManager serviceManager)
+        public QuestionsController(IQuestionBLogic questionsLogic)
         {
-            _questionsLogic = serviceManager.QuestionService;
+            _questionsLogic = questionsLogic;
         }
 
         [HttpGet("all", Name = "GetAllQuestions")]

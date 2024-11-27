@@ -11,14 +11,9 @@ namespace IW5.BL.API
 {
     public class OptionLogic : BaseLogic<Option, OptionListModel, OptionDetailModel, OptionForManipulationModel>, IOptionBLogic
     {
-        private readonly IOptionRepository _optionRepository;
-        private readonly IMapper _mapper;
-
         public OptionLogic(IRepositoryManager repositoryManager, IMapper mapper) 
             : base(repositoryManager, repositoryManager.Option, mapper)
         {
-            _optionRepository = repositoryManager.Option;
-            _mapper = mapper;
         }
     }
 }

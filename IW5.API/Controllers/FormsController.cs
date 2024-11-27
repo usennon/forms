@@ -14,9 +14,9 @@ public class FormsController : ControllerBase
 {
     private readonly IFormBLogic _formLogic;
 
-    public FormsController(IServiceManager serviceManager)
+    public FormsController(IFormBLogic formLogic)
     {
-        _formLogic = serviceManager.FormService;
+        _formLogic = formLogic;
     }
 
     [HttpGet("all", Name = "GetAllForms")]

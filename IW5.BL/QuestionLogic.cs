@@ -15,19 +15,14 @@ namespace IW5.BL.API
         BaseLogic<Question, QuestionListModel, QuestionDetailModel, QuestionForManipulationModel>,
         IQuestionBLogic
     {
-        private readonly IQuestionRepository _questionRepository;
-        private readonly IMapper _mapper;
-
         public QuestionLogic(IRepositoryManager repositoryManager, IMapper mapper)
             : base(repositoryManager, repositoryManager.Question, mapper)
         {
-            _questionRepository = repositoryManager.Question;
-            _mapper = mapper;
         }
 
         private IQueryable<Question> SearchQuestions(string substring)
         {
-            return _questionRepository.SearchQuestionByText(substring, false);
+            return _repositoryManager.Question.SearchQuestionByText(substring, false);
         }
 
         private IEnumerable<QuestionListModel> SortQuestions(IQueryable<Question> searchQuery, QuestionSortType type)

@@ -15,25 +15,21 @@ namespace IW5.BL.API
         BaseLogic<Form, FormListModel, FormDetailModel, FormForManipulationModel>,
         IFormBLogic
     {
-        private readonly IFormRepository _formRepository;
-        private readonly IMapper _mapper;
 
         public FormLogic(IRepositoryManager repositoryManager, IMapper mapper) 
             : base(repositoryManager, repositoryManager.Form, mapper)
         {
-            _formRepository = repositoryManager.Form;
-            _mapper = mapper;
         }
 
         public async Task<FormDetailModel> GetFormByTitleAsync(string title)
         {
-            var form = await _formRepository.GetFormByTitleAsync(title, false);
+            var form = await _repositoryManager.Form.GetFormByTitleAsync(title, false);
             return _mapper.Map<FormDetailModel>(form);
         }
 
         private IQueryable<Form> SearchForms(string substring)
         {
-            return _formRepository.SearchFormByTitle(substring, false);
+            return _repositoryManager.Form.SearchFormByTitle(substring, false);
         }
 
         private IEnumerable<FormListModel> SortForms(IQueryable<Form> searchQuery, FormSortType type)

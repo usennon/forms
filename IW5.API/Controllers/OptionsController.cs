@@ -13,9 +13,9 @@ namespace IW5.API.Controllers
     {
         private readonly IOptionBLogic _optionsLogic;
 
-        public OptionsController(IServiceManager serviceManager)
+        public OptionsController(IOptionBLogic optionsLogic)
         {
-            _optionsLogic = serviceManager.OptionService;
+            _optionsLogic = optionsLogic;
         }
 
         // GET: api/Options
@@ -33,10 +33,10 @@ namespace IW5.API.Controllers
             var option = await _optionsLogic.GetByIdAsync(id);
             if (option == null)
             {
-                return NotFound($"Option with ID {id} not found.");
+                return NotFound($"Option with ID {id} not found."); 
             }
 
-            return Ok(option);
+            return Ok(option); 
         }
 
         // POST: api/Options
@@ -45,7 +45,7 @@ namespace IW5.API.Controllers
         {
             if (option == null)
             {
-                return BadRequest("Option data is null.");
+                return BadRequest("Option data is null."); 
             }
             if (!ModelState.IsValid)
             {
@@ -53,7 +53,7 @@ namespace IW5.API.Controllers
             }
 
             var createdOption = await _optionsLogic.Create(option);
-            return CreatedAtRoute("OptionById", new { id = createdOption.Id }, createdOption);
+            return CreatedAtRoute("OptionById", new { id = createdOption.Id }, createdOption); 
         }
 
         // PUT: api/Options/{id}
@@ -62,7 +62,7 @@ namespace IW5.API.Controllers
         {
             if (option == null)
             {
-                return BadRequest("Invalid data.");
+                return BadRequest("Invalid data."); 
             }
 
             var optionExists = await _optionsLogic.GetByIdAsync(id);
@@ -82,11 +82,11 @@ namespace IW5.API.Controllers
             var option = await _optionsLogic.GetByIdAsync(id);
             if (option == null)
             {
-                return NotFound($"Option with ID {id} not found.");
+                return NotFound($"Option with ID {id} not found."); 
             }
 
             await _optionsLogic.DeleteAsync(id, false);
-            return NoContent(); // Return 204 No Content after successful deletion
+            return NoContent(); 
         }
     }
 }

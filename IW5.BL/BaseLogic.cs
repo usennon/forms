@@ -18,9 +18,9 @@ namespace IW5.BL.API
         where TDetailModel : DetailModelBase
         where TManipulationModel : IManipulationModel
     {
-        private readonly IRepositoryManager _repositoryManager;
-        private readonly IRepo<TEntity> _baseRepository;
-        private readonly IMapper _mapper;
+        protected readonly IRepositoryManager _repositoryManager;
+        protected readonly IRepo<TEntity> _baseRepository;
+        protected readonly IMapper _mapper;
 
         public BaseLogic(IRepositoryManager repositoryManager, IRepo<TEntity> baseRepository, IMapper mapper)
         {
@@ -57,7 +57,8 @@ namespace IW5.BL.API
         {
             var entity = await _baseRepository.GetByIdAsync(id, trackChanges);
             if (entity is null)
-                throw new Exception();
+                throw new KeyNotFoundException($"Entity with id {id} not found!");
+
 
             _mapper.Map(dtoModel, entity);
             await _baseRepository.UpdateAsync(entity);
