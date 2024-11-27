@@ -31,9 +31,9 @@ namespace IW5.BL.API
             switch (type) 
             {
                 case UserSortType.AscendingName:
-                    return result.OrderBy(e => e.Name);
+                    return result.OrderBy(e => e.UserName);
                 case UserSortType.DescendingName:
-                    return result.OrderByDescending(e => e.Name);
+                    return result.OrderByDescending(e => e.UserName);
                 default:
                     return result;
             }

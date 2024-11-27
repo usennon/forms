@@ -47,7 +47,6 @@ namespace IW5.API.Controllers
             {
                 return BadRequest("Option data is null."); 
             }
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState); 

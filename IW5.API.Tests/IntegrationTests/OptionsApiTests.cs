@@ -73,7 +73,7 @@ namespace IW5.API.Tests
             {
                 Text = "Test Option",
                 QuestionId = SampleData.Questions.First().Id,
-                IsCheked = false
+                IsChecked = false
             };
 
             // Act
@@ -106,7 +106,7 @@ namespace IW5.API.Tests
             {
                 Text = "Updated Option",
                 QuestionId = SampleData.Questions.First().Id,
-                IsCheked = true
+                IsChecked = true
             };
 
             // Act
@@ -123,7 +123,7 @@ namespace IW5.API.Tests
             var updatedOption = new OptionForManipulationModel
             {
                 Text = "Non-existent Option",
-                IsCheked = false
+                IsChecked = false
             };
 
             // Act

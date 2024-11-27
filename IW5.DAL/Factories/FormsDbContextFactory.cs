@@ -9,7 +9,7 @@ namespace IW5.DAL.Factories
         public FormsDbContext CreateDbContext(string[] args)
         {
             var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
                 .AddUserSecrets<FormsDbContextFactory>(optional: true)
                 .Build();
 

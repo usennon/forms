@@ -108,8 +108,8 @@ namespace IW5.BL.Tests.MapperTests
                 IsRequired = true,
                 Options = new List<OptionListModel>
             {
-                new OptionListModel { Text = "Yes", IsCheked = true },
-                new OptionListModel { Text = "No", IsCheked = false }
+                new OptionListModel { Text = "Yes", IsChecked = true },
+                new OptionListModel { Text = "No", IsChecked = false }
             }
             };
 

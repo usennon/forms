@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace IW5.BL.API.Contracts
 {
-    public interface IBLogic<TEntity, TListModel, TDetailModel, TManipulationModel> 
+    public interface IBLogic<TEntity, TListModel, TDetailModel, TManipulationModel> : ILogic
         where TEntity : BaseEntity
         where TListModel : ListModelBase
         where TDetailModel : DetailModelBase

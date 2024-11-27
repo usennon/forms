@@ -61,7 +61,7 @@ namespace IW5.BL.API
 
 
             _mapper.Map(dtoModel, entity);
-
+            await _baseRepository.UpdateAsync(entity);
             await _repositoryManager.SaveAsync();
         }
 
