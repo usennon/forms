@@ -1,0 +1,23 @@
+﻿@using IW5.Models.Entities
+
+<div class="card shadow-lg mb-4" style="width: 18rem; border-radius: 10px;">
+    <img src="https://media.tenor.com/34dZMSdF3gMAAAAe/%D0%BA%D0%BE%D1%82-%D1%81%D0%BC%D0%B5%D1%91%D1%82%D1%81%D1%8F.png" class="card-img-top" alt="Form Image" style="border-top-left-radius: 10px; border-top-right-radius: 10px;">
+    <div class="card-body">
+        <h5 class="card-title text-center">@Form.Title</h5>
+        
+        <p class="card-text">
+            <strong>Start Date:</strong> @Form.StartDate.ToString("MMM dd, yyyy")
+        </p>
+        <p class="card-text">
+            <strong>End Date:</strong> @Form.EndDate.ToString("MMM dd, yyyy")
+        </p>
+        <div class="d-flex justify-content-between">
+            <a href="#" class="btn btn-primary btn-sm">View Form</a>
+            <span class="badge bg-secondary">@Form.Questions.Count() Questions</span>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public Form Form { get; set; }
+}

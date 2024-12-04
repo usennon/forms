@@ -24,6 +24,13 @@ namespace IW5.API.Extensions
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                options.AddPolicy("AllowBlazorApp",
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:5001")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
             });
 
         public static void ConfigureSqlContext(this IServiceCollection services, string? connectionString) =>

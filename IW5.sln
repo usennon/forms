@@ -42,7 +42,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IW5.IdentityProvider.App", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{532E55CA-D01E-469C-A0E4-4B6628C0B10C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IW5.Web.App", "IW5.Web.App\IW5.Web.App.csproj", "{28796467-0606-454D-8D79-8471BD572DB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IW5.Web.App", "IW5.Web.App\IW5.Web.App.csproj", "{28796467-0606-454D-8D79-8471BD572DB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

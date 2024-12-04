@@ -51,7 +51,7 @@ namespace IW5.API
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            app.UseCors("AllowBlazorApp");
             app.MapControllers();
 
             app.Run();
