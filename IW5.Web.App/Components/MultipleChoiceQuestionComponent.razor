@@ -1,0 +1,31 @@
+﻿@using IW5.Models.Entities
+
+@foreach (var option in Options)
+{
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox"
+               id="@($"option_{option.Id}")"
+               value="@option.Id.ToString()"
+               @bind="SelectedOptionsStrings" />
+        <label class="form-check-label" for="@($"option_{option.Id}")">
+            @option.Text
+        </label>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public ICollection<Option> Options { get; set; }
+
+    [Parameter]
+    public Guid QuestionId { get; set; }
+
+    private List<string> SelectedOptionsStrings { get; set; } = new List<string>();
+
+    public List<Guid> SelectedOptions
+    {
+        get => SelectedOptionsStrings.Select(s => Guid.Parse(s)).ToList();
+    }
+}
+
+}

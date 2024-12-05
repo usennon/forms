@@ -1,0 +1,49 @@
+﻿@using IW5.Models.Entities
+@using IW5.Common.Enums;
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">@Question.Text</h5>
+        @if (!string.IsNullOrEmpty(Question.Description))
+        {
+            <p class="card-text">@Question.Description</p>
+        }
+        <p>
+            @if (Question.IsRequired)
+            {
+                <span class="badge bg-danger">Mandatory</span>
+            }
+            else
+            {
+                <span class="badge bg-secondary">Non-mandatory</span>
+            }
+        </p>
+        @switch (Question.Type)
+        {
+            case QuestionType.Test:
+                <TestQuestionComponent Options="Question.Options" QuestionId="Question.Id" />
+                break;
+            case QuestionType.Text:
+                <TextQuestionComponent />
+                break;
+            case QuestionType.Numbers:
+                <NumberQuestionComponent />
+                break;
+            case QuestionType.YesNo:
+                <YesNoQuestionComponent Question="Question" />
+                break;
+            case QuestionType.MultipleChoice:
+                <MultipleChoiceQuestionComponent Options="Question.Options" QuestionId="Question.Id" />
+                break;
+            default:
+                <p>Unknown type number</p>
+                break;
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Question Question { get; set; }
+}
+

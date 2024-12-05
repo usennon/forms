@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using IW5.Models.Entities
+
+<div class="mb-3">
+    <label>@Question.Text</label>
+    <InputRadioGroup @bind-Value="Answer">
+        <div class="form-check">
+            <InputRadio class="form-check-input"
+                        id="@($"yesOption_{Question.Id}")"
+                        Value="@("Yes")" />
+            <label class="form-check-label" for="@($"yesOption_{Question.Id}")">
+                Yes
+            </label>
+        </div>
+        <div class="form-check">
+            <InputRadio class="form-check-input"
+                        id="@($"noOption_{Question.Id}")"
+                        Value="@("No")" />
+            <label class="form-check-label" for="@($"noOption_{Question.Id}")">
+                No
+            </label>
+        </div>
+    </InputRadioGroup>
+</div>
+
+@code {
+    [Parameter]
+    public Question Question { get; set; }
+
+    private string Answer { get; set; }
+
+}
+

@@ -7,7 +7,6 @@ using IW5.Common.Enums.Sorts;
 using IW5.DAL.Contracts;
 using IW5.DAL.Repository;
 using IW5.Models.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace IW5.BL.API
 {    
