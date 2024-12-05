@@ -1,0 +1,50 @@
+﻿@page "/questions"
+@using IW5.Models.Entities
+@inject IW5ApiService ApiService
+
+<h3 class="mb-4">Questions</h3>
+
+@if (_questions == null)
+{
+    <p>Loading...</p>
+}
+else if (_questions.Count == 0)
+{
+    <p>No questions found.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Date Created</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var question in _questions)
+                {
+                    <tr>
+                        <td>@_questions.IndexOf(question)</td>
+                        <td>@question.Text</td>
+                        <td>@question.Description</td>
+                        <td>@question.Type</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private List<Question> _questions;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _questions = await ApiService.GetAllQuestionsAsync();
+    }
+}
