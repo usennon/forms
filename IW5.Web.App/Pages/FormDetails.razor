@@ -1,0 +1,48 @@
+﻿@page "/forms/{FormId:guid}"
+@using IW5.Models.Entities
+@using IW5.Web.App.Components
+@inject IW5ApiService ApiService
+
+<h1>Form Details</h1>
+
+@if (form == null)
+{
+    <p>Loading form...</p>
+}
+else
+{
+    <div class="card shadow-lg mb-4">
+        <div class="card-body">
+            <h3 class="card-title">@form.Title</h3>
+            <p><strong>Start Date:</strong> @form.StartDate.ToString("MMM dd, yyyy")</p>
+            <p><strong>End Date:</strong> @form.EndDate.ToString("MMM dd, yyyy")</p>
+        </div>
+    </div>
+
+    <h4>Questions</h4>
+    @if (form.Questions == null || form.Questions.Count == 0)
+    {
+        <p>No questions available for this form.</p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var question in form.Questions)
+            {
+                <QuestionCard Question="question" />
+            }
+        </ul>
+    }
+}
+
+@code {
+    [Parameter] public Guid FormId { get; set; }
+
+    private Form form;
+
+    protected override async Task OnInitializedAsync()
+    {
+        form = await ApiService.GetFormByIdAsync(FormId);
+    }
+}
+

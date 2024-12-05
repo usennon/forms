@@ -15,6 +15,12 @@ public class IW5ApiService
     {
         return await _httpClient.GetFromJsonAsync<List<Form>>("api/Forms/all");
     }
+
+    public async Task<Form> GetFormByIdAsync(Guid id)
+    {
+        return await _httpClient.GetFromJsonAsync<Form>($"api/forms/{id}");
+    }
+
 }
 
 

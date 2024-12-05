@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using IW5.Models.Entities
+
+<InputRadioGroup @bind-Value="SelectedOptionIdString" class="mb-3">
+    @foreach (var option in Options)
+    {
+        <div class="form-check">
+            <InputRadio class="form-check-input"
+                        id="@($"option_{option.Id}")"
+                        Value="@option.Id.ToString()" />
+            <label class="form-check-label" for="@($"option_{option.Id}")">
+                @option.Text
+            </label>
+        </div>
+    }
+</InputRadioGroup>
+
+@code {
+    [Parameter]
+    public ICollection<Option> Options { get; set; }
+
+    [Parameter]
+    public Guid QuestionId { get; set; }
+
+    private string SelectedOptionIdString { get; set; }
+
+    public Guid? SelectedOptionId
+    {
+        get => Guid.TryParse(SelectedOptionIdString, out var id) ? id : (Guid?)null;
+    }
+}
+
