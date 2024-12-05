@@ -2,6 +2,7 @@
 using IW5.Common.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace IW5.Models.Entities
 {
@@ -28,6 +29,7 @@ namespace IW5.Models.Entities
         [Phone]
         [MaxLength(20)]
         public string? PhoneNumber { get; set; }
+        [JsonIgnore]
 
         public virtual ICollection<Form> Forms { get; set; } = new List<Form>();
 

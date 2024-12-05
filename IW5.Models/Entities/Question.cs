@@ -2,6 +2,7 @@
 using IW5.Common.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace IW5.Models.Entities
 {
@@ -25,6 +26,7 @@ namespace IW5.Models.Entities
         [Required]
         public Guid FormId { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("FormId")]
         public Form Form { get; set; } 
 

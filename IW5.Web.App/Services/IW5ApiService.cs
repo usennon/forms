@@ -1,4 +1,5 @@
-﻿using IW5.Models.Entities;
+﻿using IW5.Common.Enums.Sorts;
+using IW5.Models.Entities;
 using System.Net.Http.Json;
 
 public class IW5ApiService
@@ -10,10 +11,27 @@ public class IW5ApiService
         _httpClient = httpClient;
     }
 
-    // Example: Get data from API
     public async Task<List<Form>> GetAllFormsAsync()
     {
         return await _httpClient.GetFromJsonAsync<List<Form>>("api/Forms/all");
+    }
+
+    // Alternative to GetAllFormsAsync(). Will filter all data on server side. Bad: To many requests to Server, better filter forms on client side.
+    public async Task<List<Form>> GetFilteredOrSortedFormsAsync(FormSortType sortType, string searchString)
+    {
+        //URL : /api/Forms/filter/{sortType}/{searchString}
+        var url = $"api/Forms/filter/{(int)sortType}/{Uri.EscapeDataString(searchString)}";
+
+        var response = await _httpClient.GetAsync(url);
+        return await response.Content.ReadFromJsonAsync<List<Form>>();
+    }
+    public async Task DeleteFormAsync(Guid formId)
+    {
+        var response = await _httpClient.DeleteAsync($"api/Forms/{formId}");
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception("Error deleting form");
+        }
     }
 
     public async Task<Form> GetFormByIdAsync(Guid id)

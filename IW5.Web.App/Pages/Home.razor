@@ -1,37 +1,150 @@
 ﻿@page "/"
+@using IW5.Common.Enums.Sorts
 @using IW5.Models.Entities
 @using IW5.Web.App.Components
 @inject IW5ApiService ApiService
+@inject NavigationManager NavigationManager
 
 <PageTitle>Home</PageTitle>
 
-<h1>Forms</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">IW5 Forms</h1>
 
-<div class="row">
-    @if (forms == null)
-    {
-        <p>Loading...</p>
-    }
-    else
-    {
-        @foreach (var form in forms)
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+        <div class="w-100 w-md-50 mb-3 mb-md-0">
+            <input type="text" id="titleSearch" class="form-control mb-2" placeholder="Search by Title..." @oninput="OnSearchInputChanged" />
+            <input type="text" id="nameSearch" class="form-control mb-2" placeholder="Search by Author Name..." @oninput="OnSearchInputNameChanged" />
+            <input type="text" id="emailSearch" class="form-control mb-2" placeholder="Search by Email..." @oninput="OnSearchInputEmailChanged" />
+        </div>
+
+
+        <div class="w-100 w-md-25">
+            <select class="form-control" @onchange="OnSortChanged">
+                <option value="None">Sort By</option>
+                <option value="AscendingTitle">Title Ascending</option>
+                <option value="DescendingTitle">Title Descending</option>
+                <option value="AscendingStartDate">Start Date Ascending</option>
+                <option value="DescendingStartDate">Start Date Descending</option>
+                <option value="AscendingEndDate">End Date Ascending</option>
+                <option value="DescendingEndDate">End Date Descending</option>
+                <option value="AscendingQuestionsCount">Questions Count Ascending</option>
+                <option value="DescendingQuestionsCount">Questions Count Descending</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-start mb-3">
+        <button class="btn btn-success" @onclick="NavigateToCreateForm">+ Create New Form</button>
+    </div>
+
+    <div class="list-group">
+        @if (filteredForms == null)
         {
-            <div class="col-md-4">
-                <FormCard Form="form" />
-            </div>
+            <p class="text-center">Loading...</p>
         }
-    }
+        else if (filteredForms.Count == 0)
+        {
+            <p class="text-center">No forms found.</p>
+        }
+        else
+        {
+            @foreach (var form in filteredForms)
+            {
+                <FormCard Form="form" />
+            }
+        }
+    </div>
 </div>
 
 @code {
     private List<Form> forms;
+    private List<Form> filteredForms;
+    private string filterTitle = string.Empty;
+    private string filterName = string.Empty;
+    private string filterEmail = string.Empty;
+    private FormSortType currentSortType = FormSortType.None;
 
     protected override async Task OnInitializedAsync()
     {
         forms = await ApiService.GetAllFormsAsync();
-        foreach(Form form in forms)
+        filteredForms = new List<Form>(forms);
+    }
+
+    private void NavigateToCreateForm()
+    {
+        NavigationManager.NavigateTo("/create-form");
+    }
+
+    private void OnSearchInputChanged(ChangeEventArgs e)
+    {
+        filterTitle = e.Value.ToString();
+        ApplyFilterAndSorting();
+    }
+
+    private void OnSearchInputNameChanged(ChangeEventArgs e)
+    {
+        filterName = e.Value.ToString();
+        ApplyFilterAndSorting();
+    }
+
+    private void OnSearchInputEmailChanged(ChangeEventArgs e)
+    {
+        filterEmail = e.Value.ToString();
+        ApplyFilterAndSorting();
+    }
+
+    private void ApplyFilterAndSorting()
+    {
+        filteredForms = forms.Where(f =>
+            (string.IsNullOrEmpty(filterTitle) || f.Title.Contains(filterTitle, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(filterName) || f.Author.Name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(filterEmail) || f.Author.Email.Contains(filterEmail, StringComparison.OrdinalIgnoreCase))
+        ).ToList();
+
+        ApplySorting();
+    }
+
+    private void OnSortChanged(ChangeEventArgs e)
+    {
+        currentSortType = Enum.TryParse<FormSortType>(e.Value.ToString(), out var sortType)
+            ? sortType
+            : FormSortType.None;
+
+        ApplySorting();
+    }
+
+    private void ApplySorting()
+    {
+        switch (currentSortType)
         {
-            Console.WriteLine(form.Title);
+            case FormSortType.AscendingTitle:
+                filteredForms = filteredForms.OrderBy(f => f.Title).ToList();
+                break;
+            case FormSortType.DescendingTitle:
+                filteredForms = filteredForms.OrderByDescending(f => f.Title).ToList();
+                break;
+            case FormSortType.AscendingStartDate:
+                filteredForms = filteredForms.OrderBy(f => f.StartDate).ToList();
+                break;
+            case FormSortType.DescendingStartDate:
+                filteredForms = filteredForms.OrderByDescending(f => f.StartDate).ToList();
+                break;
+            case FormSortType.AscendingEndDate:
+                filteredForms = filteredForms.OrderBy(f => f.EndDate).ToList();
+                break;
+            case FormSortType.DescendingEndDate:
+                filteredForms = filteredForms.OrderByDescending(f => f.EndDate).ToList();
+                break;
+            case FormSortType.AscendingQuestionsCount:
+                filteredForms = filteredForms.OrderBy(f => f.Questions.Count()).ToList();
+                break;
+            case FormSortType.DescendingQuestionsCount:
+                filteredForms = filteredForms.OrderByDescending(f => f.Questions.Count()).ToList();
+                break;
+            default:
+                break;
         }
     }
 }

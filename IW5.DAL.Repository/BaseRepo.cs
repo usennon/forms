@@ -28,7 +28,7 @@ namespace IW5.DAL.Repository
         public async ValueTask<bool> ExistsAsync(Guid id)
             => id != Guid.Empty
             && await _dbSet.AnyAsync(e => e.Id == id).ConfigureAwait(false);
-        public IQueryable<T> GetAll(bool trackChanges) => !trackChanges ?
+        public virtual IQueryable<T> GetAll(bool trackChanges) => !trackChanges ?
             _dbSet.AsNoTracking() : _dbSet;
         public virtual async Task<T> GetByIdAsync(Guid id, bool trackChanges)
             => await GetByCondition(e => e.Id == id, trackChanges).SingleOrDefaultAsync();

@@ -77,7 +77,7 @@ namespace IW5.API.Tests
             {
                 Name = "Test User",
                 Email = "testuser@example.com",
-                Role = Common.Enums.Role.Basic,
+                Role = IW5.Common.Enums.Role.Basic,
                 PhotoUrl = "https://example.com/photo.jpg",
             };
 

@@ -9,6 +9,10 @@ namespace IW5.DAL.Repository
         public FormRepository(FormsDbContext repositoryContext) : base(repositoryContext)
         {
         }
+        public override IQueryable<Form> GetAll(bool trackChanges)
+        {
+            return base.GetAll(trackChanges).Include(f => f.Questions).Include(a=>a.Author);
+        }
         public async Task<Form> GetFormByTitleAsync(string title, bool trackChanges)
             => await GetByCondition(f => f.Title.ToLower().Contains(title.ToLower()), trackChanges, f => f.Questions)
             .SingleOrDefaultAsync();
