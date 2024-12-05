@@ -1,0 +1,61 @@
+﻿@page "/create-form"
+@using IW5.Models.Entities
+@using IW5.BL.Models.ManipulationModels.QuestionModels;
+@using IW5.BL.Models.ManipulationModels.FormsModels;
+@inject IW5ApiService ApiService
+@inject NavigationManager NavigationManager
+
+<h3>New form creation</h3>
+
+<EditForm Model="newForm" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <InputText @bind-Value="newForm.Title" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Start date</label>
+        <InputDate @bind-Value="newForm.StartDate" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">End date</label>
+        <InputDate @bind-Value="newForm.EndDate" class="form-control" />
+    </div>
+
+    <h4>Questions</h4>
+    @foreach (var question in newForm.Questions)
+    {
+        <QuestionCreationComponent Question="question" OnRemove="@(() => RemoveQuestion(question))" />
+    }
+
+    <button type="button" class="btn btn-secondary" @onclick="AddQuestion">Add question</button>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Create form</button>
+    </div>
+</EditForm>
+
+@code {
+    private FormForManipulationModel newForm = new();
+
+    private void AddQuestion()
+    {
+        newForm.Questions.Add(new QuestionForManipulationModel());
+    }
+
+    private void RemoveQuestion(QuestionForManipulationModel question)
+    {
+        newForm.Questions.Remove(question);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await ApiService.CreateFormAsync(newForm);
+        NavigationManager.NavigateTo("/");
+    }
+}
+

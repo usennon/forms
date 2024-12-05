@@ -1,10 +1,13 @@
-﻿namespace IW5.BL.Models.ManipulationModels.FormsModels
+﻿using IW5.BL.Models.ManipulationModels.QuestionModels;
+
+namespace IW5.BL.Models.ManipulationModels.FormsModels
 {
     public record FormForManipulationModel : IManipulationModel
     {
-        public string Title { get; init; }
-        public DateTime StartDate { get; init; }
-        public DateTime EndDate { get; init; }
-        public Guid AuthorId { get; init; }
+        public string Title { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public Guid AuthorId { get; set; }
+        public List<QuestionForManipulationModel>? Questions { get; set; }
     }
 }

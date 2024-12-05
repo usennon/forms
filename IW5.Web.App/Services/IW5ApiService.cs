@@ -1,6 +1,7 @@
 ﻿using IW5.Common.Enums.Sorts;
 using IW5.Models.Entities;
 using System.Net.Http.Json;
+using IW5.BL.Models.ManipulationModels.FormsModels;
 
 public class IW5ApiService
 {
@@ -38,6 +39,13 @@ public class IW5ApiService
     {
         return await _httpClient.GetFromJsonAsync<Form>($"api/forms/{id}");
     }
+
+    public async Task CreateFormAsync(FormForManipulationModel newForm)
+    {
+        var response = await _httpClient.PostAsJsonAsync("api/forms", newForm);
+        response.EnsureSuccessStatusCode();
+    }
+
 
 }
 
