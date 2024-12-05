@@ -15,5 +15,7 @@ namespace IW5.Common.Enums.Sorts
         DescendingStartDate,
         AscendingEndDate,
         DescendingEndDate,
+        AscendingQuestionsCount,
+        DescendingQuestionsCount
     }
 }
