@@ -1,0 +1,51 @@
+﻿@page "/users"
+@using IW5.Models.Entities
+@inject IW5ApiService ApiService
+
+<h3 class="mb-4">Users</h3>
+
+@if (_users == null)
+{
+    <p>Loading...</p>
+}
+else if (_users.Count == 0)
+{
+    <p>No questions found.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var question in _users)
+                {
+                    <tr>
+                        <td>@_users.IndexOf(question)</td>
+                        <td>@question.Name</td>
+                        <td>@question.Email</td>
+                        <td>@question.PhoneNumber</td>
+                        <td>@question.Role</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private List<User> _users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _users = await ApiService.GetAllUsersAsync();
+    }
+}

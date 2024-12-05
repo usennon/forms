@@ -1,12 +1,37 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
 <div class="page">
     <main>
-        <div class="top-row px-4 auth">
+        <!-- Top Navigation Bar -->
+        <div class="top-row px-4 auth d-flex justify-content-between align-items-center">
+            <div class="nav-buttons d-flex gap-3">
+                <button class="btn btn-primary" @onclick="NavigateToForms">Forms</button>
+                <button class="btn btn-primary" @onclick="NavigateToQuestions">Questions</button>
+                <button class="btn btn-primary" @onclick="NavigateToUsers">Users</button>
+            </div>
             <LoginDisplay />
         </div>
 
+        <!-- Main Content -->
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+
+@code {
+    private void NavigateToUsers()
+    {
+        NavigationManager.NavigateTo("/users");
+    }
+
+    private void NavigateToQuestions()
+    {
+        NavigationManager.NavigateTo("/questions");
+    }
+
+    private void NavigateToForms()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}

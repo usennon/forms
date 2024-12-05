@@ -21,21 +21,21 @@ namespace IW5.API.Controllers
         }
 
         [HttpGet("all", Name = "GetUsers")]
-        [Authorize(Policy = "admin")]
+
         public ActionResult<IQueryable<User>> GetAll()
         {
             return Ok(_userLogic.GetAll());
         }
         
         [HttpGet("filtered", Name = "GetSortedOrSearchUsers")]
-        [Authorize(Policy = "admin")]
+
         public ActionResult<IQueryable<Form>> GetFilteredOrSorted(UserSortType type, string searchString = "")
         {
             return Ok(_userLogic.GetFilteredUsers(searchString, type));
         }
 
         [HttpDelete("{id:guid}")]
-        [Authorize(Policy = "admin")]
+
         public async Task<ActionResult> DeleteUser(Guid id)
         {
             await _userLogic.DeleteAsync(id, false);
@@ -43,7 +43,7 @@ namespace IW5.API.Controllers
         }
 
         [HttpGet("{id:guid}", Name = "UserById")]
-        [Authorize(Policy = "admin")]
+
         public async Task<ActionResult<IQueryable<User>>> GetById(Guid id)
         {
             var user = await _userLogic.GetByIdAsync(id);
@@ -55,7 +55,7 @@ namespace IW5.API.Controllers
         }
 
         [HttpPost(Name = "CreateUser")]
-        [Authorize(Policy = "admin")]
+
         public async Task<ActionResult> CreateUser([FromBody] UserForManipulationModel user)
         {
             var result = await _userLogic.Create(user);
@@ -63,7 +63,7 @@ namespace IW5.API.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        [Authorize(Policy = "admin")]
+
         public async Task<ActionResult> UpdateUserAsync(Guid id, [FromBody] UserForManipulationModel user)
         {
             await _userLogic.UpdateAsync(id, user, true);

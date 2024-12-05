@@ -26,6 +26,14 @@ public class IW5ApiService
         var response = await _httpClient.GetAsync(url);
         return await response.Content.ReadFromJsonAsync<List<Form>>();
     }
+    public async Task<List<Question>> GetAllQuestionsAsync()
+    {
+        return await _httpClient.GetFromJsonAsync<List<Question>>("api/Questions/all");
+    }
+    public async Task<List<User>> GetAllUsersAsync()
+    {
+        return await _httpClient.GetFromJsonAsync<List<User>>("api/Users/all");
+    }
     public async Task DeleteFormAsync(Guid formId)
     {
         var response = await _httpClient.DeleteAsync($"api/Forms/{formId}");
