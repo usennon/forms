@@ -5,7 +5,6 @@ using IW5.BL.Models.ListModels;
 using IW5.BL.Models.ManipulationModels.UserModels;
 using IW5.Common.Enums.Sorts;
 using IW5.DAL.Contracts;
-using IW5.DAL.Repository;
 using IW5.Models.Entities;
 
 namespace IW5.BL.API
