@@ -1,0 +1,42 @@
+﻿@page "/create-form"
+@using IW5.Web.App.Components
+@using IW5.BL.Models.ManipulationModels.FormsModels
+@using IW5.BL.Models.ManipulationModels.QuestionModels
+@inject IW5ApiService ApiService
+@inject NavigationManager NavigationManager
+
+<h3>New form creation</h3>
+
+@if (newForm == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <FormManipulationComponent Model="newForm" OnValidSubmit="HandleValidSubmit" OnCancel="HandleCancel" />
+}
+
+@code {
+    private FormForManipulationModel newForm;
+
+    protected override void OnInitialized()
+    {
+        newForm = new FormForManipulationModel
+        {
+            Questions = new List<QuestionForManipulationModel>()
+        };
+    }
+
+    private async Task HandleValidSubmit(FormForManipulationModel form)
+    {
+        await ApiService.CreateFormAsync(form);
+        NavigationManager.NavigateTo("/");
+    }
+
+    private void HandleCancel()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}
+
+

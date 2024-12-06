@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using IW5.BL.Models.ManipulationModels.OptionModels;
+using IW5.Common.Enums;
 
 namespace IW5.BL.Models.ManipulationModels.QuestionModels
 {
     public record QuestionForManipulationModel : IManipulationModel
     {
-        public string Text { get; init; }
-        public string Description { get; init; }
-        public Guid FormId { get; init; }
-        public bool IsRequired { get; init; }
+        public string Text { get; set; }
+        public string Description { get; set; }
+        public QuestionType Type { get; set; }
+        public Guid FormId { get; set; }
+        public bool IsRequired { get; set; }
+        public List<OptionForManipulationModel>? Options { get; set; } = new List<OptionForManipulationModel>();
     }
 }

@@ -1,8 +1,7 @@
 ﻿using IW5.Models.Entities;
 using IW5.DAL.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices.Marshalling;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+
 
 
 namespace IW5.DAL.Repository

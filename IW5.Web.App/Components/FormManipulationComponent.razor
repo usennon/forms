@@ -1,0 +1,71 @@
+﻿@using IW5.BL.Models.ManipulationModels.FormsModels
+@using IW5.BL.Models.ManipulationModels.QuestionModels
+@using IW5.BL.Models.ManipulationModels.OptionModels
+@using Microsoft.AspNetCore.Components.Forms
+
+<EditForm Model="Model" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <InputText @bind-Value="Model.Title" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Start date</label>
+        <InputDate @bind-Value="Model.StartDate" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">End date</label>
+        <InputDate @bind-Value="Model.EndDate" class="form-control" />
+    </div>
+
+    <h4>Questions</h4>
+    @foreach (var question in Model.Questions)
+    {
+        <QuestionCreationComponent Question="question" OnRemove="@(() => RemoveQuestion(question))" />
+    }
+
+    <button type="button" class="btn btn-secondary" @onclick="AddQuestion">Add question</button>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-secondary" @onclick="OnCancelClicked">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public FormForManipulationModel Model { get; set; }
+
+    [Parameter]
+    public EventCallback<FormForManipulationModel> OnValidSubmit { get; set; }
+
+    [Parameter]
+    public EventCallback OnCancel { get; set; }
+
+    private void AddQuestion()
+    {
+        Model.Questions?.Add(new QuestionForManipulationModel
+            {
+                Options = new List<OptionForManipulationModel>()
+            });
+    }
+
+    private void RemoveQuestion(QuestionForManipulationModel question)
+    {
+        Model.Questions?.Remove(question);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await OnValidSubmit.InvokeAsync(Model);
+    }
+
+    private async Task OnCancelClicked()
+    {
+        await OnCancel.InvokeAsync();
+    }
+}
