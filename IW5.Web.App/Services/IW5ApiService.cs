@@ -54,6 +54,13 @@ public class IW5ApiService
         response.EnsureSuccessStatusCode();
     }
 
+    public async Task UpdateFormAsync(Guid id, FormForManipulationModel updatedForm)
+    {
+        var response = await _httpClient.PutAsJsonAsync($"api/forms/{id}", updatedForm);
+
+        response.EnsureSuccessStatusCode();
+    }
+
 
 }
 

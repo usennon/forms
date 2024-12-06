@@ -1,0 +1,65 @@
+﻿@page "/edit-form/{FormId:guid}"
+@using IW5.BL.Models.ManipulationModels.FormsModels
+@using IW5.BL.Models.ManipulationModels.QuestionModels
+@using IW5.BL.Models.ManipulationModels.OptionModels
+@using IW5.Models.Entities
+@using IW5.Web.App.Components
+@inject IW5ApiService ApiService
+@inject NavigationManager NavigationManager
+
+<h3>Edit Form</h3>
+
+@if (form == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <FormManipulationComponent Model="form" OnValidSubmit="HandleValidSubmit" OnCancel="HandleCancel" />
+}
+
+@code {
+    [Parameter]
+    public Guid FormId { get; set; }
+
+    private FormForManipulationModel form;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var existingForm = await ApiService.GetFormByIdAsync(FormId);
+
+        form = new FormForManipulationModel
+            {
+                Title = existingForm.Title,
+                StartDate = existingForm.StartDate,
+                EndDate = existingForm.EndDate,
+                AuthorId = existingForm.AuthorId,
+                Questions = existingForm.Questions?.Select(q => new QuestionForManipulationModel
+                {
+                    Text = q.Text,
+                    Description = q.Description,
+                    Type = q.Type,
+                    FormId = q.FormId,
+                    IsRequired = q.IsRequired,
+                    Options = q.Options?.Select(o => new OptionForManipulationModel
+                    {
+                        Text = o.Text,
+                        QuestionId = q.Id,
+                        IsChecked = false
+                    }).ToList()
+                }).ToList() ?? new List<QuestionForManipulationModel>()
+            };
+    }
+
+    private async Task HandleValidSubmit(FormForManipulationModel updatedForm)
+    {
+        await ApiService.UpdateFormAsync(FormId, updatedForm);
+        NavigationManager.NavigateTo("/");
+    }
+
+    private void HandleCancel()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}
+

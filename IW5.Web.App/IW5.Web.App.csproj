@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\EditForm.razor" />
     <Content Remove="Pages\FormDetails.razor" />
   </ItemGroup>
 
@@ -18,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IW5.BL.Models\IW5.BL.Models.csproj" />
     <ProjectReference Include="..\IW5.Models\IW5.Models.csproj" />
   </ItemGroup>
 
@@ -27,6 +29,10 @@
 
   <ItemGroup>
     <Content Include="Pages\FormDetails.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pages\EditForm.razor" />
   </ItemGroup>
 
 </Project>

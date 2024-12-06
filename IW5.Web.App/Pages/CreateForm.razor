@@ -1,61 +1,42 @@
 ﻿@page "/create-form"
-@using IW5.Models.Entities
-@using IW5.BL.Models.ManipulationModels.QuestionModels;
-@using IW5.BL.Models.ManipulationModels.FormsModels;
+@using IW5.Web.App.Components
+@using IW5.BL.Models.ManipulationModels.FormsModels
+@using IW5.BL.Models.ManipulationModels.QuestionModels
 @inject IW5ApiService ApiService
 @inject NavigationManager NavigationManager
 
 <h3>New form creation</h3>
 
-<EditForm Model="newForm" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <div class="mb-3">
-        <label class="form-label">Name</label>
-        <InputText @bind-Value="newForm.Title" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Start date</label>
-        <InputDate @bind-Value="newForm.StartDate" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">End date</label>
-        <InputDate @bind-Value="newForm.EndDate" class="form-control" />
-    </div>
-
-    <h4>Questions</h4>
-    @foreach (var question in newForm.Questions)
-    {
-        <QuestionCreationComponent Question="question" OnRemove="@(() => RemoveQuestion(question))" />
-    }
-
-    <button type="button" class="btn btn-secondary" @onclick="AddQuestion">Add question</button>
-
-    <div class="mt-4">
-        <button type="submit" class="btn btn-primary">Create form</button>
-    </div>
-</EditForm>
+@if (newForm == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <FormManipulationComponent Model="newForm" OnValidSubmit="HandleValidSubmit" OnCancel="HandleCancel" />
+}
 
 @code {
-    private FormForManipulationModel newForm = new();
+    private FormForManipulationModel newForm;
 
-    private void AddQuestion()
+    protected override void OnInitialized()
     {
-        newForm.Questions.Add(new QuestionForManipulationModel());
+        newForm = new FormForManipulationModel
+        {
+            Questions = new List<QuestionForManipulationModel>()
+        };
     }
 
-    private void RemoveQuestion(QuestionForManipulationModel question)
+    private async Task HandleValidSubmit(FormForManipulationModel form)
     {
-        newForm.Questions.Remove(question);
+        await ApiService.CreateFormAsync(form);
+        NavigationManager.NavigateTo("/");
     }
 
-    private async Task HandleValidSubmit()
+    private void HandleCancel()
     {
-        await ApiService.CreateFormAsync(newForm);
         NavigationManager.NavigateTo("/");
     }
 }
+
 

@@ -8,6 +8,6 @@ namespace IW5.BL.Models.ManipulationModels.FormsModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public Guid AuthorId { get; set; }
-        public List<QuestionForManipulationModel>? Questions { get; set; }
+        public List<QuestionForManipulationModel>? Questions { get; set; } = new List<QuestionForManipulationModel>();
     }
 }

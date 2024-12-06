@@ -10,6 +10,6 @@ namespace IW5.BL.Models.ManipulationModels.QuestionModels
         public QuestionType Type { get; set; }
         public Guid FormId { get; set; }
         public bool IsRequired { get; set; }
-        public List<OptionForManipulationModel>? Options { get; set; }
+        public List<OptionForManipulationModel>? Options { get; set; } = new List<OptionForManipulationModel>();
     }
 }
