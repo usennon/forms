@@ -117,6 +117,15 @@ namespace IW5.IdentityProvider.DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("AspNetUserClaims", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClaimType = "role",
+                            ClaimValue = "admin",
+                            UserId = new Guid("965dc8a8-63a2-448d-86c2-101632acfef3")
+                        });
                 });
 
             modelBuilder.Entity("IW5.IdentityProvider.DAL.Entities.AppUserEntity", b =>
@@ -190,6 +199,42 @@ namespace IW5.IdentityProvider.DAL.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("965dc8a8-63a2-448d-86c2-101632acfef3"),
+                            AccessFailedCount = 0,
+                            Active = false,
+                            ConcurrencyStamp = "1370db95-80cf-4c4a-bd16-96036e209c81",
+                            Email = "xpopov10@vutbr.cz",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "XPOPOV10@VUTBR.CZ",
+                            NormalizedUserName = "ALBERT",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEOkrEig4UgwbphGvgETx6+h77MErt3yqSNYQyl4dpCrY+WEpB4/Fn+gFIDg7rr9qQ==",
+                            PhoneNumberConfirmed = false,
+                            Subject = "Albert",
+                            TwoFactorEnabled = false,
+                            UserName = "Albert"
+                        },
+                        new
+                        {
+                            Id = new Guid("965dc8a8-63a2-448d-86c2-101632acfef4"),
+                            AccessFailedCount = 0,
+                            Active = false,
+                            ConcurrencyStamp = "31e201ff-9e64-4311-bdce-736407d21b15",
+                            Email = "xmalas04@vutbr.cz",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "XMALAS04@VUTBR.CZ",
+                            NormalizedUserName = "VLAD",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEOkrEig4UgwbphGvgETx6+h77MErt3yqSNYQyl4dpCrY+WEpB4/Fn+gFIDg7rr9qQ==",
+                            PhoneNumberConfirmed = false,
+                            Subject = "Vlad",
+                            TwoFactorEnabled = false,
+                            UserName = "Vlad"
+                        });
                 });
 
             modelBuilder.Entity("IW5.IdentityProvider.DAL.Entities.AppUserRoleEntity", b =>

@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace IW5.IdentityProvider.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class IntialCreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -157,6 +159,20 @@ namespace IW5.IdentityProvider.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "Active", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Subject", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { new Guid("965dc8a8-63a2-448d-86c2-101632acfef3"), 0, false, "1370db95-80cf-4c4a-bd16-96036e209c81", "xpopov10@vutbr.cz", true, false, null, "XPOPOV10@VUTBR.CZ", "ALBERT", "AQAAAAIAAYagAAAAEEOkrEig4UgwbphGvgETx6+h77MErt3yqSNYQyl4dpCrY+WEpB4/Fn+gFIDg7rr9qQ==", null, false, null, "Albert", false, "Albert" },
+                    { new Guid("965dc8a8-63a2-448d-86c2-101632acfef4"), 0, false, "31e201ff-9e64-4311-bdce-736407d21b15", "xmalas04@vutbr.cz", true, false, null, "XMALAS04@VUTBR.CZ", "VLAD", "AQAAAAIAAYagAAAAEEOkrEig4UgwbphGvgETx6+h77MErt3yqSNYQyl4dpCrY+WEpB4/Fn+gFIDg7rr9qQ==", null, false, null, "Vlad", false, "Vlad" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserClaims",
+                columns: new[] { "Id", "ClaimType", "ClaimValue", "UserId" },
+                values: new object[] { 1, "role", "admin", new Guid("965dc8a8-63a2-448d-86c2-101632acfef3") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
