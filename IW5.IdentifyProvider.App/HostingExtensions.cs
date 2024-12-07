@@ -22,7 +22,7 @@ namespace IW5.IdentityProvider.App
                 .AddInMemoryClients(Config.Clients)
                 .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
                 .AddProfileService<LocalAppUserProfileService>()
-                .AddTestUsers(TestUsers.Users)
+                //.AddTestUsers(TestUsers.Users)
                 ;
 
             return builder.Build();

@@ -31,8 +31,20 @@ namespace IW5.API
 
             builder.Services.ConfigureSqlContext(connectionString);
             builder.Services.AddAutoMapper(typeof(Program));
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.Authority = "https://localhost:5002";
+                options.TokenValidationParameters.ValidateAudience = false;
+            });
 
-            
+            builder.Services.AddAuthorization(
+                options =>
+                {
+                    options.AddPolicy("admin", policy => policy.RequireRole("admin"));
+                });
+            builder.Services.AddHttpContextAccessor();
+
             var app = builder.Build();
             // At the time of the evaluation of phase 1, the check for in development or production was removed.
             // Since the website is in production, and we would like to give teachers the opportunity to evaluate it remotely without launching it locally.
@@ -57,21 +69,5 @@ namespace IW5.API
             app.Run();
         }
 
-        void ConfigureAuthentication(IServiceCollection serviceCollection, string identityServerUrl)
-        {
-            serviceCollection.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = identityServerUrl;
-                    options.TokenValidationParameters.ValidateAudience = false;
-                });
-
-            serviceCollection.AddAuthorization(
-                options =>
-                {
-                    options.AddPolicy(ApiPolicies.IngredientAdmin, policy => policy.RequireRole(AppRoles.Admin));
-                });
-            serviceCollection.AddHttpContextAccessor();
-        }
     }
 }

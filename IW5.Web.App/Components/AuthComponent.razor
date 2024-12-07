@@ -1,0 +1,14 @@
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject NavigationManager Navigation
+@inject IAccessTokenProvider TokenProvider
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await TokenProvider.RequestAccessToken();
+        if (!result.TryGetToken(out var token))
+        {
+            Navigation.NavigateTo("authentication/login");
+        }
+    }
+}

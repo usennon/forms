@@ -28,20 +28,20 @@ namespace IW5.IdentityProvider.App
         public static IEnumerable<ApiScope> ApiScopes =>
             new List<ApiScope>
             {
-            new ApiScope("IW5", "My API"),
+            new ApiScope("iw5api", "My API"),
             };
 
         public static IEnumerable<Client> Clients =>
                 [
                 new()
                 {
-                    ClientName = "IW5 Client",
+                    ClientName = "iw5client",
                     ClientId = "iw5client",
                     AllowOfflineAccess = true,
                     RedirectUris =
                     [
                         "https://oauth.pstmn.io/v1/callback",
-                        "https://localhost:44355/authentication/login-callback",
+                        "https://localhost:5001/authentication/login-callback",
                     ],
                     AllowedGrantTypes =
                     [
