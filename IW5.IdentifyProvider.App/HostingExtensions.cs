@@ -9,6 +9,7 @@ namespace IW5.IdentityProvider.App
     {
         public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
         {
+            builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
 
             builder.Services.AddIdentityServer(options =>
@@ -50,7 +51,7 @@ namespace IW5.IdentityProvider.App
             app.UseIdentityServer();
 
             app.UseAuthorization();
-            app.MapRazorPages().RequireAuthorization();
+            app.MapRazorPages();
             app.UseUserEndpoints();
 
             return app;

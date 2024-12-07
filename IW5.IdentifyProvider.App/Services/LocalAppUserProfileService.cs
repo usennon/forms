@@ -51,13 +51,27 @@ public class LocalAppUserProfileService : IProfileService
                 }).ToList();
 
                 claims.Add(new Claim("username", user.UserName));
+                claims.Add(new Claim("Id", user.Id.ToString()));
                 context.AddRequestedClaims(claims);
+                context.IssuedClaims.AddRange(claims!);
             }
         }
     }
 
     public async Task IsActiveAsync(IsActiveContext context)
     {
-        context.IsActive = true;
+        var subjectId = context.Subject.GetSubjectId();
+
+        AppUserDetailModel? user;
+
+        if (Guid.TryParse(subjectId, out var id))
+        {
+            user = await appUserFacade.GetUserByIdAsync(id);
+        }
+        else
+        {
+            user = await appUserFacade.GetUserByUserNameAsync(subjectId);
+        }
+        context.IsActive = user != null;
     }
 }
