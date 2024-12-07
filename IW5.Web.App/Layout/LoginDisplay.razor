@@ -1,9 +1,22 @@
 ﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Text
+@using System.Text.Json
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IAccessTokenProvider TokenProvider
+@inject IW5.Web.App.Services.TokenService TokenService
 @inject NavigationManager Navigation
 
 <AuthorizeView>
     <Authorized>
-        Hello, @context.User.Identity!.Name;
+        @if (!string.IsNullOrEmpty(TokenService.DecodedToken))
+        {
+            <p>Hello, @TokenService.DecodedToken !</p>
+        }
+        else
+        {
+            <p>Loading token...</p>
+        }
+
         <button class="nav-link btn btn-link" @onclick="BeginLogOut">Log out</button>
     </Authorized>
     <NotAuthorized>
@@ -11,7 +24,70 @@
     </NotAuthorized>
 </AuthorizeView>
 
-@code{
+
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await TokenProvider.RequestAccessToken();
+        if (result.TryGetToken(out var token))
+        {
+            DecodeJwt(token.Value);
+        }
+        else
+        {
+            Navigation.NavigateTo("authentication/login");
+        }
+    }
+
+        public void DecodeJwt(string jwt)
+    {
+        // Split the token into its three parts
+        var parts = jwt.Split('.');
+        if (parts.Length != 3)
+        {
+            throw new ArgumentException("Invalid JWT format.");
+        }
+
+        // Decode the header
+        var headerJson = Base64UrlDecode(parts[0]);
+        var payloadJson = Base64UrlDecode(parts[1]);
+        // Print out the decoded header and payload
+        Console.WriteLine("Header: " + headerJson);
+        Console.WriteLine("Payload: " + payloadJson);
+
+        // Deserialize into a C# object (if desired)
+        // For example, using System.Text.Json:
+        var headerData = JsonSerializer.Deserialize<JsonElement>(headerJson);
+        var payloadData = JsonSerializer.Deserialize<JsonElement>(payloadJson);
+        TokenService.DecodedToken = payloadData.GetProperty("username").GetString();
+
+        // You can now work with headerData and payloadData
+    }
+
+    private string Base64UrlDecode(string input)
+    {
+        // Base64URL encoded strings replace '+' with '-', '/' with '_', 
+        // and remove '=' padding. We need to revert these changes.
+        string output = input
+            .Replace('-', '+')
+            .Replace('_', '/');
+
+        // Add padding characters ('=') as needed
+        int padding = 4 - (output.Length % 4);
+        if (padding < 4)
+        {
+            output += new string('=', padding);
+        }
+
+        // Convert Base64 string to bytes
+        var bytes = Convert.FromBase64String(output);
+
+        // Convert bytes to UTF8 string
+        return Encoding.UTF8.GetString(bytes);
+    }
+
+
     public void BeginLogOut()
     {
         Navigation.NavigateToLogout("authentication/logout");

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using System.Net.Http.Json;
+using IW5.Web.App.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -25,6 +26,7 @@ var config = await httpClient.GetFromJsonAsync<AppConfig>("appsettings.json");
 
 // Register the API service
 builder.Services.AddScoped<IW5ApiService>();
+builder.Services.AddScoped<TokenService>();
 builder.Services.AddOidcAuthentication(options =>
 {
     builder.Configuration.Bind("IdentityServer", options.ProviderOptions);
