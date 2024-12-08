@@ -1,0 +1,162 @@
+﻿@page "/answers"
+@using IW5.Models.Entities
+@using IW5.Web.App.Components
+@inject IW5ApiService ApiService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Answers</PageTitle>
+
+<div class="container mt-5">
+    <!-- Page Title -->
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-primary">IW5 Answers</h1>
+        <p class="text-muted">View and manage all answers submitted for the forms.</p>
+    </div>
+
+    <!-- Filters & Sorting -->
+    <div class="d-flex flex-wrap justify-content-between align-items-start mb-4 gap-3">
+        <!-- Search Inputs -->
+        <div class="w-100 w-md-50">
+            <div class="input-group mb-2">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" id="titleSearch" class="form-control" placeholder="Search by Question..." @oninput="OnSearchInputChanged" />
+            </div>
+            <div class="input-group mb-2">
+                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                <input type="text" id="userSearch" class="form-control" placeholder="Search by User Name..." @oninput="OnSearchInputUserChanged" />
+            </div>
+        </div>
+
+        <!-- Sorting Dropdown -->
+        <div class="w-100 w-md-25">
+            <label for="sort" class="form-label fw-semibold">Sort By</label>
+            <select id="sort" class="form-select" @onchange="OnSortChanged">
+                <option value="None">None</option>
+                <option value="AscendingQuestion">Question Ascending</option>
+                <option value="DescendingQuestion">Question Descending</option>
+                <option value="AscendingUserName">User Name Ascending</option>
+                <option value="DescendingUserName">User Name Descending</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Answers List -->
+    <div class="list-group shadow-sm">
+        @if (filteredAnswers == null)
+        {
+            <div class="text-center my-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2 text-muted">Loading answers...</p>
+            </div>
+        }
+        else if (filteredAnswers.Count == 0)
+        {
+            <p class="text-center text-muted fs-5">No answers found. Try adjusting your filters.</p>
+        }
+        else
+        {
+            @foreach (var answer in filteredAnswers)
+            {
+                <AnswerCard Answer="answer" />
+            }
+        }
+    </div>
+</div>
+
+<!-- Custom Styles -->
+<style>
+    .input-group-text {
+        background-color: #f8f9fa;
+    }
+
+    .form-select {
+        border-radius: 10px;
+    }
+
+    .list-group {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+</style>
+
+@code {
+    private List<Answer> answers;
+    private List<Answer> filteredAnswers;
+    private string filterQuestion = string.Empty;
+    private string filterUser = string.Empty;
+    private AnswerSortType currentSortType = AnswerSortType.None;
+
+    protected override async Task OnInitializedAsync()
+    {
+        answers = await ApiService.GetAllAnswersAsync();
+        filteredAnswers = new List<Answer>(answers);
+    }
+
+    private void NavigateToCreateAnswer()
+    {
+        NavigationManager.NavigateTo("/create-answer");
+    }
+
+    private void OnSearchInputChanged(ChangeEventArgs e)
+    {
+        filterQuestion = e.Value?.ToString() ?? string.Empty;
+        ApplyFilterAndSorting();
+    }
+
+    private void OnSearchInputUserChanged(ChangeEventArgs e)
+    {
+        filterUser = e.Value?.ToString() ?? string.Empty;
+        ApplyFilterAndSorting();
+    }
+
+    private void ApplyFilterAndSorting()
+    {
+        filteredAnswers = answers.Where(a =>
+            (string.IsNullOrEmpty(filterQuestion) || a.Question.Text.Contains(filterQuestion, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(filterUser) || a.User.Name.Contains(filterUser, StringComparison.OrdinalIgnoreCase))
+        ).ToList();
+
+        ApplySorting();
+    }
+
+    private void OnSortChanged(ChangeEventArgs e)
+    {
+        currentSortType = Enum.TryParse<AnswerSortType>(e.Value?.ToString(), out var sortType)
+            ? sortType
+            : AnswerSortType.None;
+
+        ApplySorting();
+    }
+
+    private void ApplySorting()
+    {
+        switch (currentSortType)
+        {
+            case AnswerSortType.AscendingQuestion:
+                filteredAnswers = filteredAnswers.OrderBy(a => a.Question.Text).ToList();
+                break;
+            case AnswerSortType.DescendingQuestion:
+                filteredAnswers = filteredAnswers.OrderByDescending(a => a.Question.Text).ToList();
+                break;
+            case AnswerSortType.AscendingUserName:
+                filteredAnswers = filteredAnswers.OrderBy(a => a.User.Name).ToList();
+                break;
+            case AnswerSortType.DescendingUserName:
+                filteredAnswers = filteredAnswers.OrderByDescending(a => a.User.Name).ToList();
+                break;
+            default:
+                break;
+        }
+    }
+    public enum AnswerSortType
+    {
+        None,
+        AscendingQuestion,
+        DescendingQuestion,
+        AscendingUserName,
+        DescendingUserName
+    }
+
+}
