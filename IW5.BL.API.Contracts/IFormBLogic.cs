@@ -9,6 +9,7 @@ namespace IW5.BL.API.Contracts
     public interface IFormBLogic : IBLogic<Form, FormListModel, FormDetailModel, FormForManipulationModel>
     {
         IEnumerable<FormListModel> GetFilteredForms(string substring, FormSortType type);
+        Task SaveFormAnswersAsync(SubmitFormModel submitFormModel);
         Task<FormDetailModel> GetFormByTitleAsync(string title);
     }
 }
