@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IW5.BL.Models\IW5.BL.Models.csproj" />
     <ProjectReference Include="..\IW5.Models\IW5.Models.csproj" />
   </ItemGroup>
 

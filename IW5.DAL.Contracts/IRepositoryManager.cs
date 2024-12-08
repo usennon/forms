@@ -7,6 +7,8 @@
         IQuestionRepository Question { get; }
         IOptionRepository Option { get; }
 
+        IAnswerRepository Answer { get; }
+
         Task SaveAsync();
     }
 }
