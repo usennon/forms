@@ -89,4 +89,11 @@ public class FormsController : ControllerBase
         await _formLogic.DeleteAsync(id, false);
         return Ok();
     }
+    [HttpPost("submit")]
+    public async Task<IActionResult> SubmitFormAnswers([FromBody] SubmitFormModel model)
+    {
+        await _formLogic.SaveFormAnswersAsync(model);
+        return Ok(new { message = "Form answers submitted successfully" });
+    }
+
 }
