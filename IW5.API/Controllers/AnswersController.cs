@@ -38,5 +38,17 @@ public class AnswersController : ControllerBase
 
         return Ok(answer);
     }
+    [HttpDelete("{id:guid}")]
+    public async Task<ActionResult> Delete(Guid id)
+    {
+        var form = await _answerRepo.Answer.GetByIdAsync(id, false);
+        if (form == null)
+        {
+            return NotFound();
+        }
+
+        _answerRepo.Answer.Delete(form);
+        return Ok();
+    }
 
 }

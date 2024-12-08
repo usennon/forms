@@ -26,7 +26,12 @@ namespace IW5.DAL.Repository
 
             return query.FirstOrDefaultAsync(a => a.Id == id); // Fetch the Answer by id
         }
-    
+        public override void Delete(Answer entity)
+        {
+            base.Delete(entity);
+            _repositoryContext.SaveChanges();
+
+        }
         public async Task SaveFormAnswersAsync(SubmitFormModel model)
         {
             var answers = new List<Answer>();
