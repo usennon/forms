@@ -3,10 +3,13 @@ using IW5.IdentityProvider.DAL.Seeds;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using IW5.Models;
+using IW5.Models.Entities;
+using System.Reflection.Emit;
 
 namespace IW5.IdentityProvider.DAL;
 
-public class IdentityProviderDbContext : IdentityDbContext<AppUserEntity, AppRoleEntity, Guid, AppUserClaimEntity, AppUserRoleEntity, AppUserLoginEntity, AppRoleClaimEntity, AppUserTokenEntity>
+public class IdentityProviderDbContext : IdentityDbContext<User, AppRoleEntity, Guid, AppUserClaimEntity, AppUserRoleEntity, AppUserLoginEntity, AppRoleClaimEntity, AppUserTokenEntity>
 {
     public IdentityProviderDbContext(DbContextOptions options)
         : base(options)
@@ -16,9 +19,9 @@ public class IdentityProviderDbContext : IdentityDbContext<AppUserEntity, AppRol
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
-        UserSeeds.Seed(builder);
-        RoleSeeds.Seed(builder);
+        builder.Entity<User>(entity => {
+            entity.ToTable("Users");
+        });
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -27,4 +30,6 @@ public class IdentityProviderDbContext : IdentityDbContext<AppUserEntity, AppRol
             .ConfigureWarnings(warnings =>
                 warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
     }
+
+
 }

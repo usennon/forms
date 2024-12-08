@@ -2,6 +2,7 @@
 using IW5.IdentityProvider.DAL.Entities;
 using IW5.IdentityProvider.DAL;
 using Microsoft.AspNetCore.Identity;
+using IW5.Models.Entities;
 
 namespace IW5.IdentityProvider.App.Installers;
 
@@ -9,9 +10,9 @@ public class IdentityProviderAppInstaller : IInstaller
 {
     public void Install(IServiceCollection serviceCollection)
     {
-        serviceCollection.AddIdentity<AppUserEntity, AppRoleEntity>()
+        serviceCollection.AddIdentity<User, AppRoleEntity>()
             .AddEntityFrameworkStores<IdentityProviderDbContext>()
-            .AddTokenProvider<DataProtectorTokenProvider<AppUserEntity>>(TokenOptions.DefaultProvider);
+            .AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);
 
         serviceCollection.Configure<IdentityOptions>(options =>
         {

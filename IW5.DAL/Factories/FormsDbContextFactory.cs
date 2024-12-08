@@ -14,7 +14,7 @@ namespace IW5.DAL.Factories
                 .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<FormsDbContext>();
-            optionsBuilder.UseSqlServer("Server=tcp:sqldb-iw5-2024-team-xpopov10.database.windows.net,1433;Initial Catalog=db-iw5-2024-team-xpopov10;Persist Security Info=False;User ID=xpopov10;Password=/Automation#567*;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=100;");
+            optionsBuilder.UseSqlServer("Server=DESKTOP-UR6RKLM\\ALBERT;Database=IW5;Trusted_Connection=True;TrustServerCertificate=True");
             return new FormsDbContext(optionsBuilder.Options);
         }
     }

@@ -57,7 +57,7 @@ namespace IW5.DAL.Initialization
                 throw;
             }
             static void ProcessInsert<TEntity>(
-                FormsDbContext context, DbSet<TEntity> table, List<TEntity> records) where TEntity : BaseEntity
+                FormsDbContext context, DbSet<TEntity> table, List<TEntity> records) where TEntity : class, BaseEntity
             {
                 if (table.Any())
                 {

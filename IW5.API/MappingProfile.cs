@@ -23,9 +23,13 @@ namespace IW5.API
             // bl mappers
 
             // user mapper
-            CreateMap<User, UserListModel>();
-            CreateMap<User, UserDetailModel>().MapMember(dst => dst.Forms, src => src.Forms);
-            CreateMap<UserDetailModel, User>().Ignore(dst => dst.Forms);
+            CreateMap<User, UserListModel>()
+                .MapMember(dst => dst.Name, src => src.UserName);
+            CreateMap<User, UserDetailModel>()
+                .MapMember(dst => dst.Forms, src => src.Forms)
+                .MapMember(dst => dst.Name, src => src.UserName);
+            CreateMap<UserDetailModel, User>().Ignore(dst => dst.Forms)
+                .MapMember(dst => dst.UserName, src => src.Name);
             CreateMap<UserForManipulationModel, User>().ReverseMap();
 
             // form mapper

@@ -64,7 +64,7 @@
                     {
                         <tr>
                             <td>@filteredUsers.IndexOf(user)</td>
-                            <td>@user.Name</td>
+                            <td>@user.UserName</td>
                             <td>@user.Email</td>
                             <td>@user.PhoneNumber</td>
                             <td>@user.Role</td>
@@ -142,7 +142,7 @@
     private void ApplyFilterAndSorting()
     {
         filteredUsers = users.Where(u =>
-            (string.IsNullOrEmpty(filterName) || u.Name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(filterName) || u.UserName.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
             (string.IsNullOrEmpty(filterEmail) || u.Email.Contains(filterEmail, StringComparison.OrdinalIgnoreCase)) &&
             (string.IsNullOrEmpty(filterPhone) || u.PhoneNumber.Contains(filterPhone, StringComparison.OrdinalIgnoreCase))
         ).ToList();
@@ -164,10 +164,10 @@
         switch (currentSortType)
         {
             case UserSortType.NameAscending:
-                filteredUsers = filteredUsers.OrderBy(u => u.Name).ToList();
+                filteredUsers = filteredUsers.OrderBy(u => u.UserName).ToList();
                 break;
             case UserSortType.NameDescending:
-                filteredUsers = filteredUsers.OrderByDescending(u => u.Name).ToList();
+                filteredUsers = filteredUsers.OrderByDescending(u => u.UserName).ToList();
                 break;
             case UserSortType.EmailAscending:
                 filteredUsers = filteredUsers.OrderBy(u => u.Email).ToList();
