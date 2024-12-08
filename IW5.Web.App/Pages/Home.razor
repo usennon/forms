@@ -8,21 +8,35 @@
 <PageTitle>Home</PageTitle>
 
 <div class="container mt-5">
-    <h1 class="text-center mb-4">IW5 Forms</h1>
+    <!-- Page Title -->
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-primary">IW5 Forms</h1>
+        <p class="text-muted">Manage and explore all available forms.</p>
+    </div>
 
-
-    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
-
-        <div class="w-100 w-md-50 mb-3 mb-md-0">
-            <input type="text" id="titleSearch" class="form-control mb-2" placeholder="Search by Title..." @oninput="OnSearchInputChanged" />
-            <input type="text" id="nameSearch" class="form-control mb-2" placeholder="Search by Author Name..." @oninput="OnSearchInputNameChanged" />
-            <input type="text" id="emailSearch" class="form-control mb-2" placeholder="Search by Email..." @oninput="OnSearchInputEmailChanged" />
+    <!-- Filters & Sorting -->
+    <div class="d-flex flex-wrap justify-content-between align-items-start mb-4 gap-3">
+        <!-- Search Inputs -->
+        <div class="w-100 w-md-50">
+            <div class="input-group mb-2">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" id="titleSearch" class="form-control" placeholder="Search by Title..." @oninput="OnSearchInputChanged" />
+            </div>
+            <div class="input-group mb-2">
+                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                <input type="text" id="nameSearch" class="form-control" placeholder="Search by Author Name..." @oninput="OnSearchInputNameChanged" />
+            </div>
+            <div class="input-group mb-2">
+                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                <input type="text" id="emailSearch" class="form-control" placeholder="Search by Email..." @oninput="OnSearchInputEmailChanged" />
+            </div>
         </div>
 
-
+        <!-- Sorting Dropdown -->
         <div class="w-100 w-md-25">
-            <select class="form-control" @onchange="OnSortChanged">
-                <option value="None">Sort By</option>
+            <label for="sort" class="form-label fw-semibold">Sort By</label>
+            <select id="sort" class="form-select" @onchange="OnSortChanged">
+                <option value="None">None</option>
                 <option value="AscendingTitle">Title Ascending</option>
                 <option value="DescendingTitle">Title Descending</option>
                 <option value="AscendingStartDate">Start Date Ascending</option>
@@ -35,18 +49,27 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-start mb-3">
-        <button class="btn btn-success" @onclick="NavigateToCreateForm">+ Create New Form</button>
+    <!-- Create New Form Button -->
+    <div class="mb-3 text-start">
+        <button class="btn btn-success btn-lg shadow-sm" @onclick="NavigateToCreateForm">
+            <i class="bi bi-plus-circle me-2"></i> New
+        </button>
     </div>
 
-    <div class="list-group">
+    <!-- Forms List -->
+    <div class="list-group shadow-sm">
         @if (filteredForms == null)
         {
-            <p class="text-center">Loading...</p>
+            <div class="text-center my-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2 text-muted">Loading forms...</p>
+            </div>
         }
         else if (filteredForms.Count == 0)
         {
-            <p class="text-center">No forms found.</p>
+            <p class="text-center text-muted fs-5">No forms found. Try adjusting your filters.</p>
         }
         else
         {
@@ -57,6 +80,22 @@
         }
     </div>
 </div>
+
+<!-- Custom Styles -->
+<style>
+    .input-group-text {
+        background-color: #f8f9fa;
+    }
+
+    .form-select {
+        border-radius: 10px;
+    }
+
+    .list-group {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+</style>
 
 @code {
     private List<Form> forms;
@@ -79,19 +118,19 @@
 
     private void OnSearchInputChanged(ChangeEventArgs e)
     {
-        filterTitle = e.Value.ToString();
+        filterTitle = e.Value?.ToString() ?? string.Empty;
         ApplyFilterAndSorting();
     }
 
     private void OnSearchInputNameChanged(ChangeEventArgs e)
     {
-        filterName = e.Value.ToString();
+        filterName = e.Value?.ToString() ?? string.Empty;
         ApplyFilterAndSorting();
     }
 
     private void OnSearchInputEmailChanged(ChangeEventArgs e)
     {
-        filterEmail = e.Value.ToString();
+        filterEmail = e.Value?.ToString() ?? string.Empty;
         ApplyFilterAndSorting();
     }
 
@@ -108,7 +147,7 @@
 
     private void OnSortChanged(ChangeEventArgs e)
     {
-        currentSortType = Enum.TryParse<FormSortType>(e.Value.ToString(), out var sortType)
+        currentSortType = Enum.TryParse<FormSortType>(e.Value?.ToString(), out var sortType)
             ? sortType
             : FormSortType.None;
 

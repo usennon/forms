@@ -9,7 +9,7 @@ namespace IW5.DAL
         public DbSet<Question> Questions { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Option> Options { get; set; } = null!;
-
+        public DbSet<Answer> Answers { get; set; }
         public FormsDbContext(DbContextOptions<FormsDbContext> options)
             : base(options)
         {
@@ -23,8 +23,36 @@ namespace IW5.DAL
             ConfigureFormEntity(modelBuilder);
             ConfigureQuestionEntity(modelBuilder);
             ConfigureOptionEntity(modelBuilder);
-        }
+            ConfigureAnswerEntity(modelBuilder);
 
+        }
+        private void ConfigureAnswerEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Answer>()
+                .HasOne(a => a.User)
+                .WithMany() 
+                .HasForeignKey(a => a.UserId)
+                .OnDelete(DeleteBehavior.NoAction); 
+
+            modelBuilder.Entity<Answer>()
+                .HasOne(a => a.Form)
+                .WithMany()
+                .HasForeignKey(a => a.FormId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Answer>()
+                .HasOne(a => a.Question)
+                .WithMany()
+                .HasForeignKey(a => a.QuestionId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Answer>()
+                .HasOne(a => a.AnswerOption)
+                .WithMany()
+                .HasForeignKey(a => a.AnswerOptionId)
+                .OnDelete(DeleteBehavior.NoAction);
+        }
+    
         private void ConfigureUserEntity(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
