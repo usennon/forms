@@ -1,51 +1,199 @@
 ﻿@page "/users"
 @using IW5.Models.Entities
+@using IW5.Common.Enums.Sorts
 @inject IW5ApiService ApiService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
-<h3 class="mb-4">Users</h3>
+<PageTitle>Users</PageTitle>
 
-@if (_users == null)
-{
-    <p>Loading...</p>
-}
-else if (_users.Count == 0)
-{
-    <p>No questions found.</p>
-}
-else
-{
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-            <thead class="thead-light">
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Role</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var question in _users)
-                {
-                    <tr>
-                        <td>@_users.IndexOf(question)</td>
-                        <td>@question.Name</td>
-                        <td>@question.Email</td>
-                        <td>@question.PhoneNumber</td>
-                        <td>@question.Role</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">User Management</h1>
+
+    <!-- Search and Sorting Section -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+        <div class="w-100 w-md-50 mb-3 mb-md-0">
+            <input type="text" class="form-control mb-2" placeholder="Search by Name..." @oninput="OnSearchInputNameChanged" />
+            <input type="text" class="form-control mb-2" placeholder="Search by Email..." @oninput="OnSearchInputEmailChanged" />
+            <input type="text" class="form-control mb-2" placeholder="Search by Phone..." @oninput="OnSearchInputPhoneChanged" />
+        </div>
+
+        <div class="w-100 w-md-25">
+            <select class="form-control" @onchange="OnSortChanged">
+                <option value="None">Sort By</option>
+                <option value="NameAscending">Name Ascending</option>
+                <option value="NameDescending">Name Descending</option>
+                <option value="EmailAscending">Email Ascending</option>
+                <option value="EmailDescending">Email Descending</option>
+                <option value="RoleAscending">Role Ascending</option>
+                <option value="RoleDescending">Role Descending</option>
+            </select>
+        </div>
     </div>
-}
+
+    <!-- Create User Button -->
+    <div class="d-flex justify-content-start mb-3">
+        <button class="btn btn-success" @onclick="NavigateToCreateUser">+ Create New User</button>
+    </div>
+
+    <!-- User List -->
+    <div class="table-responsive">
+        @if (filteredUsers == null)
+        {
+            <p class="text-center">Loading...</p>
+        }
+        else if (filteredUsers.Count == 0)
+        {
+            <p class="text-center">No users found.</p>
+        }
+        else
+        {
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in filteredUsers)
+                    {
+                        <tr>
+                            <td>@filteredUsers.IndexOf(user)</td>
+                            <td>@user.Name</td>
+                            <td>@user.Email</td>
+                            <td>@user.PhoneNumber</td>
+                            <td>@user.Role</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm me-2" @onclick="() => ViewDetails(user.Id)">Details</button>
+                                <button class="btn btn-warning btn-sm me-2" @onclick="() => EditUser(user.Id)">Edit</button>
+                                <button class="btn btn-danger btn-sm" @onclick="() => DeleteUser(user.Id)">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
 
 @code {
-    private List<User> _users;
+    private List<User> users;
+    private List<User> filteredUsers;
+    private string filterName = string.Empty;
+    private string filterEmail = string.Empty;
+    private string filterPhone = string.Empty;
+    private UserSortType currentSortType = UserSortType.None;
 
     protected override async Task OnInitializedAsync()
     {
-        _users = await ApiService.GetAllUsersAsync();
+        users = await ApiService.GetAllUsersAsync();
+        filteredUsers = new List<User>(users);
+    }
+
+    private void NavigateToCreateUser()
+    {
+        NavigationManager.NavigateTo("/create-user");
+    }
+
+    private void ViewDetails(Guid userId)
+    {
+        NavigationManager.NavigateTo($"/user-details/{userId}");
+    }
+
+    private void EditUser(Guid userId)
+    {
+        NavigationManager.NavigateTo($"/edit-user/{userId}");
+    }
+
+    private async Task DeleteUser(Guid userId)
+    {
+        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", new object[] { "Are you sure you want to delete this form?" });
+        if (confirmed)
+        {
+            await ApiService.DeleteUserAsync(userId);
+            users = await ApiService.GetAllUsersAsync();
+            ApplyFilterAndSorting();
+        }
+    }
+
+    private void OnSearchInputNameChanged(ChangeEventArgs e)
+    {
+        filterName = e.Value.ToString();
+        ApplyFilterAndSorting();
+    }
+
+    private void OnSearchInputEmailChanged(ChangeEventArgs e)
+    {
+        filterEmail = e.Value.ToString();
+        ApplyFilterAndSorting();
+    }
+
+    private void OnSearchInputPhoneChanged(ChangeEventArgs e)
+    {
+        filterPhone = e.Value.ToString();
+        ApplyFilterAndSorting();
+    }
+
+    private void ApplyFilterAndSorting()
+    {
+        filteredUsers = users.Where(u =>
+            (string.IsNullOrEmpty(filterName) || u.Name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(filterEmail) || u.Email.Contains(filterEmail, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(filterPhone) || u.PhoneNumber.Contains(filterPhone, StringComparison.OrdinalIgnoreCase))
+        ).ToList();
+
+        ApplySorting();
+    }
+
+    private void OnSortChanged(ChangeEventArgs e)
+    {
+        currentSortType = Enum.TryParse<UserSortType>(e.Value.ToString(), out var sortType)
+            ? sortType
+            : UserSortType.None;
+
+        ApplySorting();
+    }
+
+    private void ApplySorting()
+    {
+        switch (currentSortType)
+        {
+            case UserSortType.NameAscending:
+                filteredUsers = filteredUsers.OrderBy(u => u.Name).ToList();
+                break;
+            case UserSortType.NameDescending:
+                filteredUsers = filteredUsers.OrderByDescending(u => u.Name).ToList();
+                break;
+            case UserSortType.EmailAscending:
+                filteredUsers = filteredUsers.OrderBy(u => u.Email).ToList();
+                break;
+            case UserSortType.EmailDescending:
+                filteredUsers = filteredUsers.OrderByDescending(u => u.Email).ToList();
+                break;
+            case UserSortType.RoleAscending:
+                filteredUsers = filteredUsers.OrderBy(u => u.Role).ToList();
+                break;
+            case UserSortType.RoleDescending:
+                filteredUsers = filteredUsers.OrderByDescending(u => u.Role).ToList();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private enum UserSortType
+    {
+        None,
+        NameAscending,
+        NameDescending,
+        EmailAscending,
+        EmailDescending,
+        RoleAscending,
+        RoleDescending
     }
 }

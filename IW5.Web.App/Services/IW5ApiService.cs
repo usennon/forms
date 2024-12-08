@@ -34,6 +34,15 @@ public class IW5ApiService
     {
         return await _httpClient.GetFromJsonAsync<List<User>>("api/Users/all");
     }
+    public async Task DeleteUserAsync(Guid userId)
+    {
+        var response = await _httpClient.DeleteAsync($"api/Users/{userId}");
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception("Error deleting form");
+        }
+    }
+
     public async Task DeleteFormAsync(Guid formId)
     {
         var response = await _httpClient.DeleteAsync($"api/Forms/{formId}");
