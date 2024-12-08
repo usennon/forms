@@ -1,4 +1,5 @@
-﻿using IW5.DAL.Contracts;
+﻿using IW5.BL.Models.ManipulationModels.FormsModels;
+using IW5.DAL.Contracts;
 using IW5.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -46,7 +47,6 @@ namespace IW5.DAL.Repository
         public async Task<IEnumerable<Form>?> GetActiveFormsAsync(bool trackChanges) =>
             await GetByCondition(f => f.StartDate <= DateTime.Now && f.EndDate >= DateTime.Now, trackChanges, f => f.Questions)
                 .ToListAsync();
-
 
     }
 }
