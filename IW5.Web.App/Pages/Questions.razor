@@ -20,9 +20,9 @@ else
                 <tr>
                     <th>#</th>
                     <th>Title</th>
-                    <th>Description</th>
                     <th>Type</th>
-                    <th>Date Created</th>
+                    <th>IsRequired</th>
+                    <th>Creation Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,8 +31,9 @@ else
                     <tr>
                         <td>@_questions.IndexOf(question)</td>
                         <td>@question.Text</td>
-                        <td>@question.Description</td>
                         <td>@question.Type</td>
+                        <td>@question.IsRequired</td>
+                        <td>@question.CreatedAt</td>
                     </tr>
                 }
             </tbody>
