@@ -26,6 +26,10 @@ namespace IW5.BL.API
             var form = await _repositoryManager.Form.GetFormByTitleAsync(title, false);
             return _mapper.Map<FormDetailModel>(form);
         }
+        public async Task SaveFormAnswersAsync(SubmitFormModel submitFormModel)
+        {
+            await _repositoryManager.Answer.SaveFormAnswersAsync(submitFormModel);
+        }
 
         private IQueryable<Form> SearchForms(string substring)
         {
