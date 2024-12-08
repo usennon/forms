@@ -8,23 +8,25 @@
 
 <AuthorizeView>
     <Authorized>
-        @if (!string.IsNullOrEmpty(TokenService.DecodedToken))
-        {
-            <p>Hello, @TokenService.DecodedToken !</p>
-        }
-        else
-        {
-            <p>Loading token...</p>
-        }
-
-        <button class="nav-link btn btn-link" @onclick="BeginLogOut">Log out</button>
+        <div class="d-flex justify-content-between align-items-center">
+            @if (!string.IsNullOrEmpty(TokenService.DecodedToken))
+            {
+                <p class="fw-bold text-dark mb-0">Hello, <span class="text-dark">@TokenService.DecodedToken</span>!</p>
+            }
+            else
+            {
+                <p class="text-secondary mb-0">Loading token...</p>
+            }
+            <button class="btn btn-danger btn-sm ms-3" @onclick="BeginLogOut">Log out</button>
+        </div>
     </Authorized>
+
     <NotAuthorized>
-        <a href="authentication/login">Log in</a>
+        <div class="text-center mt-4">
+            <a class="btn btn-primary" href="authentication/login">Log in</a>
+        </div>
     </NotAuthorized>
 </AuthorizeView>
-
-
 
 @code {
     protected override async Task OnInitializedAsync()
@@ -32,7 +34,15 @@
         var result = await TokenProvider.RequestAccessToken();
         if (result.TryGetToken(out var token))
         {
-            DecodeJwt(token.Value);
+            try
+            {
+                DecodeJwt(token.Value);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error decoding token: {ex.Message}");
+                Navigation.NavigateTo("authentication/login");
+            }
         }
         else
         {
@@ -40,55 +50,45 @@
         }
     }
 
-        public void DecodeJwt(string jwt)
+    private void DecodeJwt(string jwt)
     {
-        // Split the token into its three parts
         var parts = jwt.Split('.');
         if (parts.Length != 3)
         {
-            throw new ArgumentException("Invalid JWT format.");
+            Console.WriteLine("Invalid JWT format.");
+            return;
         }
 
-        // Decode the header
-        var headerJson = Base64UrlDecode(parts[0]);
-        var payloadJson = Base64UrlDecode(parts[1]);
-        // Print out the decoded header and payload
-        Console.WriteLine("Header: " + headerJson);
-        Console.WriteLine("Payload: " + payloadJson);
+        try
+        {
+            var payloadJson = Base64UrlDecode(parts[1]);
+            var payloadData = JsonSerializer.Deserialize<JsonElement>(payloadJson);
 
-        // Deserialize into a C# object (if desired)
-        // For example, using System.Text.Json:
-        var headerData = JsonSerializer.Deserialize<JsonElement>(headerJson);
-        var payloadData = JsonSerializer.Deserialize<JsonElement>(payloadJson);
-        TokenService.DecodedToken = payloadData.GetProperty("username").GetString();
-
-        // You can now work with headerData and payloadData
+            if (payloadData.TryGetProperty("username", out var username))
+            {
+                TokenService.DecodedToken = username.GetString();
+            }
+            else
+            {
+                Console.WriteLine("JWT does not contain 'username'.");
+                TokenService.DecodedToken = "Unknown User";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error parsing JWT: {ex.Message}");
+        }
     }
 
     private string Base64UrlDecode(string input)
     {
-        // Base64URL encoded strings replace '+' with '-', '/' with '_', 
-        // and remove '=' padding. We need to revert these changes.
-        string output = input
-            .Replace('-', '+')
-            .Replace('_', '/');
-
-        // Add padding characters ('=') as needed
-        int padding = 4 - (output.Length % 4);
-        if (padding < 4)
-        {
-            output += new string('=', padding);
-        }
-
-        // Convert Base64 string to bytes
+        string output = input.Replace('-', '+').Replace('_', '/');
+        output = output.PadRight(output.Length + (4 - output.Length % 4) % 4, '=');
         var bytes = Convert.FromBase64String(output);
-
-        // Convert bytes to UTF8 string
         return Encoding.UTF8.GetString(bytes);
     }
 
-
-    public void BeginLogOut()
+    private void BeginLogOut()
     {
         Navigation.NavigateToLogout("authentication/logout");
     }

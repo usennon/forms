@@ -1,23 +1,72 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
-<div class="page">
-    <main>
-        <!-- Top Navigation Bar -->
-        <div class="top-row px-4 auth d-flex justify-content-between align-items-center">
-            <div class="nav-buttons d-flex gap-3">
-                <button class="btn btn-primary" @onclick="NavigateToForms">Forms</button>
-                <button class="btn btn-primary" @onclick="NavigateToQuestions">Questions</button>
-                <button class="btn btn-primary" @onclick="NavigateToUsers">Users</button>
-            </div>
+
+<div class="page vh-100 d-flex flex-column bg-light">
+
+    <header class="top-row px-4 py-3 gradient-header text-white shadow-sm d-flex justify-content-between align-items-center">
+        <div class="nav-buttons d-flex gap-3">
+            <button class="btn btn-light btn-rounded shadow-sm px-3 py-2 fw-semibold text-primary"
+                    @onclick="NavigateToForms">
+                Forms
+            </button>
+            <button class="btn btn-light btn-rounded shadow-sm px-3 py-2 fw-semibold text-primary"
+                    @onclick="NavigateToQuestions">
+                Questions
+            </button>
+            <button class="btn btn-light btn-rounded shadow-sm px-3 py-2 fw-semibold text-primary"
+                    @onclick="NavigateToUsers">
+                Users
+            </button>
+        </div>
+        <div>
             <LoginDisplay />
         </div>
+    </header>
 
-        <!-- Main Content -->
-        <article class="content px-4">
+    <main class="flex-grow-1 p-4 bg-white shadow-sm rounded-3 m-3">
+        <article class="content">
             @Body
         </article>
     </main>
 </div>
+
+<style>
+    /* Gradient Header */
+    .gradient-header {
+        background: linear-gradient(to right, #0d6efd, #ffffff);
+        border-bottom-left-radius: 25px;
+        border-bottom-right-radius: 25px;
+    }
+
+    /* Button Styling */
+    .btn-rounded {
+        border-radius: 50px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-rounded:hover {
+        background-color: #0d6efd;
+        color: white !important;
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+    }
+
+    /* Header - Spacing */
+    .top-row {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    /* Content Styling */
+    .content {
+        min-height: calc(100vh - 150px);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Subtle content shadow */
+    }
+</style>
 
 @code {
     private void NavigateToUsers()
