@@ -29,11 +29,7 @@ public class IdentityProviderDbContextFactory : IDesignTimeDbContextFactory<Iden
             .Build();
 
         var optionsBuilder = new DbContextOptionsBuilder<IdentityProviderDbContext>();
-<<<<<<< HEAD
         optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=iw5_auth;Trusted_Connection=True;TrustServerCertificate=True");
-=======
-        optionsBuilder.UseSqlServer("Server=VLAD;Database=iw5_auth;Trusted_Connection=True;TrustServerCertificate=True");
->>>>>>> 1bc20f13c0ed030fafbec9898ed8e84752efd148
         return new IdentityProviderDbContext(optionsBuilder.Options);
     }
 }

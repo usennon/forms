@@ -1,34 +1,19 @@
 ﻿@using Microsoft.AspNetCore.Components.Forms
 @using IW5.Models.Entities
 
-<div>
-    <h4>Single-Select Options</h4>
-    <!-- Отображение и редактирование существующих опций -->
+<InputRadioGroup @bind-Value="SelectedOptionIdString" class="mb-3">
     @foreach (var option in Options)
     {
-        <div class="mb-2 d-flex align-items-center">
-            <!-- Поле для редактирования текста опции -->
-            <InputText @bind-Value="option.Text" class="form-control me-2" />
-            <button class="btn btn-danger btn-sm" @onclick="() => RemoveOption(option)">Remove</button>
+        <div class="form-check">
+            <InputRadio class="form-check-input"
+                        id="@($"option_{option.Id}")"
+                        Value="@option.Id.ToString()" />
+            <label class="form-check-label" for="@($"option_{option.Id}")">
+                @option.Text
+            </label>
         </div>
     }
-
-    <!-- Кнопка для добавления новой опции -->
-    <button class="btn btn-secondary btn-sm mb-3" @onclick="AddOption">Add Option</button>
-
-    <h5>Выберите вариант:</h5>
-    <InputRadioGroup @bind-Value="SelectedOptionIdString" class="mb-3">
-        @foreach (var option in Options)
-        {
-            <div class="form-check">
-                <InputRadio class="form-check-input"
-                            id="@($"option_{option.Id}")"
-                            Value="@option.Id.ToString()" />
-                <label class="form-check-label" for="@($"option_{option.Id}")">@option.Text</label>
-            </div>
-        }
-    </InputRadioGroup>
-</div>
+</InputRadioGroup>
 
 @code {
     [Parameter]
@@ -43,20 +28,4 @@
     {
         get => Guid.TryParse(SelectedOptionIdString, out var id) ? id : (Guid?)null;
     }
-
-    private void AddOption()
-    {
-        Options.Add(new Option
-            {
-                Id = Guid.NewGuid(),
-                Text = "New Option"
-            });
-    }
-
-    private void RemoveOption(Option option)
-    {
-        Options.Remove(option);
-    }
 }
-
-
