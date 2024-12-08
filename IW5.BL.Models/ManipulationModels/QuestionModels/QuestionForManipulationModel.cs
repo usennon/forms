@@ -6,7 +6,7 @@ namespace IW5.BL.Models.ManipulationModels.QuestionModels
     public record QuestionForManipulationModel : IManipulationModel
     {
         public string Text { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public QuestionType Type { get; set; }
         public Guid FormId { get; set; }
         public bool IsRequired { get; set; }

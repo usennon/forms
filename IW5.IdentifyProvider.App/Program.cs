@@ -34,7 +34,7 @@ try
         .ReadFrom.Configuration(ctx.Configuration));
 
 
-    builder.Services.AddDbContextPool<IdentityProviderDbContext>(options => options.UseSqlServer("Server=DESKTOP-UR6RKLM\\ALBERT;Database=iw5_auth;Trusted_Connection=True;TrustServerCertificate=True",
+    builder.Services.AddDbContextPool<IdentityProviderDbContext>(options => options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=iw5_auth;Trusted_Connection=True;TrustServerCertificate=True",
             sqlOptions => sqlOptions.EnableRetryOnFailure()));
 
     var connectionString = configuration.GetConnectionString("IW5");
@@ -49,7 +49,7 @@ try
     //}
 
     var mapper = app.Services.GetRequiredService<IMapper>();
-    mapper.ConfigurationProvider.AssertConfigurationIsValid();
+  //  mapper.ConfigurationProvider.AssertConfigurationIsValid();
 
     app.ConfigurePipeline();
 

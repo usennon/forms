@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+﻿using System.Text.Json;
 
 namespace IW5.Web.App.Services
 {
     public class TokenService
     {
-        public string DecodedToken { get; set; }
+        public JsonElement DecodedToken { get; set; }
     }
 }

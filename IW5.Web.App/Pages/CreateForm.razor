@@ -2,7 +2,9 @@
 @using IW5.Web.App.Components
 @using IW5.BL.Models.ManipulationModels.FormsModels
 @using IW5.BL.Models.ManipulationModels.QuestionModels
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject IW5ApiService ApiService
+@inject IW5.Web.App.Services.TokenService TokenService
 @inject NavigationManager NavigationManager
 
 <h3>New form creation</h3>
@@ -19,16 +21,30 @@ else
 @code {
     private FormForManipulationModel newForm;
 
+    @inject IAccessTokenProvider TokenProvider
+
+
     protected override void OnInitialized()
     {
         newForm = new FormForManipulationModel
         {
             Questions = new List<QuestionForManipulationModel>()
         };
+        string authorIdString = TokenService.DecodedToken.GetProperty("Id").GetString();
+        if (Guid.TryParse(authorIdString, out Guid authorId))
+        {
+            newForm.AuthorId = authorId;
+        }
+        else
+        {
+            throw new Exception("Incorrect token guid");
+        }
     }
+
 
     private async Task HandleValidSubmit(FormForManipulationModel form)
     {
+
         await ApiService.CreateFormAsync(form);
         NavigationManager.NavigateTo("/");
     }

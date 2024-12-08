@@ -8,9 +8,9 @@
 
 <AuthorizeView>
     <Authorized>
-        @if (!string.IsNullOrEmpty(TokenService.DecodedToken))
+        @if (TokenService.DecodedToken.GetProperty("username").GetString() != null)
         {
-            <p>Hello, @TokenService.DecodedToken !</p>
+            <p>Hello, @TokenService.DecodedToken.GetProperty("username").GetString() !</p>
         }
         else
         {
@@ -60,7 +60,7 @@
         // For example, using System.Text.Json:
         var headerData = JsonSerializer.Deserialize<JsonElement>(headerJson);
         var payloadData = JsonSerializer.Deserialize<JsonElement>(payloadJson);
-        TokenService.DecodedToken = payloadData.GetProperty("username").GetString();
+        TokenService.DecodedToken = payloadData;
 
         // You can now work with headerData and payloadData
     }

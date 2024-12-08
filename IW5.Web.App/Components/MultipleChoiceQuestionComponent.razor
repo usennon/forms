@@ -1,17 +1,32 @@
 ﻿@using IW5.Models.Entities
 
-@foreach (var option in Options)
-{
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox"
-               id="@($"option_{option.Id}")"
-               value="@option.Id.ToString()"
-               @bind="SelectedOptionsStrings" />
-        <label class="form-check-label" for="@($"option_{option.Id}")">
-            @option.Text
-        </label>
-    </div>
-}
+<div>
+    <h4>Multi-Select Options</h4>
+    <!-- Отображение и редактирование существующих опций -->
+    @foreach (var option in Options)
+    {
+        <div class="mb-2 d-flex align-items-center">
+            <!-- Поле для редактирования текста опции -->
+            <InputText @bind-Value="option.Text" class="form-control me-2" />
+            <button class="btn btn-danger btn-sm" @onclick="() => RemoveOption(option)">Remove</button>
+        </div>
+    }
+
+    <!-- Кнопка для добавления новой опции -->
+    <button class="btn btn-secondary btn-sm mb-3" @onclick="AddOption">Add Option</button>
+
+    <h5>Выберите варианты:</h5>
+    @foreach (var option in Options)
+    {
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox"
+                   id="@($"option_{option.Id}")"
+                   value="@option.Id.ToString()"
+                   @bind="SelectedOptionsStrings" />
+            <label class="form-check-label" for="@($"option_{option.Id}")">@option.Text</label>
+        </div>
+    }
+</div>
 
 @code {
     [Parameter]
@@ -26,6 +41,18 @@
     {
         get => SelectedOptionsStrings.Select(s => Guid.Parse(s)).ToList();
     }
-}
 
+    private void AddOption()
+    {
+        Options.Add(new Option
+            {
+                Id = Guid.NewGuid(),
+                Text = "New Option"
+            });
+    }
+
+    private void RemoveOption(Option option)
+    {
+        Options.Remove(option);
+    }
 }
