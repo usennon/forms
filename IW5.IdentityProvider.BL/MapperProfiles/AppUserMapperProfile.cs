@@ -29,6 +29,8 @@ public class AppUserMapperProfile : Profile
 
         CreateMap<AppUserEntity, AppUserDetailModel>();
         CreateMap<AppUserEntity, UserListModel>()
-            .Ignore(user => user.PhotoUrl);
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Subject))
+            .Ignore(user => user.PhotoUrl)
+            .Ignore(user => user.Role);
     }
 }
