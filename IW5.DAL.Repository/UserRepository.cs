@@ -13,10 +13,10 @@ namespace IW5.DAL.Repository
             
         }
         public async Task<User> GetUserByNameAsync(string name, bool trackChanges)
-            => await GetByCondition(e => e.Name.ToLower().Contains(name.ToLower()), trackChanges, f => f.Forms).SingleOrDefaultAsync();
+            => await GetByCondition(e => e.UserName.ToLower().Contains(name.ToLower()), trackChanges, f => f.Forms).SingleOrDefaultAsync();
 
         public IQueryable<User> SearchUserByName(string name, bool trackChanges)
-            =>  GetByCondition(e => e.Name.ToLower().Contains(name.ToLower()), trackChanges, f => f.Forms);
+            =>  GetByCondition(e => e.UserName.ToLower().Contains(name.ToLower()), trackChanges, f => f.Forms);
 
     }
 }

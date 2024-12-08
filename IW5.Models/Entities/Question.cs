@@ -9,6 +9,9 @@ namespace IW5.Models.Entities
     [Table("Questions", Schema = "dbo")]
     public class Question : BaseEntity
     {
+        public Guid Id { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         [Required]
         [MaxLength(500)]
         public string Text { get; set; }

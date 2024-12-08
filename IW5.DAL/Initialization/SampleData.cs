@@ -1,5 +1,6 @@
-﻿using IW5.Models.Entities;
-using IW5.Common.Enums;
+﻿using IW5.Common.Enums;
+using IW5.Models.Entities;
+using System.Runtime.CompilerServices;
 
 namespace IW5.DAL.Initialization
 {
@@ -11,50 +12,74 @@ namespace IW5.DAL.Initialization
             new User
             {
                 Id = Guid.Parse("980745cb-b407-4b72-9a6b-1d5c9cf6a5ef"),
-                Name = "John Doe",
+                UserName = "John Doe",
+                NormalizedUserName = "John Doe".ToUpper(),
                 Email = "johndoe@example.com",
+                NormalizedEmail = "johndoe@example.com".ToUpper(),
                 Role = Role.Basic,
-                CreatedAt = new DateTime(2021, 5, 12, 8, 30, 0)  // Predefined Date
+                PasswordHash = "AQAAAAIAAYagAAAAEEOkrEig4UgwbphGvgETx6+h77MErt3yqSNYQyl4dpCrY+WEpB4/Fn+gFIDg7rr9qQ==",
+                CreatedAt = new DateTime(2021, 5, 12, 8, 30, 0),  // Predefined Date
+                Subject = "John Doe"
             },
             new User
             {
                 Id = Guid.Parse("c2ad823a-c3bc-49cb-a930-2fd719c0e997"),
-                Name = "Jane Smith",
+                UserName = "Jane Smith",
+                NormalizedUserName = "Jane Smith".ToUpper(),
                 Email = "janesmith@example.com",
+                NormalizedEmail = "janesmith@example.com".ToUpper(),
                 Role = Role.Basic,
-                CreatedAt = new DateTime(2020, 11, 25, 14, 15, 0)  // Predefined Date
+                PasswordHash = "AQAAAAIAAYagAAAAEEOkrEig4UgwbphGvgETx6+h77MErt3yqSNYQyl4dpCrY+WEpB4/Fn+gFIDg7rr9qQ==",
+                CreatedAt = new DateTime(2020, 11, 25, 14, 15, 0),
+                Subject = "Jane Smith"// Predefined Date
             },
             new User
             {
                 Id = Guid.Parse("ad2d34eb-d2a8-4e0a-9a17-c0d295d8995a"),
-                Name = "Bob Johnson",
+                UserName = "Bob Johnson",
+                NormalizedUserName = "Bob Johnson".ToUpper(),
                 Email = "bobjohnson@example.com",
+                NormalizedEmail = "bobjohnson@example.com".ToUpper(),
                 Role = Role.Basic,
-                CreatedAt = new DateTime(2022, 1, 18, 9, 0, 0)  // Predefined Date
+                PasswordHash = "AQAAAAIAAYagAAAAEEOkrEig4UgwbphGvgETx6+h77MErt3yqSNYQyl4dpCrY+WEpB4/Fn+gFIDg7rr9qQ==",
+                CreatedAt = new DateTime(2022, 1, 18, 9, 0, 0),
+                Subject = "Bob Johnson"// Predefined Date
             },
             new User
             {
                 Id = Guid.Parse("e920f477-7f53-4bba-b1b6-d8d9376b4d30"),
-                Name = "Alice Williams",
+                UserName = "Alice Williams",
+                NormalizedUserName = "Alice Williams".ToUpper(),
                 Email = "alicewilliams@example.com",
+                NormalizedEmail = "alicewilliams@example.com".ToUpper(),
                 Role = Role.Admin,
-                CreatedAt = new DateTime(2023, 3, 10, 16, 45, 0)  // Predefined Date
+                PasswordHash = "AQAAAAIAAYagAAAAEEOkrEig4UgwbphGvgETx6+h77MErt3yqSNYQyl4dpCrY+WEpB4/Fn+gFIDg7rr9qQ==",
+                CreatedAt = new DateTime(2023, 3, 10, 16, 45, 0),
+                Subject = "Alice Williams"// Predefined Date
             },
             new User
             {
                 Id = Guid.Parse("7d5a7f7b-4a0d-41b6-9b9f-02c68c5d8b99"),
-                Name = "Chris Evans",
+                UserName = "Chris Evans",
+                NormalizedUserName = "Chris Evans".ToUpper(),
                 Email = "chrisevans@example.com",
+                NormalizedEmail = "chrisevans@example.com".ToUpper(),
                 Role = Role.Basic,
-                CreatedAt = new DateTime(2021, 7, 8, 10, 30, 0)  // Predefined Date
+                PasswordHash = "AQAAAAIAAYagAAAAEEOkrEig4UgwbphGvgETx6+h77MErt3yqSNYQyl4dpCrY+WEpB4/Fn+gFIDg7rr9qQ==",
+                CreatedAt = new DateTime(2021, 7, 8, 10, 30, 0),
+                Subject = "Chris Evans"// Predefined Date
             },
             new User
             {
                 Id = Guid.Parse("c60e1c3e-4632-499f-b948-103558d91c5e"),
-                Name = "Emily Clark",
+                UserName = "Emily Clark",
+                NormalizedUserName = "Emily Clark".ToUpper(),
                 Email = "emilyclark@example.com",
+                NormalizedEmail = "emilyclark@example.com".ToUpper(),
                 Role = Role.Admin,
-                CreatedAt = new DateTime(2019, 9, 22, 11, 0, 0)  // Predefined Date
+                PasswordHash = "AQAAAAIAAYagAAAAEEOkrEig4UgwbphGvgETx6+h77MErt3yqSNYQyl4dpCrY+WEpB4/Fn+gFIDg7rr9qQ==",
+                CreatedAt = new DateTime(2019, 9, 22, 11, 0, 0),
+                Subject = "Emily Clark"// Predefined Date
             }
         };
 

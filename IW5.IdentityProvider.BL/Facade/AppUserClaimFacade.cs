@@ -2,17 +2,18 @@
 using IW5.IdentityProvider.BL.Facades;
 using IW5.IdentityProvider.BL.Models;
 using IW5.IdentityProvider.DAL.Entities;
+using IW5.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace IW5.IdentityProvider.BL.Facades;
 
 public class AppUserClaimsFacade : IAppUserClaimsFacade
 {
-    private readonly UserManager<AppUserEntity> userManager;
+    private readonly UserManager<User> userManager;
     private readonly IMapper mapper;
 
     public AppUserClaimsFacade(
-        UserManager<AppUserEntity> userManager,
+        UserManager<User> userManager,
         IMapper mapper)
     {
         this.userManager = userManager;

@@ -3,12 +3,13 @@ using IW5.BL.Models.ListModels;
 using IW5.IdentityProvider.BL.Models;
 using IW5.IdentityProvider.DAL.Entities;
 using IW5.IdentityProvider.DAL.Repositories;
+using IW5.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace IW5.IdentityProvider.BL.Facades;
 
 public class AppUserFacade(
-    UserManager<AppUserEntity> userManager,
+    UserManager<User> userManager,
     IAppUserRepository appUserRepository,
     IMapper mapper) : IAppUserFacade
 {
@@ -19,7 +20,7 @@ public class AppUserFacade(
             throw new ArgumentException($"User with username '{appUserModel.UserName}' already exists");
         }
 
-        var appUserEntity = mapper.Map<AppUserEntity>(appUserModel);
+        var appUserEntity = mapper.Map<User>(appUserModel);
         await userManager.CreateAsync(appUserEntity, appUserModel.Password);
         return (await userManager.FindByNameAsync(appUserModel.UserName))?.Id;
     }
@@ -81,12 +82,12 @@ public class AppUserFacade(
 
     public async Task<AppUserDetailModel> CreateExternalAppUserAsync(AppUserExternalCreateModel appUserModel)
     {
-        var appUserEntity = new AppUserEntity
+        var appUserEntity = new User
         {
             Id = Guid.NewGuid(),
             Active = true,
             Subject = Guid.NewGuid().ToString(),
-            Email = appUserModel.Email,
+            Email = appUserModel.Email!,
         };
 
         var userLoginInfo = new UserLoginInfo(appUserModel.Provider, appUserModel.ProviderIdentityKey, null);

@@ -6,7 +6,7 @@ using AutoMapper;
 
 namespace IW5.DAL.Repository
 {
-    public abstract class BaseRepo<T>(FormsDbContext context) : IRepo<T> where T : BaseEntity, new()
+    public abstract class BaseRepo<T>(FormsDbContext context) : IRepo<T> where T : class, BaseEntity, new()
     {
         private readonly FormsDbContext context = context;
         private readonly DbSet<T> _dbSet = context.Set<T>();

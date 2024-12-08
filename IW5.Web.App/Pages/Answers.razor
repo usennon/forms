@@ -115,7 +115,7 @@
     {
         filteredAnswers = answers.Where(a =>
             (string.IsNullOrEmpty(filterQuestion) || a.Question.Text.Contains(filterQuestion, StringComparison.OrdinalIgnoreCase)) &&
-            (string.IsNullOrEmpty(filterUser) || a.User.Name.Contains(filterUser, StringComparison.OrdinalIgnoreCase))
+            (string.IsNullOrEmpty(filterUser) || a.User.UserName.Contains(filterUser, StringComparison.OrdinalIgnoreCase))
         ).ToList();
 
         ApplySorting();
@@ -141,10 +141,10 @@
                 filteredAnswers = filteredAnswers.OrderByDescending(a => a.Question.Text).ToList();
                 break;
             case AnswerSortType.AscendingUserName:
-                filteredAnswers = filteredAnswers.OrderBy(a => a.User.Name).ToList();
+                filteredAnswers = filteredAnswers.OrderBy(a => a.User.UserName).ToList();
                 break;
             case AnswerSortType.DescendingUserName:
-                filteredAnswers = filteredAnswers.OrderByDescending(a => a.User.Name).ToList();
+                filteredAnswers = filteredAnswers.OrderByDescending(a => a.User.UserName).ToList();
                 break;
             default:
                 break;

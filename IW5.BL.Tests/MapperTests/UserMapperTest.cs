@@ -27,7 +27,7 @@ namespace IW5.BL.Tests.MapperTests
             var user = new User
             {
                 Id = Guid.NewGuid(),
-                Name = "John Doe",
+                UserName = "John Doe",
                 PhotoUrl = "http://example.com/photo.jpg"
             };
 
@@ -35,7 +35,7 @@ namespace IW5.BL.Tests.MapperTests
             var userListModel = _userMapper.Map<UserListModel>(user);
 
             // Assert
-            userListModel.UserName.Should().Be(user.Name);
+            userListModel.Name.Should().Be(user.UserName);
             userListModel.PhotoUrl.Should().Be(user.PhotoUrl);
         }
 
@@ -46,7 +46,7 @@ namespace IW5.BL.Tests.MapperTests
             var user = new User
             {
                 Id = Guid.NewGuid(),
-                Name = "John Doe",
+                UserName = "John Doe",
                 PhotoUrl = "http://example.com/photo.jpg",
                 CreatedAt = DateTime.UtcNow,
                 Forms = new List<Form>
@@ -60,7 +60,7 @@ namespace IW5.BL.Tests.MapperTests
             var userDetailModel = _userMapper.Map<UserDetailModel>(user);
 
             // Assert
-            userDetailModel.Name.Should().Be(user.Name);
+            userDetailModel.Name.Should().Be(user.UserName);
             userDetailModel.PhotoUrl.Should().Be(user.PhotoUrl);
             userDetailModel.Forms.Should().HaveCount(2);
             userDetailModel.Forms[0].Title.Should().Be(user.Forms.ToList()[0].Title);
@@ -87,7 +87,7 @@ namespace IW5.BL.Tests.MapperTests
             var user = _userMapper.Map<User>(userDetailModel);
 
             // Assert
-            user.Name.Should().Be(userDetailModel.Name);
+            user.UserName.Should().Be(userDetailModel.Name);
             user.PhotoUrl.Should().Be(userDetailModel.PhotoUrl);
             user.Forms.Should().BeEmpty();
         }
@@ -99,7 +99,7 @@ namespace IW5.BL.Tests.MapperTests
             var user = new User
             {
                 Id = Guid.NewGuid(),
-                Name = "John Doe",
+                UserName = "John Doe",
                 PhotoUrl = "http://example.com/photo.jpg",
                 CreatedAt = DateTime.UtcNow,
                 Forms = new List<Form>() 
@@ -109,7 +109,7 @@ namespace IW5.BL.Tests.MapperTests
             var userDetailModel = _userMapper.Map<UserDetailModel>(user);
 
             // Assert
-            userDetailModel.Name.Should().Be(user.Name);
+            userDetailModel.Name.Should().Be(user.UserName);
             userDetailModel.PhotoUrl.Should().Be(user.PhotoUrl);
             userDetailModel.Forms.Should().BeEmpty();
         }
@@ -121,7 +121,7 @@ namespace IW5.BL.Tests.MapperTests
             var user = new User
             {
                 Id = Guid.NewGuid(),
-                Name = "John Doe",
+                UserName = "John Doe",
                 PhotoUrl = null, // PhotoUrl == null
                 CreatedAt = DateTime.UtcNow,
                 Forms = new List<Form>
@@ -134,7 +134,7 @@ namespace IW5.BL.Tests.MapperTests
             var userDetailModel = _userMapper.Map<UserDetailModel>(user);
 
             // Assert
-            userDetailModel.Name.Should().Be(user.Name);
+            userDetailModel.Name.Should().Be(user.UserName);
             userDetailModel.PhotoUrl.Should().BeNull(); 
             userDetailModel.Forms.Should().HaveCount(1);
         }
@@ -146,7 +146,7 @@ namespace IW5.BL.Tests.MapperTests
             var user = new User
             {
                 Id = Guid.NewGuid(),
-                Name = "John Doe",
+                UserName = "John Doe",
                 PhotoUrl = "http://example.com/photo.jpg",
                 CreatedAt = DateTime.UtcNow,
                 Forms = new List<Form>() // Forms == null
@@ -156,7 +156,7 @@ namespace IW5.BL.Tests.MapperTests
             var userDetailModel = _userMapper.Map<UserDetailModel>(user);
 
             // Assert
-            userDetailModel.Name.Should().Be(user.Name);
+            userDetailModel.Name.Should().Be(user.UserName);
             userDetailModel.PhotoUrl.Should().Be(user.PhotoUrl);
             userDetailModel.Forms.Should().BeEmpty(); 
         }
@@ -177,7 +177,7 @@ namespace IW5.BL.Tests.MapperTests
             var user = _userMapper.Map<User>(userDetailModel);
 
             // Assert
-            user.Name.Should().Be(userDetailModel.Name);
+            user.UserName.Should().Be(userDetailModel.Name);
             user.PhotoUrl.Should().Be(userDetailModel.PhotoUrl);
             user.Forms.Should().BeEmpty(); 
         }
@@ -202,7 +202,7 @@ namespace IW5.BL.Tests.MapperTests
             var user = _userMapper.Map<User>(userDetailModel);
 
             // Assert
-            user.Name.Should().Be(userDetailModel.Name);
+            user.UserName.Should().Be(userDetailModel.Name);
             user.PhotoUrl.Should().Be(userDetailModel.PhotoUrl);
             user.Forms.Should().BeEmpty(); 
         }
@@ -223,7 +223,7 @@ namespace IW5.BL.Tests.MapperTests
             var user = _userMapper.Map<User>(userDetailModel);
 
             // Assert
-            user.Name.Should().Be(userDetailModel.Name);
+            user.UserName.Should().Be(userDetailModel.Name);
             user.PhotoUrl.Should().BeNull(); 
             user.Forms.Should().BeEmpty(); 
         }

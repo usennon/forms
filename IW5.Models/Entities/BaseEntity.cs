@@ -2,10 +2,10 @@
 
 namespace IW5.Models.Entities
 {
-    public abstract class BaseEntity
+    public interface BaseEntity
     {
-        public Guid Id { get; set; }
+        Guid Id { get; set; }
         [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        DateTime CreatedAt { get; set; }
     }
 }

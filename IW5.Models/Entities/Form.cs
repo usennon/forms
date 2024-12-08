@@ -7,6 +7,9 @@ namespace IW5.Models.Entities
     [Table("Forms", Schema = "dbo")]
     public class Form : BaseEntity
     {
+        public Guid Id { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         [Required]
         [MaxLength(250)]
         public string Title { get; set; }

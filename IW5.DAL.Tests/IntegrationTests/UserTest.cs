@@ -53,7 +53,7 @@ namespace IW5.DAL.Tests.IntegrationTests
             var newUser = new User()
             {
                 Id = Guid.NewGuid(),
-                Name = name,
+                UserName = name,
                 PhotoUrl = "Netu",
                 Email = "U nego",
                 PhoneNumber = "123456789",
@@ -68,7 +68,7 @@ namespace IW5.DAL.Tests.IntegrationTests
             var expectedUser = await _userRepository.GetUserByNameAsync(name, trackChanges: false);
 
             Assert.NotNull(expectedUser);
-            Assert.Equal(name, expectedUser.Name);
+            Assert.Equal(name, expectedUser.UserName);
         }
 
         [Fact]

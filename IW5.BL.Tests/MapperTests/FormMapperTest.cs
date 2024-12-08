@@ -49,7 +49,7 @@ namespace IW5.BL.Tests.MapperTests
             {
                 Id = Guid.NewGuid(),
                 Title = "Form 1",
-                Author = new User { Id = Guid.Empty, Name = "John Doe" },
+                Author = new User { Id = Guid.Empty, UserName = "John Doe" },
                 AuthorId = Guid.Empty,
                 StartDate = DateTime.UtcNow.AddDays(1),
                 EndDate = DateTime.UtcNow.AddDays(2),
@@ -66,7 +66,7 @@ namespace IW5.BL.Tests.MapperTests
             // Assert
             formDetailModel.Title.Should().Be(form.Title);
             formDetailModel.AuthorId.Should().Be(form.Author.Id);
-            formDetailModel.AuthorName.Should().Be(form.Author.Name);
+            formDetailModel.AuthorName.Should().Be(form.Author.UserName);
             formDetailModel.StartDate.Should().Be(form.StartDate);
             formDetailModel.EndDate.Should().Be(form.EndDate);
             formDetailModel.Questions.Should().HaveCount(2);
@@ -109,7 +109,7 @@ namespace IW5.BL.Tests.MapperTests
             {
                 Id = Guid.NewGuid(),
                 Title = "Empty Questions Form",
-                Author = new User { Id = Guid.Empty, Name = "John Doe" },
+                Author = new User { Id = Guid.Empty, UserName = "John Doe" },
                 StartDate = DateTime.UtcNow.AddDays(1),
                 EndDate = DateTime.UtcNow.AddDays(2),
                 Questions = new List<Question>() // Empty list of questions
@@ -121,7 +121,7 @@ namespace IW5.BL.Tests.MapperTests
             // Assert
             formDetailModel.Title.Should().Be(form.Title);
             formDetailModel.AuthorId.Should().Be(form.Author.Id);
-            formDetailModel.AuthorName.Should().Be(form.Author.Name);
+            formDetailModel.AuthorName.Should().Be(form.Author.UserName);
             formDetailModel.StartDate.Should().Be(form.StartDate);
             formDetailModel.EndDate.Should().Be(form.EndDate);
             formDetailModel.Questions.Should().BeEmpty(); // Questions list should be empty
@@ -135,7 +135,7 @@ namespace IW5.BL.Tests.MapperTests
             {
                 Id = Guid.NewGuid(),
                 Title = "Null Questions Form",
-                Author = new User { Id = Guid.Empty, Name = "John Doe" },
+                Author = new User { Id = Guid.Empty, UserName = "John Doe" },
                 StartDate = DateTime.UtcNow.AddDays(1),
                 EndDate = DateTime.UtcNow.AddDays(2),
                 Questions = null // Questions list is null
@@ -147,7 +147,7 @@ namespace IW5.BL.Tests.MapperTests
             // Assert
             formDetailModel.Title.Should().Be(form.Title);
             formDetailModel.AuthorId.Should().Be(form.Author.Id);
-            formDetailModel.AuthorName.Should().Be(form.Author.Name);
+            formDetailModel.AuthorName.Should().Be(form.Author.UserName);
             formDetailModel.StartDate.Should().Be(form.StartDate);
             formDetailModel.EndDate.Should().Be(form.EndDate);
             formDetailModel.Questions.Should().BeEmpty(); // Should map null to an empty list
