@@ -8,24 +8,63 @@
 
 <AuthorizeView>
     <Authorized>
-        @if (TokenService.DecodedToken.GetProperty("username").GetString() != null)
-        {
-            <p>Hello, @TokenService.DecodedToken.GetProperty("username").GetString() !</p>
-        }
-        else
-        {
-            <p>Loading token...</p>
-        }
+        <div class="auth-container d-flex align-items-center gap-3">
+            @if (TokenService.DecodedToken.GetProperty("username").GetString() != null)
+            {
+                <span class="auth-username fw-semibold text-primary">
+                    Hello, @TokenService.DecodedToken.GetProperty("username").GetString()!
+                </span>
+            }
+            else
+            {
+                <span class="auth-loading text-muted">Loading...</span>
+            }
 
-        <button class="nav-link btn btn-link" @onclick="BeginLogOut">Log out</button>
+            <button class="btn btn-sm btn-outline-danger auth-logout-btn px-3 py-1 fw-semibold" @onclick="BeginLogOut">
+                Log out
+            </button>
+        </div>
     </Authorized>
 
     <NotAuthorized>
-        <div class="text-center mt-4">
-            <a class="btn btn-primary" href="authentication/login">Log in</a>
+        <div class="text-center mt-2">
+            <a class="btn btn-sm btn-primary fw-semibold px-3 py-1" href="authentication/login">
+                Log in
+            </a>
         </div>
     </NotAuthorized>
 </AuthorizeView>
+
+<style>
+    .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .auth-username {
+        font-size: 0.95rem;
+        color: #0d6efd;
+    }
+
+    .auth-loading {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .auth-logout-btn {
+        border-radius: 20px;
+        font-size: 0.85rem;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .auth-logout-btn:hover {
+       background-color: #dc3545;
+       color: white;
+    }
+
+</style>
+
 
 @code {
     protected override async Task OnInitializedAsync()
