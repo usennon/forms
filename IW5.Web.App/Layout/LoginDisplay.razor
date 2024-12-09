@@ -9,10 +9,11 @@
 <AuthorizeView>
     <Authorized>
         <div class="auth-container d-flex align-items-center gap-3">
-            @if (TokenService.DecodedToken.GetProperty("username").GetString() != null)
+            @if (TokenService?.DecodedToken.ValueKind == JsonValueKind.Object &&
+            TokenService.DecodedToken.TryGetProperty("username", out var usernameElement))
             {
                 <span class="auth-username fw-semibold text-primary">
-                    Hello, @TokenService.DecodedToken.GetProperty("username").GetString()!
+                    Hello, @usernameElement.GetString()!
                 </span>
             }
             else
