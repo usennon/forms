@@ -1,4 +1,4 @@
-﻿using IW5.BL.Models.ListModels;
+﻿using IW5.Models.Entities;
 using IW5.Common.Enums;
 
 namespace IW5.BL.Models.ListModels
@@ -9,5 +9,6 @@ namespace IW5.BL.Models.ListModels
         public QuestionType Type { get; set; }
         public bool IsRequired { get; set; }
         public DateTime CreatedAt { get; set; }
+        public ICollection<Option> Options { get; set; }
     }
 }

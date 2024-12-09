@@ -2,6 +2,8 @@
 @using IW5.BL.Models.ManipulationModels.QuestionModels
 @using IW5.BL.Models.ManipulationModels.OptionModels
 @using Microsoft.AspNetCore.Components.Forms
+@inject IJSRuntime JS
+
 
 <EditForm Model="Model" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
@@ -46,6 +48,23 @@
     [Parameter]
     public EventCallback OnCancel { get; set; }
 
+     protected override async Task OnInitializedAsync()
+    {
+        LogFormData();
+    }
+
+    private void LogFormData()
+    {
+        var json = System.Text.Json.JsonSerializer.Serialize(Model, new System.Text.Json.JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+
+        Console.WriteLine(json); 
+        JS.InvokeVoidAsync("console.log", json);
+    }
+
+
     private void AddQuestion()
     {
         Model.Questions?.Add(new QuestionForManipulationModel
@@ -61,6 +80,7 @@
 
     private async Task HandleValidSubmit()
     {
+        LogFormData();
         await OnValidSubmit.InvokeAsync(Model);
     }
 

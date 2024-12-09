@@ -14,7 +14,7 @@ namespace IW5.DAL.Factories
                 .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<FormsDbContext>();
-            optionsBuilder.UseSqlServer("Server=DESKTOP-UR6RKLM\\ALBERT;Database=IW5;Trusted_Connection=True;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=IW5;Trusted_Connection=True;TrustServerCertificate=True");
             return new FormsDbContext(optionsBuilder.Options);
         }
     }

@@ -1,11 +1,12 @@
 ﻿@using IW5.Models.Entities
 @using IW5.Common.Enums
-@using IW5.BL.Models.ManipulationModels.QuestionModels;
-@using IW5.BL.Models.ManipulationModels.OptionModels;
+@using IW5.BL.Models.ManipulationModels.QuestionModels
+@using IW5.BL.Models.ManipulationModels.OptionModels
 
 <div class="card mb-3">
     <div class="card-body">
         <button type="button" class="btn-close float-end" aria-label="Close" @onclick="OnRemove"></button>
+
         <div class="mb-3">
             <label class="form-label">Question text</label>
             <InputText @bind-Value="Question.Text" class="form-control" />
@@ -17,7 +18,7 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Тype</label>
+            <label class="form-label">Type</label>
             <InputSelect @bind-Value="Question.Type" class="form-select">
                 @foreach (var type in Enum.GetValues(typeof(QuestionType)))
                 {
@@ -31,15 +32,23 @@
             <label class="form-check-label">Required</label>
         </div>
 
-        @if (Question.Type == QuestionType.Test || Question.Type == QuestionType.MultipleChoice)
+        @if (Question.Type == QuestionType.MultipleChoice || Question.Type == QuestionType.Test)
         {
             <h5>Answer variants</h5>
-            @foreach (var option in Question.Options)
+            @if (Question.Options != null && Question.Options.Any())
             {
-                <div class="input-group mb-2">
-                    <InputText @bind-Value="option.Text" class="form-control" placeholder="Text" />
-                    <button type="button" class="btn btn-outline-danger" @onclick="() => RemoveOption(option)">Delete</button>
-                </div>
+                @foreach (var option in Question.Options)
+                {
+                    <div class="input-group mb-2">
+                        <InputText @bind-Value="option.Text" class="form-control" placeholder="Text" />
+                        <button type="button" class="btn btn-outline-danger" @onclick="() => RemoveOption(option)">Delete</button>
+                    </div>
+                }
+
+            }
+            else
+            {
+                <p>No options yet. Add some variants.</p>
             }
             <button type="button" class="btn btn-secondary" @onclick="AddOption">Add variant</button>
         }
@@ -55,12 +64,20 @@
 
     private void AddOption()
     {
-        Question.Options?.Add(new OptionForManipulationModel());
+        Question.Options ??= new List<OptionForManipulationModel>();
+        Question.Options.Add(new OptionForManipulationModel
+            {
+                Text = "New Option"
+            });
     }
 
     private void RemoveOption(OptionForManipulationModel option)
     {
-        Question.Options?.Remove(option);
+        if (Question.Options != null && Question.Options.Contains(option))
+        {
+            Question.Options.Remove(option);
+        }
     }
 }
+
 

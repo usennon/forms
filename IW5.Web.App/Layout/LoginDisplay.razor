@@ -8,17 +8,16 @@
 
 <AuthorizeView>
     <Authorized>
-        <div class="d-flex justify-content-between align-items-center">
-            @if (!string.IsNullOrEmpty(TokenService.DecodedToken))
-            {
-                <p class="fw-bold text-dark mb-0">Hello, <span class="text-dark">@TokenService.DecodedToken</span>!</p>
-            }
-            else
-            {
-                <p class="text-secondary mb-0">Loading token...</p>
-            }
-            <button class="btn btn-danger btn-sm ms-3" @onclick="BeginLogOut">Log out</button>
-        </div>
+        @if (TokenService.DecodedToken.GetProperty("username").GetString() != null)
+        {
+            <p>Hello, @TokenService.DecodedToken.GetProperty("username").GetString() !</p>
+        }
+        else
+        {
+            <p>Loading token...</p>
+        }
+
+        <button class="nav-link btn btn-link" @onclick="BeginLogOut">Log out</button>
     </Authorized>
 
     <NotAuthorized>
@@ -62,17 +61,13 @@
         try
         {
             var payloadJson = Base64UrlDecode(parts[1]);
-            var payloadData = JsonSerializer.Deserialize<JsonElement>(payloadJson);
 
-            if (payloadData.TryGetProperty("username", out var username))
-            {
-                TokenService.DecodedToken = username.GetString();
-            }
-            else
-            {
-                Console.WriteLine("JWT does not contain 'username'.");
-                TokenService.DecodedToken = "Unknown User";
-            }
+            // Deserialize into a C# object (if desired)
+            // For example, using System.Text.Json:
+            var payloadData = JsonSerializer.Deserialize<JsonElement>(payloadJson);
+            TokenService.DecodedToken = payloadData;
+
+            // You can now work with headerData and payloadData
         }
         catch (Exception ex)
         {
