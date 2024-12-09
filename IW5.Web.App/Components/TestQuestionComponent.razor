@@ -22,10 +22,6 @@
 
     public Guid? SelectedOptionId => Guid.TryParse(SelectedOptionIdString, out var id) ? id : (Guid?)null;
 
-    // При изменении значения InputRadioGroup автоматически обновляет SelectedOptionIdString.
-    // Чтобы отследить изменение, используем метод жизненного цикла OnAfterRenderAsync или событие ValueChanged в @bind-Value уже невозможно вызвать явно.
-    // Проще всего: при каждом рендере сравнивать старое и новое значение, и если изменилось — вызвать OnAnswerSelected.
-
     private Guid? _lastOptionId;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

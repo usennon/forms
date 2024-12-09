@@ -27,7 +27,6 @@
 
     private async Task AnswerChanged(ChangeEventArgs e)
     {
-        // Вызываем callback только при реальном изменении
         if (_lastAnswer != Answer)
         {
             _lastAnswer = Answer;
