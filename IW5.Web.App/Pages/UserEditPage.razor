@@ -1,0 +1,82 @@
+﻿@page "/edit-user/{UserId:guid}"
+@using IW5.Models.Entities
+@using IW5.Common.Enums.Sorts
+@using IW5.BL.Models.ManipulationModels.UserModels
+@using IW5.BL.Models.DetailModels
+@using IW5.Common.Enums
+@using Microsoft.AspNetCore.Components.Forms
+@inject IW5ApiService ApiService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+
+<h3>Edit User Details</h3>
+
+@if (user == null)
+{
+    <p><em>Loading user details...</em></p>
+}
+else
+{
+    <Microsoft.AspNetCore.Components.Forms.EditForm Model="@user" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="userName">Name:</label>
+            <InputText id="userName" class="form-control" @bind-Value="user.Name" />
+        </div>
+
+        <div class="form-group">
+            <label for="userEmail">Email:</label>
+            <InputText id="userEmail" class="form-control" @bind-Value="user.Email" />
+        </div>
+
+        <div class="form-group">
+            <label for="userPhoto">Photo URL:</label>
+            <InputText id="userPhoto" class="form-control" @bind-Value="user.PhotoUrl" />
+        </div>
+
+        <div class="form-group">
+            <label for="userRole">Role:</label>
+            <InputSelect id="userRole" class="form-control" @bind-Value="user.Role">
+                @foreach (var roleValue in Enum.GetValues(typeof(Role)).Cast<Role>())
+                {
+                    <option value="@roleValue">@roleValue</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="form-group">
+            <label>Created At:</label>
+            <p>@user.CreatedAt.ToString("f")</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="/user-details/@user.Id" class="btn btn-secondary">Cancel</a>
+    </Microsoft.AspNetCore.Components.Forms.EditForm>
+}
+
+@code {
+    [Parameter] public Guid UserId { get; set; }
+
+    private UserDetailModel user;
+
+    private UserForManipulationModel editedUser = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await ApiService.GetUserByIdAsync(UserId);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        editedUser.UserName = user.Name;
+        editedUser.PhotoUrl = user.PhotoUrl;
+        editedUser.Email = user.Email;
+        editedUser.Role = user.Role;
+        await ApiService.UpdateUserAsync(user.Id, editedUser);
+        NavigationManager.NavigateTo($"/users");
+    }
+}

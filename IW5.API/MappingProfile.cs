@@ -30,7 +30,8 @@ namespace IW5.API
                 .MapMember(dst => dst.Name, src => src.UserName);
             CreateMap<UserDetailModel, User>().Ignore(dst => dst.Forms)
                 .MapMember(dst => dst.UserName, src => src.Name);
-            CreateMap<UserForManipulationModel, User>().ReverseMap();
+            CreateMap<UserForManipulationModel, User>()
+                .ReverseMap();
 
             // form mapper
             CreateMap<Form, FormListModel>();

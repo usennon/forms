@@ -1,0 +1,71 @@
+﻿@page "/user-details/{UserId:guid}"
+@using IW5.Models.Entities
+@using IW5.Common.Enums.Sorts
+@using IW5.BL.Models.DetailModels
+@inject IW5ApiService ApiService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+<h3>User Details</h3>
+
+@if (user == null)
+{
+    <p><em>Loading user details...</em></p>
+}
+else
+{
+    <div class="user-details-container">
+        <div class="user-header">
+            <img src="@user.PhotoUrl" alt="@user.Name" class="user-photo" />
+            <h2>@user.Name</h2>
+            <p>Email: @user.Email</p>
+            <p>Role: @user.Role</p>
+            <p>Created At: @user.CreatedAt.ToString("f")</p>
+        </div>
+
+        <hr />
+
+        <h4>User's Forms</h4>
+        @if (user.Forms == null || !user.Forms.Any())
+        {
+            <p>No forms have been associated with this user yet.</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Form Name</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var form in user.Forms)
+                    {
+                        <tr>
+                            <td>@form.Title</td>
+                            <td>@form.CreatedAt.ToString("f")</td>
+                            <td>
+                                <!-- Example action button or link to form details -->
+                                <a href="/forms/@form.Id">View Details</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+}
+
+@code {
+    [Parameter] public Guid UserId { get; set; }
+
+    private UserDetailModel user;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await ApiService.GetUserByIdAsync(UserId);
+    }
+}

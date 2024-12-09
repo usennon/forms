@@ -1,0 +1,54 @@
+﻿@page "/create-user"
+@using IW5.BL.Models.ManipulationModels.UserModels
+@using IW5.Common.Enums
+@using Microsoft.AspNetCore.Components.Forms
+@inject IW5ApiService ApiService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+<h3>Create New User</h3>
+
+<Microsoft.AspNetCore.Components.Forms.EditForm Model="@newUser" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="userName">Name:</label>
+        <InputText id="userName" class="form-control" @bind-Value="newUser.UserName" />
+    </div>
+
+    <div class="form-group">
+        <label for="userEmail">Email:</label>
+        <InputText id="userEmail" class="form-control" @bind-Value="newUser.Email" />
+    </div>
+
+    <div class="form-group">
+        <label for="userPhoto">Photo URL:</label>
+        <InputText id="userPhoto" class="form-control" @bind-Value="newUser.PhotoUrl" />
+    </div>
+
+    <div class="form-group">
+        <label for="userRole">Role:</label>
+        <InputSelect id="userRole" class="form-control" @bind-Value="newUser.Role">
+            @foreach (var roleValue in Enum.GetValues(typeof(Role)).Cast<Role>())
+            {
+                <option value="@roleValue">@roleValue</option>
+            }
+        </InputSelect>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a href="/users" class="btn btn-secondary">Cancel</a>
+</Microsoft.AspNetCore.Components.Forms.EditForm>
+
+@code {
+    private UserForManipulationModel newUser = new UserForManipulationModel();
+
+    private async Task HandleValidSubmit()
+    {
+        newUser.Subject = newUser.UserName;
+        await ApiService.CreateUserAsync(newUser);
+
+        NavigationManager.NavigateTo("/users");
+    }
+}

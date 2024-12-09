@@ -2,6 +2,9 @@
 using IW5.Models.Entities;
 using System.Net.Http.Json;
 using IW5.BL.Models.ManipulationModels.FormsModels;
+using IW5.BL.Models.ListModels;
+using IW5.BL.Models.DetailModels;
+using IW5.BL.Models.ManipulationModels.UserModels;
 
 public class IW5ApiService
 {
@@ -30,9 +33,13 @@ public class IW5ApiService
     {
         return await _httpClient.GetFromJsonAsync<List<Question>>("api/Questions/all");
     }
-    public async Task<List<User>> GetAllUsersAsync()
+    public async Task<List<UserListModel>> GetAllUsersAsync()
     {
-        return await _httpClient.GetFromJsonAsync<List<User>>("api/Users/all");
+        return await _httpClient.GetFromJsonAsync<List<UserListModel>>("api/Users/all");
+    }
+    public async Task<UserDetailModel> GetUserByIdAsync(Guid id)
+    {
+        return await _httpClient.GetFromJsonAsync<UserDetailModel>($"api/Users/{id}");
     }
     public async Task<List<Answer>> GetAllAnswersAsync()
     {
@@ -82,10 +89,22 @@ public class IW5ApiService
     public async Task UpdateFormAsync(Guid id, FormForManipulationModel updatedForm)
     {
         var response = await _httpClient.PutAsJsonAsync($"api/forms/{id}", updatedForm);
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task UpdateUserAsync(Guid id, UserForManipulationModel updatedUser)
+    {
+        var response = await _httpClient.PutAsJsonAsync($"api/Users/{id}", updatedUser);
 
         response.EnsureSuccessStatusCode();
     }
 
+    public async Task CreateUserAsync(UserForManipulationModel newUser)
+    {
+        var response = await _httpClient.PostAsJsonAsync($"api/Users", newUser);
+
+        response.EnsureSuccessStatusCode();
+    }
 
 }
 
