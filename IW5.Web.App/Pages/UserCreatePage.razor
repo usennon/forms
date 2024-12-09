@@ -22,6 +22,12 @@
         <InputText id="userEmail" class="form-control" @bind-Value="newUser.Email" />
     </div>
 
+
+    <div class="form-group">
+        <label for="userPassword">Password:</label>
+        <InputText id="userPassword" class="form-control" @bind-Value="newUser.Password" type="password" />
+    </div>
+
     <div class="form-group">
         <label for="userPhoto">Photo URL:</label>
         <InputText id="userPhoto" class="form-control" @bind-Value="newUser.PhotoUrl" />

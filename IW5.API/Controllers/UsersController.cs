@@ -58,16 +58,32 @@ namespace IW5.API.Controllers
 
         public async Task<ActionResult> CreateUser([FromBody] UserForManipulationModel user)
         {
-            var result = await _userLogic.Create(user);
-            return CreatedAtRoute("UserById", new { id = result.Id }, result);
+            try
+            {
+                var result = await _userLogic.Create(user);
+                return CreatedAtRoute("UserById", new { id = result.Id }, result);
+            }
+            catch (Exception ex) 
+            { 
+                return BadRequest(ex.Message);
+            }
+
         }
 
         [HttpPut("{id:guid}")]
 
         public async Task<ActionResult> UpdateUserAsync(Guid id, [FromBody] UserForManipulationModel user)
         {
-            await _userLogic.UpdateAsync(id, user, true);
-            return Ok();
+            try
+            {
+                await _userLogic.UpdateAsync(id, user, true);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
     }

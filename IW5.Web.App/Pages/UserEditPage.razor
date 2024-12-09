@@ -76,6 +76,7 @@ else
         editedUser.PhotoUrl = user.PhotoUrl;
         editedUser.Email = user.Email;
         editedUser.Role = user.Role;
+        editedUser.Subject = user.Name;
         await ApiService.UpdateUserAsync(user.Id, editedUser);
         NavigationManager.NavigateTo($"/users");
     }

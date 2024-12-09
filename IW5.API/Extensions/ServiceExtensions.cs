@@ -4,6 +4,12 @@ using IW5.DAL.Contracts;
 using IW5.DAL.Repository;
 using IW5.DAL;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using IW5.Models.Entities;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using IW5.IdentityProvider.DAL.Entities;
+using IW5.IdentityProvider.DAL;
 
 namespace IW5.API.Extensions
 {
@@ -11,6 +17,14 @@ namespace IW5.API.Extensions
     {
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
         services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+        public static void ConfigurePasswordHasher(this IServiceCollection services)
+        {
+            services.AddIdentity<User, AppRoleEntity>()
+            .AddEntityFrameworkStores<IdentityProviderDbContext>()
+            .AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);
+        }
+
 
         public static void ConfigureLogic(this IServiceCollection services)
         {

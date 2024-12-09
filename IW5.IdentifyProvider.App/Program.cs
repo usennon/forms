@@ -34,7 +34,7 @@ try
         .ReadFrom.Configuration(ctx.Configuration));
 
 
-    builder.Services.AddDbContextPool<IdentityProviderDbContext>(options => options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=IW5;Trusted_Connection=True;TrustServerCertificate=True",
+    builder.Services.AddDbContextPool<IdentityProviderDbContext>(options => options.UseSqlServer("Server=DESKTOP-UR6RKLM\\ALBERT;Database=IW5;Trusted_Connection=True;TrustServerCertificate=True",
             sqlOptions => sqlOptions.EnableRetryOnFailure()));
 
     var connectionString = configuration.GetConnectionString("IW5");
