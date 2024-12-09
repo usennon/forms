@@ -43,6 +43,7 @@ else
                     IsRequired = q.IsRequired,
                     Options = q.Options?.Select(o => new OptionForManipulationModel
                     {
+                        Id = o.Id,
                         Text = o.Text,
                         QuestionId = q.Id,
                         IsChecked = false
