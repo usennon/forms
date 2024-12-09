@@ -67,7 +67,11 @@ else
                     FormId = form.Id,
                     Answers = answers.Values.ToList()
                 };
-            JS.InvokeVoidAsync("console.log", submitModel);
+            var json = System.Text.Json.JsonSerializer.Serialize(submitModel, new System.Text.Json.JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+            JS.InvokeVoidAsync("console.log", json);
             await ApiService.SubmitFormAsync(submitModel);
         }
         else

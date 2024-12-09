@@ -16,7 +16,7 @@ public class Answer : BaseEntity
     public Guid QuestionId { get; set; }
     public Question Question { get; set; }
 
-    public string AnswerText { get; set; }
+    public string? AnswerText { get; set; }
     [ForeignKey("AnswerOption")]
     public Guid? AnswerOptionId { get; set; }
 
