@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace IW5.Models.Entities
 {
@@ -17,6 +18,8 @@ namespace IW5.Models.Entities
         [ForeignKey("Question")]
         public Guid QuestionId { get; set; }
         [Required]
+        [JsonIgnore]
+        [ForeignKey("QuestionId")]
         public Question Question { get; set; }
 
     }

@@ -12,14 +12,15 @@ namespace IW5.DAL.Repository
         }
         public override IQueryable<Form> GetAll(bool trackChanges)
         {
-            return base.GetAll(trackChanges).Include(f => f.Questions).Include(a=>a.Author);
+            return base.GetAll(trackChanges).Include(a => a.Author).Include(f => f.Questions).ThenInclude(q => q.Options);
         }
         public async Task<Form> GetFormByTitleAsync(string title, bool trackChanges)
             => await GetByCondition(f => f.Title.ToLower().Contains(title.ToLower()), trackChanges, f => f.Questions)
             .SingleOrDefaultAsync();
 
         public override async Task<Form> GetByIdAsync(Guid id, bool trackChanges)
-            => await GetByCondition(e => e.Id == id, trackChanges, q => q.Questions).SingleOrDefaultAsync();
+            => await GetByCondition(e => e.Id == id, trackChanges).Include(f => f.Questions).ThenInclude(q => q.Options)
+                .SingleOrDefaultAsync();
         public IQueryable<Form> SearchFormByTitle(string title, bool trackChanges)
             => GetByCondition(f => f.Title.ToLower().Contains(title.ToLower()), trackChanges, f => f.Questions);
         public async Task<IEnumerable<Form>?> GetFormByCreatedAtAsync(bool trackChanges, DateTime? start, DateTime? end)

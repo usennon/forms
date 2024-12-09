@@ -48,6 +48,11 @@
     [Parameter]
     public EventCallback OnCancel { get; set; }
 
+     protected override async Task OnInitializedAsync()
+    {
+        LogFormData();
+    }
+
     private void LogFormData()
     {
         var json = System.Text.Json.JsonSerializer.Serialize(Model, new System.Text.Json.JsonSerializerOptions
