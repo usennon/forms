@@ -42,7 +42,7 @@ namespace IW5.BL.API
             return _mapper.Map<TDetailModel>(entity);
         }
 
-        public async Task<TDetailModel> Create(TManipulationModel model)
+        public virtual async Task<TDetailModel> Create(TManipulationModel model)
         {
             var entity = _mapper.Map<TEntity>(model);
             try
@@ -61,7 +61,7 @@ namespace IW5.BL.API
             return entityToReturn;
         }
 
-        public async Task UpdateAsync(Guid id, TManipulationModel dtoModel, bool trackChanges)
+        public virtual async Task UpdateAsync(Guid id, TManipulationModel dtoModel, bool trackChanges)
         {
             var entity = await _baseRepository.GetByIdAsync(id, trackChanges);
             if (entity is null)

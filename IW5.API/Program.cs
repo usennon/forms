@@ -1,9 +1,10 @@
 using IW5.DAL.Initialization;
 using IW5.DAL;
 using IW5.API.Extensions;
-using IW5.API.Common;
+using IW5.Common.Installers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using IW5.IdentityProvider.DAL.Installers;
 
 namespace IW5.API
 {
@@ -24,13 +25,15 @@ namespace IW5.API
 
             builder.Services.ConfigureCors();
             builder.Services.ConfigureRepositoryManager();
+            
             builder.Services.ConfigureLogic();
 
 
             var connectionString = configuration.GetConnectionString("IW5");
-
+            builder.Services.AddInstaller<IdentityProviderDALInstaller>();
             builder.Services.ConfigureSqlContext(connectionString);
             builder.Services.AddAutoMapper(typeof(Program));
+            builder.Services.ConfigurePasswordHasher();
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {

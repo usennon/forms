@@ -52,6 +52,7 @@ public class LocalAppUserProfileService : IProfileService
 
                 claims.Add(new Claim("username", user.UserName));
                 claims.Add(new Claim("Id", user.Id.ToString()));
+                claims.Add(new Claim("Role", user.Role.ToString()));
                 context.AddRequestedClaims(claims);
                 context.IssuedClaims.AddRange(claims!);
             }
