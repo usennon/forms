@@ -9,5 +9,6 @@ namespace IW5.BL.Models.ManipulationModels.UserModels
         public string Email { get; set; }
         public Role Role { get; set; }
         public string Subject { get; set; }
+        public string Password { get; set; } = string.Empty;
     }
 }

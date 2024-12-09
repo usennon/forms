@@ -17,27 +17,56 @@
     <div class="d-flex flex-wrap justify-content-between align-items-start mb-4 gap-3">
         <!-- Search Inputs -->
         <div class="w-100 w-md-50">
+            <!-- Question Search -->
             <div class="input-group mb-2">
                 <span class="input-group-text"><i class="bi bi-search"></i></span>
-                <input type="text" id="titleSearch" class="form-control" placeholder="Search by Question..." @oninput="OnSearchInputChanged" />
+                <input type="text" id="questionSearch" class="form-control" placeholder="Search by Question..." @oninput="OnSearchInputChanged" />
             </div>
+            <!-- User Search -->
             <div class="input-group mb-2">
                 <span class="input-group-text"><i class="bi bi-person"></i></span>
                 <input type="text" id="userSearch" class="form-control" placeholder="Search by User Name..." @oninput="OnSearchInputUserChanged" />
             </div>
+            <!-- Answer Text Search -->
+            <div class="input-group mb-2">
+                <span class="input-group-text"><i class="bi bi-chat-dots"></i></span>
+                <input type="text" id="answerTextSearch" class="form-control" placeholder="Search by Answer Text..." @oninput="OnSearchInputAnswerChanged" />
+            </div>
+            <!-- Form Search -->
+            <div class="input-group mb-2">
+                <span class="input-group-text"><i class="bi bi-ui-checks-grid"></i></span>
+                <input type="text" id="formSearch" class="form-control" placeholder="Search by Form..." @oninput="OnSearchInputFormChanged" />
+            </div>
         </div>
 
-        <!-- Sorting Dropdown -->
-        <div class="w-100 w-md-25">
-            <label for="sort" class="form-label fw-semibold">Sort By</label>
-            <select id="sort" class="form-select" @onchange="OnSortChanged">
-                <option value="None">None</option>
-                <option value="AscendingQuestion">Question Ascending</option>
-                <option value="DescendingQuestion">Question Descending</option>
-                <option value="AscendingUserName">User Name Ascending</option>
-                <option value="DescendingUserName">User Name Descending</option>
-            </select>
+        <!-- Buttons for Grouping Statistics -->
+        <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-outline-primary" @onclick="ShowGroupByUser">Group By User</button>
+            <button class="btn btn-outline-success" @onclick="ShowGroupByForm">Group By Form</button>
+            <button class="btn btn-outline-info" @onclick="ShowGroupByQuestion">Group By Question</button>
+            <button class="btn btn-outline-secondary" @onclick="ResetStatistics">Reset</button>
         </div>
+    </div>
+
+    <!-- Statistics Display Area -->
+    <div class="mb-4">
+        <h4 class="fw-bold text-info">Statistics</h4>
+        @if (groupedStatistics != null)
+        {
+            <ul class="list-group">
+                @foreach (var item in groupedStatistics)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @item.Key
+                        <span class="badge bg-primary rounded-pill">@item.Value</span>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="text-muted">Click on a button above to view grouped statistics.</p>
+        }
     </div>
 
     <!-- Answers List -->
@@ -65,28 +94,18 @@
     </div>
 </div>
 
-<!-- Custom Styles -->
-<style>
-    .input-group-text {
-        background-color: #f8f9fa;
-    }
-
-    .form-select {
-        border-radius: 10px;
-    }
-
-    .list-group {
-        border-radius: 10px;
-        overflow: hidden;
-    }
-</style>
-
 @code {
     private List<Answer> answers;
     private List<Answer> filteredAnswers;
+    private Dictionary<string, int> groupedStatistics;
+
     private string filterQuestion = string.Empty;
     private string filterUser = string.Empty;
-    private AnswerSortType currentSortType = AnswerSortType.None;
+    private string filterAnswerText = string.Empty;
+    private string filterForm = string.Empty;
+
+    private DateTime? startDate;
+    private DateTime? endDate;
 
     protected override async Task OnInitializedAsync()
     {
@@ -94,69 +113,65 @@
         filteredAnswers = new List<Answer>(answers);
     }
 
-    private void NavigateToCreateAnswer()
-    {
-        NavigationManager.NavigateTo("/create-answer");
-    }
-
     private void OnSearchInputChanged(ChangeEventArgs e)
     {
         filterQuestion = e.Value?.ToString() ?? string.Empty;
-        ApplyFilterAndSorting();
+        ApplyFilter();
     }
 
     private void OnSearchInputUserChanged(ChangeEventArgs e)
     {
         filterUser = e.Value?.ToString() ?? string.Empty;
-        ApplyFilterAndSorting();
+        ApplyFilter();
     }
 
-    private void ApplyFilterAndSorting()
+    private void OnSearchInputAnswerChanged(ChangeEventArgs e)
+    {
+        filterAnswerText = e.Value?.ToString() ?? string.Empty;
+        ApplyFilter();
+    }
+
+    private void OnSearchInputFormChanged(ChangeEventArgs e)
+    {
+        filterForm = e.Value?.ToString() ?? string.Empty;
+        ApplyFilter();
+    }
+
+    private void ApplyFilter()
     {
         filteredAnswers = answers.Where(a =>
             (string.IsNullOrEmpty(filterQuestion) || a.Question.Text.Contains(filterQuestion, StringComparison.OrdinalIgnoreCase)) &&
-            (string.IsNullOrEmpty(filterUser) || a.User.UserName.Contains(filterUser, StringComparison.OrdinalIgnoreCase))
+            (string.IsNullOrEmpty(filterUser) || a.User.UserName.Contains(filterUser, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(filterAnswerText) || a.AnswerText.Contains(filterAnswerText, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(filterForm) || a.Form.Title.Contains(filterForm, StringComparison.OrdinalIgnoreCase)) &&
+            (!startDate.HasValue || a.CreatedAt.Date >= startDate.Value.Date) &&
+            (!endDate.HasValue || a.CreatedAt.Date <= endDate.Value.Date)
         ).ToList();
-
-        ApplySorting();
     }
 
-    private void OnSortChanged(ChangeEventArgs e)
+    private void ShowGroupByUser()
     {
-        currentSortType = Enum.TryParse<AnswerSortType>(e.Value?.ToString(), out var sortType)
-            ? sortType
-            : AnswerSortType.None;
-
-        ApplySorting();
+        groupedStatistics = answers
+            .GroupBy(a => a.User.UserName)
+            .ToDictionary(g => g.Key, g => g.Count());
     }
 
-    private void ApplySorting()
+    private void ShowGroupByForm()
     {
-        switch (currentSortType)
-        {
-            case AnswerSortType.AscendingQuestion:
-                filteredAnswers = filteredAnswers.OrderBy(a => a.Question.Text).ToList();
-                break;
-            case AnswerSortType.DescendingQuestion:
-                filteredAnswers = filteredAnswers.OrderByDescending(a => a.Question.Text).ToList();
-                break;
-            case AnswerSortType.AscendingUserName:
-                filteredAnswers = filteredAnswers.OrderBy(a => a.User.UserName).ToList();
-                break;
-            case AnswerSortType.DescendingUserName:
-                filteredAnswers = filteredAnswers.OrderByDescending(a => a.User.UserName).ToList();
-                break;
-            default:
-                break;
-        }
-    }
-    public enum AnswerSortType
-    {
-        None,
-        AscendingQuestion,
-        DescendingQuestion,
-        AscendingUserName,
-        DescendingUserName
+        groupedStatistics = answers
+            .GroupBy(a => a.Form.Title)
+            .ToDictionary(g => g.Key, g => g.Count());
     }
 
+    private void ShowGroupByQuestion()
+    {
+        groupedStatistics = answers
+            .GroupBy(a => a.Question.Text)
+            .ToDictionary(g => g.Key, g => g.Count());
+    }
+
+    private void ResetStatistics()
+    {
+        groupedStatistics = null;
+    }
 }

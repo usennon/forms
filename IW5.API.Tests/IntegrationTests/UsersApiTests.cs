@@ -75,7 +75,7 @@ namespace IW5.API.Tests
             // Arrange
             var newUser = new UserForManipulationModel
             {
-                Name = "Test User",
+                UserName = "Test User",
                 Email = "testuser@example.com",
                 Role = IW5.Common.Enums.Role.Basic,
                 PhotoUrl = "https://example.com/photo.jpg",
@@ -88,7 +88,7 @@ namespace IW5.API.Tests
             // Assert
             var createdUser = await response.Content.ReadFromJsonAsync<UserDetailModel>();
             createdUser.Should().NotBeNull();
-            createdUser.Name.Should().Be(newUser.Name);
+            createdUser.Name.Should().Be(newUser.UserName);
         }
 
         [Fact]
