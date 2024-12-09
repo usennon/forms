@@ -1,0 +1,83 @@
+﻿@page "/answers/{Id:guid}"
+@using IW5.Models.Entities
+@inject IW5ApiService ApiService
+@inject NavigationManager NavigationManager
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+    private Answer answer;
+
+    protected override async Task OnInitializedAsync()
+    {
+            answer = await ApiService.GetAnswerAsync(Id);
+    }
+}
+
+<PageTitle>Answer Details</PageTitle>
+
+<div class="container mt-5">
+    @if (answer == null)
+    {
+        <div class="text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted">Loading details...</p>
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm p-4">
+            <h2 class="fw-bold text-primary mb-4">Answer Details</h2>
+
+            <!-- General Info -->
+            <h4 class="text-secondary mb-3">General Information</h4>
+            <ul class="list-group mb-4">
+                <li class="list-group-item"><strong>ID:</strong> @answer.Id</li>
+                <li class="list-group-item"><strong>Created At:</strong> @answer.CreatedAt.ToString("f")</li>
+                <li class="list-group-item"><strong>Answer Text:</strong> @answer.AnswerText</li>
+            </ul>
+
+            <!-- User Info -->
+            <h4 class="text-secondary mb-3">User Information</h4>
+            <ul class="list-group mb-4">
+                <li class="list-group-item"><strong>User Name:</strong> @answer.User?.UserName</li>
+                <li class="list-group-item"><strong>Email:</strong> @answer.User?.Email</li>
+                <li class="list-group-item"><strong>Created At:</strong> @answer.User?.CreatedAt.ToString("f")</li>
+                <li class="list-group-item"><strong>Active:</strong> @(answer.User?.Active ?? false ? "Yes" : "No")</li>
+            </ul>
+
+            <!-- Form Info -->
+            <h4 class="text-secondary mb-3">Form Information</h4>
+            <ul class="list-group mb-4">
+                <li class="list-group-item"><strong>Form Title:</strong> @answer.Form?.Title</li>
+                <li class="list-group-item"><strong>Start Date:</strong> @answer.Form?.StartDate.ToString("f")</li>
+                <li class="list-group-item"><strong>End Date:</strong> @answer.Form?.EndDate.ToString("f")</li>
+            </ul>
+
+            <!-- Question Info -->
+            <h4 class="text-secondary mb-3">Question Information</h4>
+            <ul class="list-group mb-4">
+                <li class="list-group-item"><strong>Question Text:</strong> @answer.Question?.Text</li>
+                <li class="list-group-item"><strong>Type:</strong> @answer.Question?.Type</li>
+                <li class="list-group-item"><strong>Required:</strong> @(answer.Question?.IsRequired == true ? "Yes" : "No")</li>
+            </ul>
+        </div>
+    }
+</div>
+
+<style>
+    .card {
+        border-radius: 12px;
+    }
+
+    .list-group-item {
+        border: none;
+        padding: 8px 12px;
+    }
+
+    h4 {
+        border-bottom: 2px solid #ccc;
+        padding-bottom: 5px;
+    }
+</style>
