@@ -37,7 +37,8 @@
 @code {
     [Parameter] public Form Form { get; set; }
     private bool IsCurrentUserAuthor =>
-        TokenService.DecodedToken.GetProperty("username").GetString() == Form.Author.UserName;
+        TokenService.DecodedToken.GetProperty("username").GetString() == Form.Author.UserName ||
+         TokenService.DecodedToken.GetProperty("Role").GetString() == "Admin";
 
     private async Task DeleteForm(Guid formId)
     {
