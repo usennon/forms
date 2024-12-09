@@ -21,5 +21,8 @@ namespace IW5.DAL.Repository
             .SingleOrDefaultAsync();
         public IQueryable<Question> SearchQuestionByText(string text, bool trackChanges)
             => GetByCondition(f => f.Text.ToLower().Contains(text.ToLower()), trackChanges, f => f.Options);
+
+        public override async Task<Question> GetByIdAsync(Guid id, bool trackChanges)
+            => await GetByCondition(e => e.Id == id, trackChanges, user => user.Options).SingleOrDefaultAsync();
     }
 }

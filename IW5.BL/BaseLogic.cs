@@ -8,6 +8,7 @@ using IW5.Models.Entities;
 using IW5.BL.Models.ListModels;
 using IW5.BL.Models.DetailModels;
 using IW5.BL.Models.ManipulationModels;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace IW5.BL.API
 {
@@ -44,9 +45,16 @@ namespace IW5.BL.API
         public async Task<TDetailModel> Create(TManipulationModel model)
         {
             var entity = _mapper.Map<TEntity>(model);
-
-            _baseRepository.Create(entity);
-            await _repositoryManager.SaveAsync();
+            try
+            {
+                entity.Id = Guid.NewGuid();
+                _baseRepository.Create(entity);
+                await _repositoryManager.SaveAsync();
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.Message);            
+            }
 
             var entityToReturn = _mapper.Map<TDetailModel>(entity);
 

@@ -1,6 +1,7 @@
 ﻿@page "/users"
 @using IW5.Models.Entities
 @using IW5.Common.Enums.Sorts
+@using IW5.BL.Models.ListModels
 @inject IW5ApiService ApiService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
@@ -15,7 +16,6 @@
         <div class="w-100 w-md-50 mb-3 mb-md-0">
             <input type="text" class="form-control mb-2" placeholder="Search by Name..." @oninput="OnSearchInputNameChanged" />
             <input type="text" class="form-control mb-2" placeholder="Search by Email..." @oninput="OnSearchInputEmailChanged" />
-            <input type="text" class="form-control mb-2" placeholder="Search by Phone..." @oninput="OnSearchInputPhoneChanged" />
         </div>
 
         <div class="w-100 w-md-25">
@@ -54,7 +54,6 @@
                         <th>#</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Phone</th>
                         <th>Role</th>
                         <th>Actions</th>
                     </tr>
@@ -64,9 +63,8 @@
                     {
                         <tr>
                             <td>@filteredUsers.IndexOf(user)</td>
-                            <td>@user.UserName</td>
+                            <td>@user.Name</td>
                             <td>@user.Email</td>
-                            <td>@user.PhoneNumber</td>
                             <td>@user.Role</td>
                             <td>
                                 <button class="btn btn-primary btn-sm me-2" @onclick="() => ViewDetails(user.Id)">Details</button>
@@ -82,8 +80,8 @@
 </div>
 
 @code {
-    private List<User> users;
-    private List<User> filteredUsers;
+    private List<UserListModel> users;
+    private List<UserListModel> filteredUsers;
     private string filterName = string.Empty;
     private string filterEmail = string.Empty;
     private string filterPhone = string.Empty;
@@ -92,7 +90,7 @@
     protected override async Task OnInitializedAsync()
     {
         users = await ApiService.GetAllUsersAsync();
-        filteredUsers = new List<User>(users);
+        filteredUsers = new List<UserListModel>(users);
     }
 
     private void NavigateToCreateUser()
@@ -142,7 +140,7 @@
     private void ApplyFilterAndSorting()
     {
         filteredUsers = users.Where(u =>
-            (string.IsNullOrEmpty(filterName) || u.UserName.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(filterName) || u.Name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
             (string.IsNullOrEmpty(filterEmail) || u.Email.Contains(filterEmail, StringComparison.OrdinalIgnoreCase)) &&
             (string.IsNullOrEmpty(filterPhone) || u.PhoneNumber.Contains(filterPhone, StringComparison.OrdinalIgnoreCase))
         ).ToList();
@@ -164,10 +162,10 @@
         switch (currentSortType)
         {
             case UserSortType.NameAscending:
-                filteredUsers = filteredUsers.OrderBy(u => u.UserName).ToList();
+                filteredUsers = filteredUsers.OrderBy(u => u.Name).ToList();
                 break;
             case UserSortType.NameDescending:
-                filteredUsers = filteredUsers.OrderByDescending(u => u.UserName).ToList();
+                filteredUsers = filteredUsers.OrderByDescending(u => u.Name).ToList();
                 break;
             case UserSortType.EmailAscending:
                 filteredUsers = filteredUsers.OrderBy(u => u.Email).ToList();

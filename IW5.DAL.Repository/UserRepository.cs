@@ -18,5 +18,8 @@ namespace IW5.DAL.Repository
         public IQueryable<User> SearchUserByName(string name, bool trackChanges)
             =>  GetByCondition(e => e.UserName.ToLower().Contains(name.ToLower()), trackChanges, f => f.Forms);
 
+        public override async Task<User> GetByIdAsync(Guid id, bool trackChanges)
+            => await GetByCondition(e => e.Id == id, trackChanges, user => user.Forms).SingleOrDefaultAsync();
+
     }
 }

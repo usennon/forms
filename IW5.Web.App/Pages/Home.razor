@@ -138,7 +138,7 @@
     {
         filteredForms = forms.Where(f =>
             (string.IsNullOrEmpty(filterTitle) || f.Title.Contains(filterTitle, StringComparison.OrdinalIgnoreCase)) &&
-            (string.IsNullOrEmpty(filterName) || f.Author.Name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(filterName) || f.Author.UserName.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
             (string.IsNullOrEmpty(filterEmail) || f.Author.Email.Contains(filterEmail, StringComparison.OrdinalIgnoreCase))
         ).ToList();
 
