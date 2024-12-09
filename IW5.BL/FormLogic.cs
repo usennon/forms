@@ -29,6 +29,7 @@ namespace IW5.BL.API
         public async Task SaveFormAnswersAsync(SubmitFormModel submitFormModel)
         {
             await _repositoryManager.Answer.SaveFormAnswersAsync(submitFormModel);
+            await _repositoryManager.SaveAsync();
         }
 
         private IQueryable<Form> SearchForms(string substring)
