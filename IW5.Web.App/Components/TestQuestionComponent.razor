@@ -8,24 +8,32 @@
             <InputRadio class="form-check-input"
                         id="@($"option_{option.Id}")"
                         Value="@option.Id.ToString()" />
-            <label class="form-check-label" for="@($"option_{option.Id}")">
-                @option.Text
-            </label>
+            <label class="form-check-label" for="@($"option_{option.Id}")">@option.Text</label>
         </div>
     }
 </InputRadioGroup>
 
 @code {
-    [Parameter]
-    public ICollection<Option> Options { get; set; }
-
-    [Parameter]
-    public Guid QuestionId { get; set; }
+    [Parameter] public ICollection<Option> Options { get; set; }
+    [Parameter] public Guid QuestionId { get; set; }
+    [Parameter] public EventCallback<Guid?> OnAnswerSelected { get; set; }
 
     private string SelectedOptionIdString { get; set; }
 
-    public Guid? SelectedOptionId
+    public Guid? SelectedOptionId => Guid.TryParse(SelectedOptionIdString, out var id) ? id : (Guid?)null;
+
+    // При изменении значения InputRadioGroup автоматически обновляет SelectedOptionIdString.
+    // Чтобы отследить изменение, используем метод жизненного цикла OnAfterRenderAsync или событие ValueChanged в @bind-Value уже невозможно вызвать явно.
+    // Проще всего: при каждом рендере сравнивать старое и новое значение, и если изменилось — вызвать OnAnswerSelected.
+
+    private Guid? _lastOptionId;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        get => Guid.TryParse(SelectedOptionIdString, out var id) ? id : (Guid?)null;
+        if (_lastOptionId != SelectedOptionId)
+        {
+            _lastOptionId = SelectedOptionId;
+            await OnAnswerSelected.InvokeAsync(SelectedOptionId);
+        }
     }
 }

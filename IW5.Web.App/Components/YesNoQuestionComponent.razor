@@ -2,31 +2,38 @@
 @using IW5.Models.Entities
 
 <div class="mb-3">
-    <InputRadioGroup @bind-Value="Answer">
+    <InputRadioGroup @bind-Value="Answer" class="form-check" @onchange="AnswerChanged">
         <div class="form-check">
             <InputRadio class="form-check-input"
                         id="@($"yesOption_{Question.Id}")"
                         Value="@("Yes")" />
-            <label class="form-check-label" for="@($"yesOption_{Question.Id}")">
-                Yes
-            </label>
+            <label class="form-check-label" for="@($"yesOption_{Question.Id}")">Yes</label>
         </div>
         <div class="form-check">
             <InputRadio class="form-check-input"
                         id="@($"noOption_{Question.Id}")"
                         Value="@("No")" />
-            <label class="form-check-label" for="@($"noOption_{Question.Id}")">
-                No
-            </label>
+            <label class="form-check-label" for="@($"noOption_{Question.Id}")">No</label>
         </div>
     </InputRadioGroup>
 </div>
 
 @code {
-    [Parameter]
-    public Question Question { get; set; }
+    [Parameter] public Question Question { get; set; }
+    [Parameter] public EventCallback<string> OnAnswerSelected { get; set; }
 
     private string Answer { get; set; }
+    private string _lastAnswer;
 
+    private async Task AnswerChanged(ChangeEventArgs e)
+    {
+        // Вызываем callback только при реальном изменении
+        if (_lastAnswer != Answer)
+        {
+            _lastAnswer = Answer;
+            await OnAnswerSelected.InvokeAsync(Answer);
+        }
+    }
 }
+
 

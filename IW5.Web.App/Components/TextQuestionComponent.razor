@@ -1,6 +1,15 @@
-﻿<InputText @bind-Value="Answer" class="form-control" placeholder="Enter your answer here" />
+﻿<InputText @bind-Value="Answer" class="form-control" placeholder="Enter your answer here" @oninput="OnInputChanged" />
 
 @code {
+    [Parameter] 
+    public EventCallback<string> OnTextChanged { get; set; }
+
     public string Answer { get; set; }
+
+    private async Task OnInputChanged(ChangeEventArgs e)
+    {
+        Answer = e.Value?.ToString();
+        await OnTextChanged.InvokeAsync(Answer);
+    }
 }
 

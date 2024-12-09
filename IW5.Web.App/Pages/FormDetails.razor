@@ -1,7 +1,10 @@
 ﻿@page "/forms/{FormId:guid}"
 @using IW5.Models.Entities
 @using IW5.Web.App.Components
+@using IW5.BL.Models.ManipulationModels.FormsModels;
 @inject IW5ApiService ApiService
+@inject IW5.Web.App.Services.TokenService TokenService
+@inject IJSRuntime JS
 
 <h1>Form Details</h1>
 
@@ -29,9 +32,10 @@ else
         <ul>
             @foreach (var question in form.Questions)
             {
-                <QuestionCard Question="question" />
+                <QuestionCard Question="question" OnAnswerChanged="HandleAnswerChanged" />
             }
         </ul>
+        <button class="btn btn-primary" @onclick="SubmitForm">Submit</button>
     }
 }
 
@@ -40,9 +44,37 @@ else
 
     private Form form;
 
+    private Dictionary<Guid, AnswerSubmission> answers = new Dictionary<Guid, AnswerSubmission>();
+
     protected override async Task OnInitializedAsync()
     {
         form = await ApiService.GetFormByIdAsync(FormId);
+    }
+
+    private void HandleAnswerChanged(AnswerSubmission answer)
+    {
+        answers[answer.QuestionId] = answer;
+    }
+
+    private async Task SubmitForm()
+    {
+        string authorIdString = TokenService.DecodedToken.GetProperty("Id").GetString();
+        if (Guid.TryParse(authorIdString, out Guid authorId))
+        {
+            var submitModel = new SubmitFormModel
+                {
+                    UserId = authorId,
+                    FormId = form.Id,
+                    Answers = answers.Values.ToList()
+                };
+            JS.InvokeVoidAsync("console.log", submitModel);
+            await ApiService.SubmitFormAsync(submitModel);
+        }
+        else
+        {
+            throw new Exception("Incorrect token guid");
+        }
+       
     }
 }
 

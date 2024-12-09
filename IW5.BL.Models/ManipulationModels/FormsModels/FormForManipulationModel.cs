@@ -20,7 +20,7 @@ namespace IW5.BL.Models.ManipulationModels.FormsModels
     public class AnswerSubmission
     {
         public Guid QuestionId { get; set; }
-        public string AnswerText { get; set; }
+        public string? AnswerText { get; set; }
         public Guid? AnswerOptionId { get; set; }
     }
 

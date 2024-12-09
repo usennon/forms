@@ -1,5 +1,6 @@
 ﻿@using IW5.Models.Entities
 @using IW5.Common.Enums;
+@using IW5.BL.Models.ManipulationModels.FormsModels;
 
 <div class="card mb-3">
     <div class="card-body">
@@ -21,19 +22,19 @@
         @switch (Question.Type)
         {
             case QuestionType.Test:
-                <TestQuestionComponent Options="Question.Options" QuestionId="Question.Id" />
+                <TestQuestionComponent Options="Question.Options" QuestionId="Question.Id" OnAnswerSelected="OnOptionSelected" />
                 break;
             case QuestionType.Text:
-                <TextQuestionComponent />
+                <TextQuestionComponent OnTextChanged="OnTextChanged" />
                 break;
             case QuestionType.Numbers:
-                <NumberQuestionComponent />
+                <NumberQuestionComponent OnNumberChanged="OnNumberChanged" />
                 break;
             case QuestionType.YesNo:
-                <YesNoQuestionComponent Question="Question" />
+                <YesNoQuestionComponent Question="Question" OnAnswerSelected="OnYesNoSelected" />
                 break;
             case QuestionType.MultipleChoice:
-                <MultipleChoiceQuestionComponent Options="Question.Options" QuestionId="Question.Id" />
+                <MultipleChoiceQuestionComponent Options="Question.Options" QuestionId="Question.Id" OnOptionsSelected="OnMultipleSelected" />
                 break;
             default:
                 <p>Unknown type number</p>
@@ -45,5 +46,66 @@
 @code {
     [Parameter]
     public Question Question { get; set; }
+
+    [Parameter] 
+    public EventCallback<AnswerSubmission> OnAnswerChanged { get; set; }
+
+    private async Task OnOptionSelected(Guid? optionId)
+    {
+        // Для Test и YesNo (одиночный выбор)
+        var answer = new AnswerSubmission
+            {
+                QuestionId = Question.Id,
+                AnswerOptionId = optionId,
+                AnswerText = null
+            };
+        await OnAnswerChanged.InvokeAsync(answer);
+    }
+
+    private async Task OnTextChanged(string text)
+    {
+        var answer = new AnswerSubmission
+            {
+                QuestionId = Question.Id,
+                AnswerText = text,
+                AnswerOptionId = null
+            };
+        await OnAnswerChanged.InvokeAsync(answer);
+    }
+
+    private async Task OnNumberChanged(int? number)
+    {
+        var answer = new AnswerSubmission
+            {
+                QuestionId = Question.Id,
+                AnswerText = number?.ToString(),
+                AnswerOptionId = null
+            };
+        await OnAnswerChanged.InvokeAsync(answer);
+    }
+
+    private async Task OnYesNoSelected(string yesOrNo)
+    {
+        var answer = new AnswerSubmission
+            {
+                QuestionId = Question.Id,
+                AnswerText = yesOrNo,
+                AnswerOptionId = null
+            };
+        await OnAnswerChanged.InvokeAsync(answer);
+    }
+
+    private async Task OnMultipleSelected(List<Guid> selectedOptions)
+    {
+        // Для множественного выбора можно либо объединить их в строку, либо расширить AnswerSubmission
+        // Допустим, объединяем через запятую:
+        var answer = new AnswerSubmission
+            {
+                QuestionId = Question.Id,
+                AnswerText = string.Join(",", selectedOptions),
+                AnswerOptionId = null
+            };
+        await OnAnswerChanged.InvokeAsync(answer);
+    }
 }
 
