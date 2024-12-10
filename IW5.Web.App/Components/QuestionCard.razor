@@ -52,7 +52,6 @@
 
     private async Task OnOptionSelected(Guid? optionId)
     {
-        // Для Test и YesNo (одиночный выбор)
         var answer = new AnswerSubmission
             {
                 QuestionId = Question.Id,
@@ -95,10 +94,8 @@
         await OnAnswerChanged.InvokeAsync(answer);
     }
 
-    private async Task OnMultipleSelected(List<Guid> selectedOptions)
+    private async Task OnMultipleSelected(List<string> selectedOptions)
     {
-        // Для множественного выбора можно либо объединить их в строку, либо расширить AnswerSubmission
-        // Допустим, объединяем через запятую:
         var answer = new AnswerSubmission
             {
                 QuestionId = Question.Id,

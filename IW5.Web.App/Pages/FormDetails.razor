@@ -5,6 +5,7 @@
 @inject IW5ApiService ApiService
 @inject IW5.Web.App.Services.TokenService TokenService
 @inject IJSRuntime JS
+@inject NavigationManager NavigationManager
 
 <h1>Form Details</h1>
 
@@ -73,6 +74,7 @@ else
                 });
             JS.InvokeVoidAsync("console.log", json);
             await ApiService.SubmitFormAsync(submitModel);
+            NavigationManager.NavigateTo("/");
         }
         else
         {
